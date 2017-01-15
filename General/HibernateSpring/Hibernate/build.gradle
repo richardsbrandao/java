@@ -1,0 +1,43 @@
+apply plugin: 'java'
+apply plugin: 'eclipse'
+
+sourceCompatibility = 1.7
+
+repositories {
+  mavenCentral()
+}
+
+sourceSets {
+	  main {
+		    java {
+		      srcDir 'src'
+		    }
+			resources {
+		      srcDir 'resource'
+			}
+	  }
+	
+}
+
+dependencies {
+	compile 'com.h2database:h2:1.3.172'
+	compile 'org.hibernate:hibernate-core:4.2.3.Final'
+	compile 'org.hibernate:hibernate-entitymanager:4.2.3.Final'
+}
+
+task copyDependencies(type: Copy) {
+
+    description = 'Copy depencies to libs. Useful for Eclipse'
+    libDir = new File(project.projectDir, 'WebContent/WEB-INF/lib')
+    println libDir
+    println 'Adding dependencies from compile configuration'
+    for(file in configurations.compile) 
+    {
+        println 'Added ' + file
+        copy 
+        {
+            from file
+            into libDir
+        }
+    }
+}

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+ 	xmlns="http://www.springframework.org/schema/security"
+ 	xmlns:beans="http://www.springframework.org/schema/beans"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+      http://www.springframework.org/schema/beans/spring-beans.xsd
+	  http://www.springframework.org/schema/security
+      http://www.springframework.org/schema/security/spring-security-3.1.xsd">
+	
+	<beans:bean id="loginService" class="br.com.ideais.evaluation.model.service.LoginService">
+		<beans:property name="userService" ref="userService" />
+	</beans:bean>
+
+	<http auto-config='true' authentication-manager-ref="authenticationManager">
+		<intercept-url pattern="/ToLogin" access="IS_AUTHENTICATED_ANONYMOUSLY" />
+		<intercept-url pattern="/css/*" access="IS_AUTHENTICATED_ANONYMOUSLY" />
+		<intercept-url pattern="/scripts/*" access="IS_AUTHENTICATED_ANONYMOUSLY" />
+		<intercept-url pattern="/images/*" access="IS_AUTHENTICATED_ANONYMOUSLY" />
+		<intercept-url pattern="/test/**" access="IS_AUTHENTICATED_ANONYMOUSLY" />
+		<intercept-url pattern="/**" access="ROLE_ADMIN" />
+		<form-login login-page="/ToLogin" authentication-failure-url="/ToLogin?auth=error" default-target-url="/home" always-use-default-target="true" />
+		<logout logout-url="/Logout" logout-success-url="/ToLogin" />
+	</http>
+	
+	<authentication-manager id="authenticationManager">
+		<authentication-provider user-service-ref="loginService">
+			<password-encoder hash="sha" />
+		</authentication-provider>
+	</authentication-manager>
+</beans:beans>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd">
+    
+	<bean id="questionService" class="br.com.ideais.evaluation.model.service.QuestionService">
+        <property name="questionDao" ref="questionDao" />
+    </bean>
+    <bean id="linkGeneratorService" class="br.com.ideais.evaluation.model.service.LinkGeneratorService">
+        <property name="config" ref="config" />
+    </bean>
+    <bean id="candidateService" class="br.com.ideais.evaluation.model.service.CandidateService">
+        <property name="candidateDao" ref="candidateDao" />
+    </bean>
+    <bean id="permissionService" class="br.com.ideais.evaluation.model.service.PermissionService">
+        <property name="permissionDao" ref="permissionDao" />
+    </bean>
+    <bean id="evaluationService" class="br.com.ideais.evaluation.model.service.EvaluationService">
+        <property name="numberOfQuestions" value="${ce.numberOfQuestions}" />
+        <property name="minutesToEndDate" value="${ce.evaluation.timer.minute}" />
+        <property name="hoursToEndDate" value="${ce.evaluation.timer.hour}" />
+        <property name="questionDao" ref="questionDao" />
+        <property name="evaluationDao" ref="evaluationDao" />
+    </bean>
+    <bean id="userService" class="br.com.ideais.evaluation.model.service.UserService">
+        <property name="userDao" ref="userDao" />
+    </bean>
+    <bean id="loginService" class="br.com.ideais.evaluation.model.service.LoginService">
+        <property name="userService" ref="userService" />
+    </bean>
+	
+       
+</beans>       

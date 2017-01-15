@@ -1,0 +1,16 @@
+usePlugin 'java'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    runtime 'org.apache.struts:struts2-core:2.3.1.1'
+    runtime 'org.springframework:spring-core:2.5'
+    runtime	'org.springframework:spring-aop:2.5'
+    runtime 'org.apache.struts:struts2-spring-plugin:2.3.1.1'
+    runtime 'org.apache.struts:struts2-convention-plugin:2.3.1.1'
+	runtime 'org.easymock:easymock:3.1'
+	runtime 'org.hibernate:hibernate-entitymanager:3.5.0-Final'
+	runtime 'org.grlea.log.adapters:simple-log-sl4j:1.7'
+}

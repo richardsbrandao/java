@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd">
+       
+    <bean id="questionDao" class="br.com.ideais.evaluation.model.dao.impl.QuestionDaoImpl" autowire="byType" />
+    <bean id="candidateDao" class="br.com.ideais.evaluation.model.dao.impl.CandidateDaoImpl" autowire="byType" />
+    <bean id="permissionDao" class="br.com.ideais.evaluation.model.dao.impl.PermissionDaoImpl" autowire="byType" />
+    <bean id="evaluationDao" class="br.com.ideais.evaluation.model.dao.impl.EvaluationDaoImpl" autowire="byType" />
+    <bean id="userDao" class="br.com.ideais.evaluation.model.dao.impl.UserDaoImpl" autowire="byType" />
+	
+</beans>       

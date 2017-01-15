@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+    "http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+	<package name="home" extends="struts-default">
+		<action name="home">
+			<result>/pages/index.jsp</result>
+		</action>
+	</package>
+	
+	<package name="link" extends="struts-default">
+		<action name="linkGenerator">
+			<result>pages/linkGenerator.jsp</result>
+		</action>
+		
+		<action name="generateLink" class="linkGeneratorController" method="generate">
+			<result name="success">pages/linkGenerationConclusion.jsp</result>
+			<result name="fail">pages/linkGenerationFail.jsp</result>
+		</action>
+	</package>
+	<package name="test" extends="struts-default" namespace="/test">
+		
+		<action name="/introduction/*/" class="evaluationController" method="introduction">
+			<param name="candidate.id">{1}</param>
+			<result name="success">/pages/introduction.jsp</result>
+		</action>
+		
+		<action name="/doEvaluation/*/" class="evaluationController" method="doEvaluation">
+			<param name="candidate.id">{1}</param>
+			<result name="success">/pages/evaluation.jsp</result>
+			<result name="fail">/pages/evaluationExpired.jsp</result>
+		</action>
+		
+		<action name="saveResult" class="evaluationController" method="saveResult">
+			<result name="success" type="redirect">/pages/evaluationConclusion.jsp</result>
+			<result name="fail" type="redirect">evaluationExpired</result>
+		</action>
+		
+		<action name="evaluationExpired">
+			<result>/pages/evaluationExpired.jsp</result>
+		</action>
+	</package>
+	
+	<package name="question" extends="struts-default">
+		<action name="QuestionRegistry">
+			<result>pages/questionRegistry.jsp</result>
+		</action>
+		
+		<action name="SaveQuestion" class="questionController" method="save">
+			<result name="success" type="redirect">QuestionList</result>
+		</action>
+		
+		<action name="EditQuestion" class="questionController" method="loadEditQuestion">
+			<result>pages/questionEdit.jsp</result>
+		</action>
+		
+		<action name="UpdateQuestion" class="questionController" method="update">
+			<result name="success" type="redirect">/QuestionList</result>
+		</action>
+		
+		<action name="DeleteQuestion" class="questionController" method="delete">
+			<result name="success" type="redirect">QuestionList</result>
+		</action>
+		
+		<action name="QuestionList" class="questionController" method="load">
+			<result name="success">pages/questionList.jsp</result>
+		</action>
+		
+	</package>
+	
+	<package name="reports" extends="struts-default">
+		<action name="reportGenerator">
+			<result>pages/reportGenerator.jsp</result>
+		</action>
+		
+		<action name="generateReport" class="evaluationController" method="viewEvaluations">
+			<result name="success">/pages/evaluationReport.jsp</result>
+		</action>
+	</package>
+	
+	<package name="login" extends="struts-default">
+		<action name="ToLogin">
+			<result>/pages/login.jsp</result>
+		</action>
+		<action name="Login" class="loginService" method="login">
+		</action>
+		<action name="Logout">
+			<result type="redirect">ToLogin</result>
+		</action>
+	</package>
+</struts>

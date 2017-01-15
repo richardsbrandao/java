@@ -1,0 +1,12 @@
+<html>
+<body>
+<h3>Sr(a) Avaliador(a),</h3>
+<div>
+O candidato <b>${evaluation.candidate.name}</b>, 
+possuindo o email <b>${evaluation.candidate.email}</b> fez <b>${evaluation.result}</b> pontos.<br/><br/>
+<b>Atenciosamente,<br/>
+Comiss&atilde;o de Avalia&ccedil;&atilde;o.<br/>
+http://www.ideais.com.br</b>
+</div>
+</body>
+</html>

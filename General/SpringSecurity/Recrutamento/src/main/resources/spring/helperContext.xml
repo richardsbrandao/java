@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd">
+ 
+
+	<bean id="email" class="br.com.ideais.evaluation.helpers.Email">
+        <property name="from" value="${ce.mail.from}" />
+    </bean>    
+    <bean id="config" class="br.com.ideais.evaluation.helpers.Config">
+        <property name="baseUrl" value="${ce.baseUrl}"/>
+        <property name="evaluationTimerHour" value="${ce.evaluation.timer.hour}"/>
+        <property name="evaluationTimerMinute" value="${ce.evaluation.timer.minute}"/>
+    </bean>
+       
+       
+</beans>       

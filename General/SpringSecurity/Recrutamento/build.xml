@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project name="CandidatesEvaluation">
+	<!--<import file="ant-common/all.xml" />-->
+	<property name="build.path" value="${basedir}/build"/>
+	<property name="src.path" value="${basedir}/src/main/java"/>
+	<property name="lib.path" value="${basedir}/WebContent/WEB-INF/lib"/>
+	<property name="resources.path" value="${basedir}/src/main/resources"/>
+	<property name="webapp.path" value="${basedir}/WebContent"/>
+	
+	
+	<property name="test.lib.path" value="${basedir}/test-lib"/>
+	<property name="test.src.path" value="${basedir}/src/test/java"/>
+	
+
+	<path id="lib.classpath">
+		<fileset dir="${lib.path}">
+			<include name="*.jar"/>
+		</fileset>
+		
+	</path>
+
+	<path id="test.lib.classpath">
+		<fileset dir="${test.lib.path}">
+			<include name="*.jar"/>
+		</fileset>
+	</path>
+
+	<path id="test.classpath">
+		<pathelement location="${build.path}/test-classes"/>
+		<pathelement path="${build.path}/classes"/>
+		<path refid="lib.classpath"/>
+		<path refid="test.lib.classpath"/>
+	</path>
+
+
+
+	
+	<target name="clean">
+		<delete dir="build"/>
+	</target>
+	
+	<target name="compile">
+		<mkdir dir="build/classes"/>
+		<javac classpathref="lib.classpath" destdir="${build.path}/classes" srcdir="${src.path}"/>
+		<copy todir="${build.path}/classes">
+			<fileset dir="${src.path}">
+				<exclude name="**/*.java"/>
+			</fileset>
+		</copy>
+	</target>
+	<target name="copy-resources">
+		<mkdir dir="build/classes"/>
+		<copy todir="${build.path}/classes">
+			<fileset dir="${resources.path}"/>
+		</copy>
+	</target>
+	<target depends="clean, compile, copy-resources" name="war">
+		<mkdir dir="build/artifacts"/>
+		<war destfile="${build.path}/artifacts/${ant.project.name}.war" webxml="${webapp.path}/WEB-INF/web.xml">
+			<fileset dir="${webapp.path}">
+				<exclude name="WEB-INF/classes/"/>
+				<exclude name="WEB-INF/lib/"/>
+			</fileset>
+			<lib dir="${lib.path}">
+				<exclude name="src/"/>
+			</lib>
+			<classes dir="${build.path}/classes"/>
+		</war>
+	</target>
+	
+
+	<target depends="compile" name="compile-test">
+		<mkdir dir="${build.path}/test-classes"/>
+		<javac classpathref="test.classpath" destdir="${build.path}/test-classes" srcdir="${test.src.path}"/>
+		<copy todir="${build.path}/test-classes">
+			<fileset dir="${src.path}">
+				<exclude name="**/*.java"/>
+			</fileset>
+		</copy>
+	</target>
+
+	
+	<target depends="compile-test" name="test">
+		<mkdir dir="${build.path}/reports"/>
+		<junit haltonfailure="yes" printsummary="yes">
+			<classpath refid="test.classpath"/>
+
+			<formatter type="xml"/>
+
+			<batchtest fork="yes" todir="${build.path}/reports">
+				<fileset dir="${test.src.path}">
+					<include name="**/*Test.java"/>
+				</fileset>
+			</batchtest>
+		</junit>
+	</target>
+	
+	
+
+</project>

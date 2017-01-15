@@ -1,0 +1,26 @@
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'maven'
+
+sourceCompatibility = 1.6
+version = "$version" == "unspecified" ? "1.0" : "$version"
+group = 'com.b2winc'
+
+repositories {
+	mavenCentral()
+}
+
+sourceSets {
+	main {
+		java {
+			srcDir 'src/main/java'
+		}
+	}
+}
+
+dependencies {
+
+	compile 'org.jbehave:jbehave-core:4.0.1'
+	compile 'de.codecentric:jbehave-junit-runner:1.2.0'
+	
+}

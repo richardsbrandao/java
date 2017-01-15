@@ -1,0 +1,70 @@
+apply plugin: 'java'
+apply plugin: 'jetty'
+apply plugin: 'eclipse'
+apply plugin: 'war'
+
+sourceCompatibility = 1.7
+version = 1.0
+
+jar {
+    manifest {
+        attributes 'Implementation-Title': 'Gradle Quickstart', 'Implementation-Version': version
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+sourceSets {
+    main {
+        java {
+            srcDir 'src/main/java'
+        }
+        resources {
+            srcDir 'src/main/resources'
+        }
+    }
+    test {
+        java {
+            srcDir 'src/test/java'
+        }
+        resources {
+            srcDir 'src/test/resources'
+        }
+    }
+	systemtest {
+		java {
+            srcDir 'src/systemtest/java'
+		}
+		resources {
+            srcDir 'src/systemtest/resources'
+		}
+	}
+}
+
+dependencies {
+	/* Mvc */
+	compile 'org.apache.struts:struts2-core:2.3.4.1'
+	
+	/* Core */
+	compile 'org.springframework:spring-context:3.1.2.RELEASE'
+    compile 'org.springframework:spring-core:3.1.2.RELEASE'
+    compile 'org.springframework:spring-web:3.1.2.RELEASE'
+    
+    /* Security */
+	compile 'org.springframework.security:spring-security-core:3.1.4.RELEASE'
+	compile 'org.springframework.security:spring-security-config:3.1.4.RELEASE'
+	compile 'org.springframework.security:spring-security-web:3.1.4.RELEASE'
+    
+	/* View */
+    compile 'jstl:jstl:1.2'
+	
+	/* Utils */	
+	compile 'org.apache.struts:struts2-spring-plugin:2.3.4.1'
+    compile 'log4j:log4j:1.2.17'
+	compile 'org.apache.httpcomponents:httpclient:4.2.3'
+  	compile 'commons-httpclient:commons-httpclient:3.0.1'
+  	compile 'javax.servlet:javax.servlet-api:3.0.1'
+  	compile 'cglib:cglib:2.2.2'
+}

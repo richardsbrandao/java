@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+    "http://struts.apache.org/dtds/struts-2.3.dtd">
+    
+<struts>
+
+	<constant value="true" name="struts.devMode"/>
+	
+	<package name="account" extends="struts-default" namespace="/account">
+		<action name="logout">
+			<result type="redirectAction">
+				<param name="actionName">/login</param>
+			</result>
+		</action>
+
+		<action name="login" class="controller.LoginController" method="login">
+			<result name="success">/login.jsp</result>
+		</action>
+
+		<action name="accessDeined">
+			<result>/accessDeined.jsp</result>
+		</action>
+	</package>
+	
+	<package name="spent" extends="struts-default" namespace="/spent">
+
+		<action name="list">
+			<result>/listSpent.jsp</result>
+		</action>
+
+		<action name="create">
+			<result>/createSpent.jsp</result>
+		</action>
+	</package>
+	
+	<package name="home" extends="struts-default">
+		<action name="">
+			<result>/home.jsp</result>
+		</action>
+
+		<action name="wiki">
+			<result>/wiki.jsp</result>
+		</action>
+	</package>
+	
+	
+</struts>

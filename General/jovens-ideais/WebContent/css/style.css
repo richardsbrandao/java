@@ -1,0 +1,141 @@
+
+body{
+	background:#ccc url('../images/body_bg.png') repeat-x;
+	font: 70%/1.6em 'Lucida Sans',Verdana,sans-serif;
+	margin:0;
+	color:#333;
+}
+#wrap{
+	margin:0 auto;
+	width:760px;
+	height:500px;
+}
+
+a:link,a:visited,a:active{
+	text-decoration:none;
+	border-bottom: #900 1px dotted;
+	color:#900;
+}
+a:hover{
+	color:#600;
+	border-color:#600;
+}
+
+#head{
+	background: url('../images/top.png') no-repeat;
+	height:130px;
+}
+#head h1.title{
+	margin:0;
+	padding: 105px 0 0 20px;
+	font-variant:small-caps;
+	color:#fff;	
+}
+#head ul.navbar{
+	margin:0;
+	padding: 0 0 0 30px;
+}
+#head ul.navbar li{
+	float:left;
+	list-style-type:square;
+}
+#head ul.navbar li a{
+	display:block;
+	padding: 18px 0 0 0;
+	margin: 0 40px 0 0;
+	font-weight:bold;
+	text-transform:uppercase;
+}
+#head #title_box{
+	display:block;
+	position:relative;
+	top: 140px;
+	left: 200px;
+	width:100px;
+	border:#c00 1px solid;
+}
+
+#main{
+	background: url('../images/main_bg.png') center repeat-y;
+	margin:0 auto;
+	width:760px;
+	padding: 0 0px 0 1px;
+	overflow:hidden;
+}
+
+#splash{
+		background: url('../images/title.jpg') no-repeat;
+		padding-top:126px;
+		margin: 0 8px;
+}
+h2.subtitle{
+	margin:8px 0 0 0;
+	padding: 0 10px 0 0;
+	font-variant:small-caps;
+	letter-spacing:1px;
+	font-size:14px;
+	text-align:right;
+}
+
+#content{
+	margin: 0 10px 10px 10px;
+	text-align:justify;
+	overflow:hidden;
+	background-position: 48% 0%;
+}
+#content h2{
+	color:#900;
+	margin:20px 0 0 0;
+	line-height:20px;
+	background: url('../images/content_h2.png') top left no-repeat;
+	padding: 0px 0 0 15px;
+
+}
+#content table {
+	margin: 0 auto;
+}
+
+
+#footer{
+	clear:both;
+	background: url('../images/bot_bg.png') center no-repeat;
+	height: 50px;
+	padding: 0 20px 5px 0;
+	text-align:right;
+	color:#999;
+}
+#footer p{
+	margin:0;
+	padding: 20px 0 0 0;
+}
+
+#content div.box{
+	width:210px;
+	margin: 0 15px 20px 15px;
+	float:left;
+}
+
+#news ul{
+	margin:10px 0 0 0;
+	padding:0;
+	list-style:none;
+}
+#news li{
+	padding: 2px 0;
+}
+
+.hide {
+	display: none;
+}
+#message p {
+    color:white;
+    height:20px; line-height:20px; padding-left:20px; margin:0 auto;
+    font-weight:bold;
+    width:94%;
+}
+#message p.Error {
+    background:url("../images/no.png") no-repeat scroll 0 2px #CC3333;
+}
+#message p.Success {
+    background:url("../images/yes.png") no-repeat scroll 0 2px #33CC33;
+}

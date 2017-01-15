@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+    "http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+
+	<!-- <package name="ajax" extends="struts-default" namespace="/ajax">
+		<action name="selectCaseVehicleCustomer" class="com.parking.controller.AjaxController" method="selectCaseVehicleCustomer">
+			<result name="ajax">/selectCase.jsp</result>
+		</action>
+	</package> -->
+
+	<package name="customer" extends="struts-default" namespace="/">
+		<action name="CustomerRegistry" class="com.parking.controller.CustomerController" method="load">
+			<result>/customerRegistry.jsp</result>
+		</action>
+
+		<action name="SaveCustomer" class="com.parking.controller.CustomerController" method="save">
+			<result name="success">/message.jsp</result>
+			<result name="error">/message.jsp</result>
+		</action>
+	</package>
+
+	<package name="parking" extends="struts-default" namespace="/">
+		<action name="ParkingRegistry" class="com.parking.controller.ParkingController" method="load">
+			<result>/parkingRegistry.jsp</result>
+		</action>
+
+		<action name="saveParking" class="com.parking.controller.ParkingController" method="save">
+			<result name="success">/message.jsp</result>	
+			<result name="error">/message.jsp</result>
+		</action>
+	</package>
+
+	<package name="vehicle" extends="struts-default" namespace="/">
+		<action name="VehicleRegistry" class="com.parking.controller.VehicleController"
+			method="load">
+			<result>/vehicleRegistry.jsp</result>
+		</action>
+
+		<action name="saveVehicle" class="com.parking.controller.VehicleController" method="save">
+			<result name="success">/message.jsp</result>
+			<result name="error">/message.jsp</result>
+		</action>
+	</package>
+	
+	<package name="flow" extends="struts-default" namespace="/">
+		<action name="VehicleFlowRegistry" class="com.parking.controller.VehicleFlowController"
+			method="load">
+			<result>/entryFlow.jsp</result>
+		</action>
+
+		<action name="saveEntryVehicleFlow" class="com.parking.controller.VehicleFlowController" method="allocate">
+			<result name="success">/message.jsp</result>
+			<result name="error">/message.jsp</result>
+		</action>
+	</package>
+	
+</struts>

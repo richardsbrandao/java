@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"
+       "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+       
+<tiles-definitions>
+
+	<!-- Templates -->
+	<definition name="mainLayout" template="/package/templates/main.jsp">
+		<put-attribute name="title" value="" />
+		<put-attribute name="header" value="/package/default/header.jsp" />
+		<put-attribute name="body" value="" />
+		<put-attribute name="report" value="" />
+		<put-attribute name="footer" value="/package/default/footer.jsp" />
+	</definition>
+	
+	<!-- Home -->
+	<definition name="/home.tiles" extends="mainLayout">
+		<put-attribute name="title" value="Projeto Orcamento - Richard" />
+		<put-attribute name="body" value="/package/main/home.jsp" />
+	</definition>
+
+	<definition name="/defaultTemplatePage2.tiles" extends="mainLayout">
+		<put-attribute name="title" value="Pagina 2" />
+		<put-attribute name="body" value="/package/main/page2.jsp" />
+		<put-attribute name="report" value="/package/main/report.jsp" />
+	</definition>
+
+</tiles-definitions>

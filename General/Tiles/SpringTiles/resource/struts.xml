@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+    "http://struts.apache.org/dtds/struts-2.3.dtd">
+    
+<struts>
+	<constant value="true" name="struts.devMode"/>
+	
+	<package name="home" extends="struts-default">
+		<result-types>
+			<result-type name="tiles" class="org.apache.struts2.views.tiles.TilesResult" />
+		</result-types>
+		
+		<action name="defaultTemplate" class="tilesController" method="defaultTemplate">
+			<result type="tiles">/home.tiles</result>
+		</action>
+		
+		<action name="defaultTemplatePage2" class="tilesController" method="defaultTemplatePage2">
+			<result type="tiles">/defaultTemplatePage2.tiles</result>
+		</action>
+		
+<!-- 		<action name="defaultTemplateWithIncrement" class="tilesController" method="defaultTemplateWithIncrement"> -->
+<!-- 			<result type="tiles">/defaultTemplateWithIncrement.tiles</result> -->
+<!-- 		</action> -->
+		
+<!-- 		<action name="usingDifferentsResources" class="tilesController" method="usingDifferentsResources"> -->
+<!-- 			<result type="tiles">/usingDifferentsResources.tiles</result> -->
+<!-- 		</action> -->
+	</package>
+	
+</struts>

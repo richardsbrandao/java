@@ -1,0 +1,38 @@
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'groovy'
+apply plugin: 'maven'
+
+sourceCompatibility = 1.7
+
+allprojects {
+  group = 'richard'
+  artifact = 'RestConsumer'
+  version = '1.0'
+}
+
+repositories {
+  mavenCentral()
+  mavenLocal()
+}
+
+sourceSets {
+	  main {
+		    java {
+		      srcDir 'src/main/java'
+		    }
+	  }
+}
+
+dependencies {
+	
+	compile 'commons-lang:commons-lang:2.6'
+	compile 'org.codehaus.jackson:jackson-mapper-asl:1.7.1'
+	
+	compile 'org.apache.httpcomponents:httpclient:4.2.5'
+	compile 'commons-httpclient:commons-httpclient:3.1'
+	
+	compile 'javax.servlet:javax.servlet-api:3.0.1'
+	
+}
+

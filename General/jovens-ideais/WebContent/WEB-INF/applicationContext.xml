@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+      http://www.springframework.org/schema/beans/spring-beans.xsd
+      http://www.springframework.org/schema/context
+  	  http://www.springframework.org/schema/context/spring-context-2.5.xsd
+  	   http://www.springframework.org/schema/util
+      http://www.springframework.org/schema/util/spring-util-2.0.xsd
+      http://www.springframework.org/schema/tx
+      http://www.springframework.org/schema/tx/spring-tx.xsd">
+	
+	<bean id="customerDao" class="com.parking.model.dao.impl.CustomerDaoImpl" autowire="byType" />
+	<bean id="parkingDao" class="com.parking.model.dao.impl.ParkingDaoImpl" autowire="byType" />
+	<bean id="vehicleDao" class="com.parking.model.dao.impl.VehicleDaoImpl" autowire="byType" />
+	<bean id="vehicleFlowDao" class="com.parking.model.dao.impl.VehicleFlowDaoImpl" autowire="byType" />
+	<bean id="message" class="com.parking.helper.Message" autowire="byType" />
+	
+	<bean id="customerService" class="com.parking.model.service.CustomerService">
+		<property name="customerDao" ref="customerDao" />
+	</bean>
+	<bean id="parkingService" class="com.parking.model.service.ParkingService">
+		<property name="parkingDao" ref="parkingDao" />
+		<property name="vehicleFlowDao" ref="vehicleFlowDao" />
+	</bean>
+	<bean id="vehicleService" class="com.parking.model.service.VehicleService">
+		<property name="vehicleDao" ref="vehicleDao" />
+	</bean>
+	<bean id="vehicleFlowService" class="com.parking.model.service.VehicleFlowService">
+		<property name="vehicleFlowDao" ref="vehicleFlowDao" />
+	</bean>
+	
+	<bean id="customerController" class="com.parking.controller.CustomerController">
+		<property name="customerService" ref="customerService" />
+		<property name="message" ref="message" />
+	</bean>
+	<bean id="parkingController" class="com.parking.controller.ParkingController">
+		<property name="parkingService" ref="parkingService" />
+		<property name="message" ref="message" />
+	</bean>
+	<bean id="vehicleController" class="com.parking.controller.VehicleController">
+		<property name="vehicleService" ref="vehicleService" />
+		<property name="customerService" ref="customerService" />
+		<property name="message" ref="message" />
+	</bean>
+	<bean id="vehicleFlowController" class="com.parking.controller.VehicleFlowController">
+		<property name="vehicleFlowService" ref="vehicleFlowService" />
+		<property name="parkingService" ref="parkingService" />
+		<property name="vehicleService" ref="vehicleService" />
+	</bean>
+	<!-- <bean id="AjaxController" class="com.parking.controller.AjaxController">
+		<property name="vehicleService" ref="vehicleService" />
+	</bean> -->
+	<tx:annotation-driven/>
+	
+	<bean class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor" />
+	
+    <bean id="sessionFactory" class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="packagesToScan">
+   			<list>
+				<value>com.parking.model.entity</value>
+			</list>
+   		</property>
+  		<property name="hibernateProperties" ref="hibernateProperties" />
+	</bean>
+	
+	<bean id="transactionManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+
+	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
+		<property name="url" value="jdbc:mysql://localhost/parkingDb" />
+		<property name="username" value="root" />
+		<property name="password" value="" />
+	</bean>
+	
+	<util:properties id="hibernateProperties">
+		<prop key="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect</prop>
+		<prop key="hibernate.show_sql">false</prop>
+		<prop key="hibernate.cache.use_query_cache">false</prop>
+		<prop key="hibernate.cache.use_second_level_cache">false</prop>
+		<prop key="hibernate.hbm2ddl.auto">update</prop>
+	</util:properties>
+
+</beans>

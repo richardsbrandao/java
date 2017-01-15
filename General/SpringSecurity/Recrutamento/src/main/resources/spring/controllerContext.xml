@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd">
+              
+    <bean id="questionController" scope="prototype" class="br.com.ideais.evaluation.controller.QuestionController">
+        <property name="questionService" ref="questionService" />
+        <property name="config" ref="config" />
+    </bean>	
+    <bean id="linkGeneratorController" scope="prototype" class="br.com.ideais.evaluation.controller.LinkGeneratorController">
+        <property name="linkGeneratorService" ref="linkGeneratorService" />
+        <property name="candidateService" ref="candidateService" />
+        <property name="evaluationService" ref="evaluationService" />
+    	<property name="questionService" ref="questionService" />
+        <property name="mailSender" ref="mailSender" />
+        <property name="velocityEngine" ref="velocityEngine" />
+        <property name="email" ref="email" />
+        <property name="subjectCandidate" value="${ce.mail.subjectCandidate}"/>
+        <property name="permissionService" ref="permissionService" />
+        <property name="linkValidDays" value="${ce.evaluation.validLink.days}" />
+    </bean>
+    <bean id="evaluationController" scope="prototype" class="br.com.ideais.evaluation.controller.EvaluationController">
+        <property name="evaluationService" ref="evaluationService" />
+        <property name="candidateService" ref="candidateService" />
+        <property name="mailSender" ref="mailSender"/>
+        <property name="velocityEngine" ref="velocityEngine" />
+        <property name="email" ref="email" />
+        <property name="toAppraiser" value="${ce.mail.toAppraiser}"/>
+        <property name="subjectResult" value="${ce.mail.subjectResult}"/>
+        <property name="config" ref="config" />
+        <property name="permissionService" ref="permissionService" />
+    </bean>
+       
+</beans>       

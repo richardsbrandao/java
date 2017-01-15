@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+      http://www.springframework.org/schema/beans/spring-beans.xsd
+      http://www.springframework.org/schema/context
+  	  http://www.springframework.org/schema/context/spring-context-2.5.xsd
+  	   http://www.springframework.org/schema/util
+      http://www.springframework.org/schema/util/spring-util-2.0.xsd
+      http://www.springframework.org/schema/tx
+      http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+	<bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<value>classpath:ce.properties</value>
+			</list>
+		</property>
+	</bean>
+	
+	<!-- Configurações de e-mail -->
+	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+  		<property name="host" value="smtp.gmail.com"/>
+  		<property name="port" value="587"></property>
+		<property name="username" value="estagiarios.ideais@gmail.com"/>
+		<property name="password" value="jovensideais123"/>
+		<property name="javaMailProperties">
+			<props>
+				<prop key="mail.smtp.auth">true</prop>
+				<prop key="mail.smtp.starttls.enable">true</prop>
+				<prop key="mail.smtp.debug">true</prop>
+			</props>
+		</property>
+	</bean>	
+	
+<!-- 	<bean id="templateMessageResult" class="org.springframework.mail.SimpleMailMessage">
+		<property name="from" value="${ce.mail.from}"/>
+		<property name="to" value="${ce.mail.toAppraiser}"/>
+		<property name="subject" value="${ce.mail.subjectResult}"/>
+	</bean>
+	
+	<bean id="templateMessageToCandidate" class="org.springframework.mail.javamail.MimeMessagePreparatorImpl">
+		<property name="from" value="${ce.mail.from}"/>
+		<property name="subject" value="${ce.mail.subjectCandidate}"/>
+	</bean>
+ -->	
+	<bean id="velocityEngine" class="org.springframework.ui.velocity.VelocityEngineFactoryBean">
+      <property name="velocityProperties">
+         <value>
+            resource.loader=class
+            class.resource.loader.class=org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+         </value>
+      </property>
+   </bean>
+	
+	<!-- Declaração de Beans -->
+	<bean id="questionDao" class="br.com.ideais.evaluation.model.dao.impl.QuestionDaoImpl" autowire="byType" />
+	<bean id="candidateDao" class="br.com.ideais.evaluation.model.dao.impl.CandidateDaoImpl" autowire="byType" />
+	<bean id="permissionDao" class="br.com.ideais.evaluation.model.dao.impl.PermissionDaoImpl" autowire="byType" />
+	<bean id="evaluationDao" class="br.com.ideais.evaluation.model.dao.impl.EvaluationDaoImpl" autowire="byType" />
+		
+	<bean id="questionService" class="br.com.ideais.evaluation.model.service.QuestionService">
+		<property name="questionDao" ref="questionDao" />
+	</bean>
+	<bean id="linkGeneratorService" class="br.com.ideais.evaluation.model.service.LinkGeneratorService">
+		<property name="config" ref="config" />
+	</bean>
+	<bean id="config" class="br.com.ideais.evaluation.helpers.Config">
+		<property name="baseUrl" value="${ce.baseUrl}"/>
+		<property name="evaluationTimerHour" value="${ce.evaluation.timer.hour}"/>
+		<property name="evaluationTimerMinute" value="${ce.evaluation.timer.minute}"/>
+	</bean>
+	<bean id="candidateService" class="br.com.ideais.evaluation.model.service.CandidateService">
+		<property name="candidateDao" ref="candidateDao" />
+	</bean>
+	<bean id="permissionService" class="br.com.ideais.evaluation.model.service.PermissionService">
+		<property name="permissionDao" ref="permissionDao" />
+	</bean>
+	<bean id="evaluationService" class="br.com.ideais.evaluation.model.service.EvaluationService">
+		<property name="numberOfQuestions" value="${ce.numberOfQuestions}" />
+		<property name="questionDao" ref="questionDao" />
+		<property name="evaluationDao" ref="evaluationDao" />
+	</bean>
+	
+	<bean id="questionController" scope="prototype" class="br.com.ideais.evaluation.controller.QuestionController">
+		<property name="questionService" ref="questionService" />
+		<property name="config" ref="config" />
+	</bean>	
+	<bean id="linkGeneratorController" scope="prototype" class="br.com.ideais.evaluation.controller.LinkGeneratorController">
+		<property name="linkGeneratorService" ref="linkGeneratorService" />
+		<property name="candidateService" ref="candidateService" />
+		<property name="evaluationService" ref="evaluationService" />
+		<property name="mailSender" ref="mailSender" />
+		<property name="velocityEngine" ref="velocityEngine" />
+		<property name="from" value="${ce.mail.from}"/>
+		<property name="subjectCandidate" value="${ce.mail.subjectCandidate}"/>
+		
+		<property name="permissionService" ref="permissionService" />
+		<property name="linkValidDays" value="${ce.evaluation.validLink.days}" />
+	</bean>
+	<bean id="evaluationController" scope="prototype" class="br.com.ideais.evaluation.controller.EvaluationController">
+		<property name="evaluationService" ref="evaluationService" />
+		<property name="candidateService" ref="candidateService" />
+		<property name="mailSender" ref="mailSender"/>
+		<property name="velocityEngine" ref="velocityEngine" />
+		<property name="from" value="${ce.mail.from}"/>
+		<property name="toAppraiser" value="${ce.mail.toAppraiser}"/>
+		<property name="subjectResult" value="${ce.mail.subjectResult}"/>
+		<property name="config" ref="config" />
+		<property name="permissionService" ref="permissionService" />
+	</bean>
+	
+	<!-- Anotation para Hibernate -->
+	<tx:annotation-driven />
+	
+	<!-- Configurações do Hibernate e Session Factory -->
+	<bean class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor" />
+
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="packagesToScan">
+			<list>
+				<value>br.com.ideais.evaluation.model.entity</value>
+			</list>
+		</property>
+		<property name="hibernateProperties" ref="hibernateProperties" />
+	</bean>
+
+	<bean id="transactionManager"
+		class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+
+	<!-- Configuracoes de Banco -->
+	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="${database.driver.class}" />
+		<property name="url" value="${database.url}" />
+		<property name="username" value="${database.username}" />
+		<property name="password" value="${database.password}" />
+	</bean>
+
+	<util:properties id="hibernateProperties">
+		<prop key="hibernate.dialect">${database.dialect}</prop>
+		<prop key="hibernate.show_sql">true</prop>
+		<prop key="hibernate.cache.use_query_cache">false</prop>
+		<prop key="hibernate.cache.use_second_level_cache">false</prop>
+		<prop key="hibernate.hbm2ddl.auto">update</prop>
+	</util:properties>
+	
+</beans>

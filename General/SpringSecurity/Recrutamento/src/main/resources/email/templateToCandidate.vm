@@ -1,0 +1,33 @@
+<html>
+<body>
+<p>Ol&aacute; ${candidate.name},</p>
+
+<p>Parab&eacute;ns! Voc&ecirc; foi selecionado para participar do processo seletivo da Ideais Tecnologia.</p>
+
+<p>Para darmos continuidade ao processo, primeiro, voc&ecirc; deve realizar um prova online de conhecimentos te&oacute;ricos do cargo para o qual voc&ecirc; se candidatou. Voc&ecirc; tem at&eacute; ${endDate} para responder &agrave;s quest&otilde;es.</p>
+
+<p>Para realizar sua prova, acesse esse link: <a href="${link}">${link}</a></p>
+
+
+<p><b>IMPORTANTE:</b> Depois de iniciada a prova, voc&ecirc; deve faz&ecirc;-la at&eacute; o final em um &uacute;nico acesso.</p>
+
+<p>&#45; A prova &eacute; composta de 10 quest&otilde;es, com dura&ccedil;&atilde;o m&aacute;xima de 40 minutos.</p>
+
+<p>&#45; As quest&otilde;es ser&atilde;o apresentadas uma a uma, sendo marcadas por um cron&ocirc;metro, que informar&aacute; quanto tempo resta para terminar a quest&atilde;o.</p>
+
+<p>&#45; Todas as quest&otilde;es apresentam apenas uma alternativa correta.</p>
+
+<p>&#45; No h&aacute; como dar pausa, reiniciar ou retornar a quest&atilde;o em nenhum momento do teste. Uma vez iniciada a prova, ela n&atilde;o poder&aacute; ser interrompida. N&atilde;o aperte o F5 do seu teclado ou a prova ser&aacute; dada como feita.</p>
+
+<div><font size="1" style="font-family:verdana,sans-serif"><span style="border-collapse:collapse"><b><span style="display:block;margin-bottom:5px;color:rgb(0,0,102)"></span></b></span></font><span style="border-collapse:collapse"><span style="display:block;margin-bottom:5px"><span style="border-collapse:collapse"><font size="1"><span style="display:block;color:rgb(102,102,102)"></span></font></span></span></span><b><span style="color:rgb(0,0,102)"><img src="http://www.ideais.com.br/logo/ideais.gif" align="left">Equipe Ideais</span></b><br>
+
+
+<span style="border-collapse:collapse"><span style="display:block;margin-bottom:5px"><span style="border-collapse:collapse"><font size="1"><span style="display:block"><span style="border-collapse:collapse;font-size:13px"><div style="overflow:hidden;font-family:verdana,arial,sans-serif;font-size:11px">
+
+<b style="display:block;margin-bottom:5px;color:rgb(27,21,107)"></b><span style="display:block;margin-bottom:5px"><font color="#666666">RH Ideais</font></span><span style="display:block;margin-bottom:5px;color:rgb(102,102,204)"></span><span style="display:block;margin-bottom:5px;color:rgb(27,21,107)"></span><span style="color:rgb(102,102,102);display:block;margin-bottom:5px"><a href="mailto:recrutamento@ideais.com.br" style="color:rgb(95,105,196)" target="_blank">recrutamento@ideais.com.<wbr>br</a></span><span style="color:rgb(102,102,102);display:block;margin-bottom:5px">Tel.: 55&nbsp;<a href="tel:21%203553%201301" value="+12135531301" target="_blank">21 3553 1301</a></span><span style="color:rgb(102,102,102);display:block;margin-bottom:5px"></span><span style="color:rgb(102,102,102);display:block">Site:&nbsp;<a href="http://www.ideais.com.br/" style="color:rgb(95,105,196)" target="_blank">www.ideais.com.br</a></span></div>
+
+</span></span></font></span></span></span></div>
+
+
+</body>
+</html>

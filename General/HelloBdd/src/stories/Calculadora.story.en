@@ -1,0 +1,16 @@
+Calculadora story
+
+Narrative:
+In order to learn jbehave
+As a development
+I want to use Behaviour-Driven Development as a Hello World!
+
+Scenario: Somar 2 números
+Given Eu possuo uma calculadora
+When somar 2 com 3
+Then recebo como resultado 5
+
+Scenario: Multiplicar qualquer número por 2
+Given Eu digito o valor 9 na calculadora
+When Eu multiplicar por 2
+Then recebo como resultado da multiplicacao o valor 18

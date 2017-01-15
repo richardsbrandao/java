@@ -1,0 +1,37 @@
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'groovy'
+apply plugin: 'maven'
+
+sourceCompatibility = 1.7
+
+allprojects {
+  group = 'richard'
+  artifact = 'RestMessages'
+  version = '1.0'
+}
+
+repositories {
+  mavenCentral()
+}
+
+sourceSets {
+	  main {
+		    java {
+		      srcDir 'src/main/java'
+		    }
+	  }
+}
+
+dependencies {
+	
+	compile 'org.springframework:spring-web:3.2.3.RELEASE'
+	
+	compile 'com.google.guava:guava:14.0.1'
+	
+	compile 'org.codehaus.jackson:jackson-mapper-asl:1.7.1'
+		
+	compile 'javax.servlet:javax.servlet-api:3.0.1'
+	
+}
+

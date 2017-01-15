@@ -1,0 +1,75 @@
+apply plugin: 'java'
+apply plugin: 'eclipse'
+
+sourceCompatibility = 1.7
+
+repositories {
+  mavenCentral()
+}
+
+sourceSets {
+	  main {
+		    java {
+		      srcDir 'src/main/java'
+		    }
+		
+		    resources {
+		      srcDir 'src/main/resources'
+		    }
+	  }
+	
+	  test {
+		    java {
+		      srcDir 'src/test/java'
+		    }
+		
+		    resources {
+		      srcDir 'src/test/resources'
+		    }
+	  }
+	
+	  systemtest {
+		    java {
+		      srcDir 'src/system-test/java'
+		    }
+		
+		    resources {
+		      srcDir 'src/system-test/resources'
+		    }
+      }
+}
+
+dependencies {
+	/* Mvc */
+	compile 'org.springframework:spring-webmvc:3.2.3.RELEASE'
+	compile 'org.apache.tiles:tiles-extras:3.0.1'
+	
+	/* Log */
+	compile 'commons-logging:commons-logging:1.1'
+	compile 'log4j:log4j:1.2.17'
+	compile 'org.slf4j:slf4j-api:1.5.8'
+	compile 'org.slf4j:slf4j-log4j12:1.4.2'
+	
+	/* Utils */
+	compile 'jstl:jstl:1.2'
+	compile 'commons-lang:commons-lang:2.6'
+	compile 'javax.servlet:javax.servlet-api:3.0.1'
+	compile 'org.apache.httpcomponents:httpclient:4.2.5'
+	compile 'commons-httpclient:commons-httpclient:3.1'
+	
+	/* Test */
+	testCompile 'org.springframework:spring-test:3.2.3.RELEASE'
+	testCompile 'junit:junit:4.11'
+	testCompile 'org.mockito:mockito-all:1.9.5'
+	testCompile 'com.h2database:h2:1.3.172'
+	
+	/* Projetos Utilitarios */
+	compile 'richard:RestMessages:1.0'
+	compile 'richard:RestConsumer:1.0'
+}
+
+test {
+	testLogging {
+	      events 'started', 'passed'
+	}
+}

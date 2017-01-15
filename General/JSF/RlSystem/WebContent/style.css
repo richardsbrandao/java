@@ -1,0 +1,7 @@
+.field { border:1px solid #000; }
+
+.list { border:1px solid #000; border-spacing: 0px; border-collapse: collapse; width:450px; }
+.list .headerTable { border:1px solid #000; background-color:#DD0000; color:#DDFF00;  }
+.list tr td { border:1px solid #000; }
+.list .row1 {background-color:#c0c0c0;}
+.list .row2 {background-color:#F5F5F5;}
