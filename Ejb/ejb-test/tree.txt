@@ -1,0 +1,55 @@
+[INFO] Scanning for projects...
+[INFO]                                                                         
+[INFO] ------------------------------------------------------------------------
+[INFO] Building ejb-test 0.0.1-SNAPSHOT
+[INFO] ------------------------------------------------------------------------
+[INFO] 
+[INFO] --- maven-dependency-plugin:2.1:tree (default-cli) @ ejb-test ---
+[INFO] com.estudos.ejbtest:ejb-test:jar:0.0.1-SNAPSHOT
+[INFO] +- org.apache.openejb:openejb-core:jar:3.1.1:test
+[INFO] |  +- org.apache.openejb:javaee-api:jar:5.0-2:test
+[INFO] |  +- log4j:log4j:jar:1.2.12:test
+[INFO] |  +- org.apache.openejb:ejb31-api-experimental:jar:3.1.1:test
+[INFO] |  +- org.apache.openejb:openejb-api:jar:3.1.1:test
+[INFO] |  +- org.apache.openejb:openejb-loader:jar:3.1.1:test
+[INFO] |  +- org.apache.openejb:openejb-javaagent:jar:3.1.1:test
+[INFO] |  +- org.apache.openejb:openejb-jee:jar:3.1.1:test
+[INFO] |  |  +- org.codehaus.woodstox:wstx-asl:jar:3.2.0:test
+[INFO] |  |  |  \- stax:stax-api:jar:1.0.1:test
+[INFO] |  |  \- com.sun.xml.bind:jaxb-impl:jar:2.0.5:test
+[INFO] |  +- commons-cli:commons-cli:jar:1.1:test
+[INFO] |  +- org.apache.activemq:activemq-ra:jar:4.1.1:test
+[INFO] |  +- org.apache.activemq:activemq-core:jar:4.1.1:test
+[INFO] |  |  +- backport-util-concurrent:backport-util-concurrent:jar:2.1:test
+[INFO] |  |  \- org.apache.activemq:activeio-core:jar:3.0.0-incubator:test
+[INFO] |  +- org.apache.openjpa:openjpa:jar:1.2.0:test
+[INFO] |  |  \- commons-pool:commons-pool:jar:1.3:test
+[INFO] |  +- net.sourceforge.serp:serp:jar:1.13.1:test
+[INFO] |  +- commons-lang:commons-lang:jar:2.1:test
+[INFO] |  +- commons-collections:commons-collections:jar:3.2:test
+[INFO] |  +- org.apache.geronimo.components:geronimo-connector:jar:2.1:test
+[INFO] |  +- org.apache.geronimo.components:geronimo-transaction:jar:2.1:test
+[INFO] |  +- org.objectweb.howl:howl:jar:1.0.1-1:test
+[INFO] |  +- org.apache.geronimo.javamail:geronimo-javamail_1.4_mail:jar:1.2:test
+[INFO] |  +- org.apache.openejb:xbean-asm-shaded:jar:3.6-r779512:test
+[INFO] |  +- org.apache.openejb:xbean-finder-shaded:jar:3.6-r779512:test
+[INFO] |  +- org.apache.openejb:xbean-reflect:jar:3.6-r779512:test
+[INFO] |  +- org.apache.xbean:xbean-naming:jar:3.5:test
+[INFO] |  +- hsqldb:hsqldb:jar:1.8.0.7:test
+[INFO] |  +- org.apache.openejb:commons-dbcp-all:jar:1.3-r699049:test
+[INFO] |  +- org.codehaus.swizzle:swizzle-stream:jar:1.0.1:test
+[INFO] |  +- commons-logging:commons-logging:jar:1.1:test
+[INFO] |  +- wsdl4j:wsdl4j:jar:1.6.1:test
+[INFO] |  \- quartz:quartz:jar:1.5.2:test
+[INFO] +- javax:javaee-api:jar:7.0:compile
+[INFO] |  \- com.sun.mail:javax.mail:jar:1.5.0:compile
+[INFO] |     \- javax.activation:activation:jar:1.1:compile
+[INFO] \- junit:junit:jar:4.12:test
+[INFO]    \- org.hamcrest:hamcrest-core:jar:1.3:test
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time: 2.558s
+[INFO] Finished at: Sun Aug 23 21:28:53 BRT 2015
+[INFO] Final Memory: 10M/213M
+[INFO] ------------------------------------------------------------------------
