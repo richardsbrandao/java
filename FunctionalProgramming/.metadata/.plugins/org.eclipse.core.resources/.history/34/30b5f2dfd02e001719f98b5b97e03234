@@ -1,0 +1,21 @@
+package com.studi.funzioni;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
+public class FilterMapReduce {
+
+	public static void main(String[] args) {
+		List<String> words = Arrays.asList(
+				"Proprio", "Magari", "Invito", "Memoria", "Avremo"
+		);
+		
+		List<String> map = words.stream()
+			.map(parola -> parola.toLowerCase())
+			.filter(parola -> parola.startsWith("a") || parola.startsWith("i"))
+			.collect(Collectors.toList());
+		System.out.println(map);
+	}
+	
+}

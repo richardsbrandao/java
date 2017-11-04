@@ -1,0 +1,11 @@
+package com.studi.funzioni;
+
+import java.util.function.BinaryOperator;
+
+public class BinnaryEsempio {
+
+	public static void main(String[] args) {
+		BinaryOperator b = (x,y) -> x + y;
+	}
+	
+}

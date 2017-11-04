@@ -1,0 +1,11 @@
+package com.studi.funzioni;
+
+import java.util.function.Function;
+
+public class ComposizioneDelleFunzioni {
+
+	public static void main(String[] args) {
+		Function<Integer, Function<Integer, Integer>> = x -> y = x + y;
+	}
+	
+}

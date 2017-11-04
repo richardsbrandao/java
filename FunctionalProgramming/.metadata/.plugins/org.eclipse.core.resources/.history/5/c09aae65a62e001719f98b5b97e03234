@@ -1,0 +1,15 @@
+package com.studi.funzioni;
+
+import java.util.function.BinaryOperator;
+import java.util.function.Function;
+
+public class BinaryEsempio {
+
+	public static void main(String[] args) {
+		BinaryOperator<Integer> somma = (x,y) -> x + y;
+		System.out.println(somma.apply(9, 3));
+		
+		BinaryOperator<Function<Integer, Integer>> a = (f,g) -> x -> g.apply(f.apply(x));
+	}
+	
+}

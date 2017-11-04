@@ -1,0 +1,34 @@
+package com.studi.funzioni;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Stream;
+
+public class FilterMapReduce {
+
+	public static void main(String[] args) {
+		List<String> words = Arrays.asList(
+				"Proprio", "Magari", "Invito", "Memoria", "Avremo"
+		);
+		
+		Stream<Parola> map = words.stream()
+			.map(ac -> new Parola(null));
+//			.map(parola -> new Parola(parola))
+//			.filter(parola -> ! parola.cominciaConVocale());
+	}
+	
+	public class Parola {
+		private String lettere;
+		
+		public Parola(String lettere) {
+			this.lettere = lettere;
+		}
+		
+		public Boolean cominciaConVocale() {
+			return lettere.startsWith("a") || lettere.startsWith("e")
+					|| lettere.startsWith("i") || lettere.startsWith("o")
+					|| lettere.startsWith("u");
+		}
+	}
+	
+}

@@ -1,0 +1,17 @@
+package com.studi.funzioni;
+
+import java.util.function.Function;
+
+public class ComposizioneDelleFunzioni {
+
+	public static void main(String[] args) {
+		Function<Integer, Function<Integer, Integer>> adder = x -> y -> x + y;
+		Function<Integer, Function<Integer, Integer>> multiplier = x -> y -> x * y;
+		
+		Function<Integer, Integer> add1 = adder.apply(1);
+		Function<Integer, Integer> todouble = adder.apply(2);
+		
+		
+	}
+	
+}

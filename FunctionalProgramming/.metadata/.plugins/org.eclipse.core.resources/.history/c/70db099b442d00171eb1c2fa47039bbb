@@ -1,0 +1,9 @@
+package com.studi.funzioni;
+
+public class FunzioniExample {
+
+	public static void main(String[] args) {
+		x -> x + 1;
+	}
+	
+}

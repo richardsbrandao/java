@@ -1,0 +1,27 @@
+package com.studi.funzioni;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
+public class FilterMapReduce {
+
+	public static void main(String[] args) {
+		List<String> words = Arrays.asList(
+				"Proprio quello che io ho bisogno", 
+				"Magari siamo capace di arrivare", 
+				"Un Invito meraviglioso", 
+				"Io ho molta Memoria di quello momento", 
+				"Avremo fortuna di avere tu"
+		);
+		
+		System.out.println(Arrays.asList(words.get(0).split(" ")).stream().filter(parola -> parola.length() > 2));
+		
+//		List<List<String>> map = words.stream()
+//			.map(setenza -> )
+//			.collect(Collectors.toList());
+
+//		System.out.println(map);
+	}
+	
+}
