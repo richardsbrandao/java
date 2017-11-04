@@ -1,0 +1,29 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://services:5432/anotherapplication
+    username: postgres
+    password: 123456
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: create-drop
+  properties:
+    hibernate:
+      format_sql: true
+      dialect: org.hibernate.dialect.PostgreSQLDialect
+---
+spring:
+  profiles:
+    active: test
+  datasource:
+    url: jdbc:postgresql://services:5432/anotherapplication_test
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+---
+spring:
+  profiles:
+    active: development
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
