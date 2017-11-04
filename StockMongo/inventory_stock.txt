@@ -1,0 +1,100 @@
+db.inventory.insert({
+	sku: 7070, stocks: [
+		{ available:5, purchased: 0, type: 1, subInventory: 7701, warehouse: 77 },
+		{ available:10, purchased: 0, type: 2, subInventory: 8801, warehouse: 88 },
+		{ available:0, purchased: 0, type: 1, subInventory: 4601, warehouse: 46 }
+	]
+});
+
+db.inventory.insert({
+	sku: 8080, stocks: [
+		{ available:15, purchased: 0, type: 1, subInventory: 7701, warehouse: 77 },
+		{ available:4, purchased: 0, type: 3, subInventory: 7701, warehouse: 77 },
+		{ available:2, purchased: 0, type: 3, subInventory: 4601, warehouse: 46 }
+	]
+});
+
+db.inventory.insert({
+	sku: 9090, stocks: [
+	]
+});
+
+db.inventory.insert({
+	sku: 6060, stocks: [
+		{ available:1, purchased: 0, type: 1, subInventory: 8801, warehouse: 88 }
+	]
+});
+
+
+db.inventory.insert({
+	sku: 5050, stocks: [
+		{ available:10, purchased: 0, type: 1, subInventory: 8801, warehouse: 88 },
+		{ available:2, purchased: 0, type: 3, subInventory: 8801, warehouse: 88 },
+		{ available:0, purchased: 0, type: 2, subInventory: 8801, warehouse: 88 },
+		{ available:7, purchased: 0, type: 1, subInventory: 7701, warehouse: 77 }
+	]
+});
+
+
+
+
+
+
+
+
+
+{ "_id" : ObjectId("54d6b13e77b2e361e2fe8e8a"), "sku" : 7070, "stocks" : [ { "available" : 5, "purchased" : 0, "type" : 1, "subInventory" : 7701, "warehouse" : 77 }, { "available" : 10, "purchased" : 0, "type" : 2, "subInventory" : 8801, "warehouse" : 88 }, { "available" : 0, "purchased" : 0, "type" : 1, "subInventory" : 4601, "warehouse" : 46 } ] }
+{ "_id" : ObjectId("54d6b13e77b2e361e2fe8e8b"), "sku" : 8080, "stocks" : [ { "available" : 15, "purchased" : 0, "type" : 1, "subInventory" : 7701, "warehouse" : 77 }, { "available" : 4, "purchased" : 0, "type" : 3, "subInventory" : 7701, "warehouse" : 77 }, { "available" : 2, "purchased" : 0, "type" : 3, "subInventory" : 4601, "warehouse" : 46 } ] }
+{ "_id" : ObjectId("54d6b13e77b2e361e2fe8e8d"), "sku" : 6060, "stocks" : [ { "available" : 1, "purchased" : 0, "type" : 1, "subInventory" : 8801, "warehouse" : 88 } ] }
+{ "_id" : ObjectId("54d6b13f77b2e361e2fe8e8e"), "sku" : 5050, "stocks" : [ { "available" : 10, "purchased" : 0, "type" : 1, "subInventory" : 8801, "warehouse" : 88 }, { "available" : 2, "purchased" : 0, "type" : 3, "subInventory" : 8801, "warehouse" : 88 }, { "available" : 0, "purchased" : 0, "type" : 2, "subInventory" : 8801, "warehouse" : 88 }, { "available" : 7, "purchased" : 0, "type" : 1, "subInventory" : 7701, "warehouse" : 77 } ] }
+{ "_id" : ObjectId("54d6c8b477b2e361e2fe8e8f"), "sku" : 5050, "stocks" : [ { "available" : 10, "purchased" : 0, "type" : 1, "subInventory" : 8801, "warehouse" : 88 }, { "available" : 2, "purchased" : 0, "type" : 3, "subInventory" : 8801, "warehouse" : 88 }, { "available" : 0, "purchased" : 0, "type" : 2, "subInventory" : 8801, "warehouse" : 88 }, { "available" : 7, "purchased" : 0, "type" : 1, "subInventory" : 7701, "warehouse" : 77 } ] }
+{ "_id" : ObjectId("54d6cf6a4278f99b29bf790f"), "sku" : 9090, "stocks" : [ ] }
+
+
+
+db.book.insert({
+     "number": "1",
+     "series": "A song of ice and Fire",
+     "author" : "George R.R. Martin",
+     "books" : [
+           {
+               "title" : "A Game of Thrones",
+               "pubYear" : 1996,
+               "seriesNumber" : 1
+           },
+           {
+               "title" : "A Clash of Kings",
+               "pubYear" : 1998,
+               "seriesNumber" : 2
+           },
+
+           {
+               "title" : "A Storm of Swords",
+               "pubYear" : 2000,
+               "seriesNumber" : 3
+           },
+           {
+               "title" : "A Feast for Crows",
+               "pubYear" : 2005,
+               "seriesNumber" : 4
+           },
+           {
+               "title" : "A Dance with Dragons",
+               "pubYear" : 2011,
+               "seriesNumber" : 5
+           },           
+           {
+               "title" : "The Winds of Winter",
+               "pubYear" : 2014,
+               "seriesNumber" : 6
+           },           
+           {
+               "title" : "A Dream of Spring",
+               "pubYear" : 2100,
+               "seriesNumber" : 7
+           }
+ 
+      ]
+});
+
+Criar operações de Filtro
