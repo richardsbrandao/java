@@ -21,7 +21,7 @@ public class CategoriesController {
 
 	@Autowired
 	private CategoriesService categoriesService;
-	
+
 	@GetMapping(value="/")
 	public ResponseEntity<CategoriesResponse> list() {
 		Iterable<Category> categories = categoriesService.findAll();

@@ -12,14 +12,14 @@ import com.richard.estudos.anotherproject.controllers.requests.UserRequest;
 import com.richard.estudos.anotherproject.controllers.responses.UserResponse;
 import com.richard.estudos.anotherproject.controllers.responses.UsersResponse;
 import com.richard.estudos.anotherproject.models.User;
-import com.richard.estudos.anotherproject.services.UserService;
+import com.richard.estudos.anotherproject.services.UsersService;
 
 @RestController
 @RequestMapping(value="/users")
 public class UsersController {
 
 	@Autowired
-	private UserService usersService;
+	private UsersService usersService;
 	
 	@RequestMapping(method=RequestMethod.GET, value="/")
 	public ResponseEntity<UsersResponse> list() {
