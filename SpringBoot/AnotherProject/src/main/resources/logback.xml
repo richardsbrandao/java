@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration debug="false">
+    <include resource="org/springframework/boot/logging/logback/base.xml"/>
+
+	<!-- Appender "stash" -->
+    <appender name="stash" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
+        <destination>services:5044</destination> <!-- LogStash Host and Port on Vagrant Services Machine -->
+
+        <encoder class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
+            <providers>
+                <mdc/> <!-- MDC variables on the Thread will be written as JSON fields-->
+                <context/> <!--Outputs entries from logback's context -->
+                <version/> <!-- Logstash json format version, the @version field in the output-->
+                <logLevel/>
+                <loggerName/>
+                
+                <pattern>
+                    <pattern>
+                        <!-- custom entries.-->
+                        {
+	                        "appName": "another-project-richard",
+	                        "appVersion": "1.0"
+                        }
+                    </pattern>
+                </pattern>
+
+                <threadName/>
+                <message/>
+
+                <logstashMarkers/> <!-- Useful so we can add extra information for specific log lines as Markers-->
+                <arguments/> <!--or through StructuredArguments-->
+
+                <stackTrace/>
+            </providers>
+        </encoder>
+    </appender>
+
+<!-- <fieldNames>
+                	<fieldsRequestHeaders>@fields.request_headers</fieldsRequestHeaders>
+                	<fieldsResponseHeaders>@fields.response_headers</fieldsResponseHeaders>
+                </fieldNames>
+				 -->
+
+	<!-- Append on Console and LogStash -->
+    <root level="INFO">
+        <appender-ref ref="CONSOLE"/>
+        <appender-ref ref="stash"/>
+    </root>
+		
+    <logger name="org.springframework" level="INFO"/>
+</configuration>
