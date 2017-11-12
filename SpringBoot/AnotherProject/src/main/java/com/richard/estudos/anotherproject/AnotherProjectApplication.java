@@ -8,7 +8,6 @@ import org.springframework.scheduling.annotation.EnableAsync;
 
 @SpringBootApplication
 @EnableCaching
-@EnableAsync
 //Multiple Spring Data modules found, entering strict repository configuration mode
 @EnableJpaRepositories(basePackages="com.richard.estudos.anotherproject.daos")
 public class AnotherProjectApplication {

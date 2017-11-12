@@ -47,7 +47,7 @@ public class CategoriesService {
 		return category;
 	}
 
-	@Async//("reportTaskExecutor")
+	@Async("threadPoolReportAsyncExecutor")
 	public void generateReport(UUID externalId, String requester) {
 		try {
 			List<ReportCategoriesStatistics> categoriesReport = categoriesDao.categoriesReport();

@@ -17,6 +17,11 @@ endpoints:
   flyway:
     web:
       enabled: true
+async:
+  core-pool-size: 5
+  max-pool-Size: 20
+  queue-capacity: 40
+  thread-name-prefix: ReportAsyncProcessor-
 ---
 spring:
   profiles:
