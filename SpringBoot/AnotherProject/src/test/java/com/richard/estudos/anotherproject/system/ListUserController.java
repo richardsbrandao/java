@@ -8,11 +8,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import com.richard.estudos.anotherproject.AbstractTest;
 import com.richard.estudos.anotherproject.controllers.responses.UserResponse;
 import com.richard.estudos.anotherproject.controllers.responses.UsersResponse;
 
 @RunWith(SpringRunner.class)
-public class ListUserController extends AbstractSystemTest {
+public class ListUserController extends AbstractTest {
 	@Test
 	public void retrieve_users() {
 		ResponseEntity<UsersResponse> response = restTemplate.getForEntity(endpoint("/users/"), UsersResponse.class);

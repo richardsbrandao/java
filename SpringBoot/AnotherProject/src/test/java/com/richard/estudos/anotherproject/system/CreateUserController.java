@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import com.richard.estudos.anotherproject.AbstractTest;
 import com.richard.estudos.anotherproject.controllers.requests.UserRequest;
 import com.richard.estudos.anotherproject.controllers.responses.ApiError;
 import com.richard.estudos.anotherproject.controllers.responses.UserResponse;
@@ -17,7 +18,7 @@ import com.richard.estudos.anotherproject.models.Category;
 import com.richard.estudos.anotherproject.utils.RequestUtils;
 
 @RunWith(SpringRunner.class)
-public class CreateUserController extends AbstractSystemTest {
+public class CreateUserController extends AbstractTest {
 
 	@Autowired
 	private CategoriesDao categoriesDao;

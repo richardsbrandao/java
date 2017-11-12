@@ -1,0 +1,1 @@
+create table reports (id  bigserial not null, requester varchar(100), content text, primary key (id));

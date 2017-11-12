@@ -8,11 +8,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import com.richard.estudos.anotherproject.AbstractTest;
 import com.richard.estudos.anotherproject.controllers.responses.CategoriesResponse;
 import com.richard.estudos.anotherproject.controllers.responses.CategoryResponse;
 
 @RunWith(SpringRunner.class)
-public class ListCategoryController extends AbstractSystemTest {
+public class ListCategoryController extends AbstractTest {
 	@Test
 	public void retrieve_categories() {
 		ResponseEntity<CategoriesResponse> response = restTemplate.getForEntity(endpoint("/categories/"), CategoriesResponse.class);

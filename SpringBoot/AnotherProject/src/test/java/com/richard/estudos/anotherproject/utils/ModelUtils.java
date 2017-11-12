@@ -3,8 +3,10 @@ package com.richard.estudos.anotherproject.utils;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import com.richard.estudos.anotherproject.models.Category;
+import com.richard.estudos.anotherproject.models.Report;
 import com.richard.estudos.anotherproject.models.User;
 
 public class ModelUtils {
@@ -40,4 +42,12 @@ public class ModelUtils {
 		return users;
 	}
 
+	public static Report report() {
+		Report report = new Report();
+		report.setId(1L);
+		report.setExternalId(UUID.randomUUID());
+		report.setRequester("Richard");
+		report.setContent("[]");
+		return report;
+	}
 }

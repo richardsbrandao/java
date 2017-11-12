@@ -8,12 +8,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import com.richard.estudos.anotherproject.AbstractTest;
 import com.richard.estudos.anotherproject.controllers.requests.CategoryRequest;
 import com.richard.estudos.anotherproject.controllers.responses.CategoryResponse;
 import com.richard.estudos.anotherproject.utils.RequestUtils;
 
 @RunWith(SpringRunner.class)
-public class CreateCategoryController extends AbstractSystemTest {
+public class CreateCategoryController extends AbstractTest {
 
 	@Test
 	public void create_category() {
