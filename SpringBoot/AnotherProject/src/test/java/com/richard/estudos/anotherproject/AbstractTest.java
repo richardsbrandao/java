@@ -4,10 +4,10 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import org.springframework.boot.context.embedded.LocalServerPort;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.Sql.ExecutionPhase;
-import org.springframework.web.client.RestTemplate;
 
 @ActiveProfiles("test")
 @SpringBootTest(classes=AnotherProjectApplication.class, webEnvironment=SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -17,7 +17,7 @@ public abstract class AbstractTest {
 	@LocalServerPort
 	private int port;
 	
-	protected RestTemplate restTemplate = new RestTemplate();
+	protected TestRestTemplate restTemplate = new TestRestTemplate();
 	
 
 	protected String endpoint(String uri) {
