@@ -1,0 +1,28 @@
+apply plugin: 'java'
+apply plugin: 'eclipse-wtp'
+
+sourceSets {
+	main {
+		java {
+			srcDirs = ['src']
+		}
+	}
+	
+	test {
+		java {
+			srcDirs = ['test']
+		}
+	}
+}
+
+sourceCompatibility = 8
+targetCompatibility = 8
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testCompile('org.springframework:spring-test:5.0.1.RELEASE')
+    testCompile('junit:junit:4.12')
+}
