@@ -2,12 +2,12 @@ package algorithm.cases.delivery;
 
 import java.util.Arrays;
 
-public class Delivey {
+public class Delivery {
 
 	private Integer[] packagesWeight;
 	private Integer maxWeightConstraint;
 
-	public Delivey(Integer[] packagesWeight, Integer maxWeightConstraint) {
+	public Delivery(Integer[] packagesWeight, Integer maxWeightConstraint) {
 		this.packagesWeight = packagesWeight;
 		this.maxWeightConstraint = maxWeightConstraint;
 	}
@@ -20,14 +20,11 @@ public class Delivey {
 		while(low <= high) {
 			int lighterPackage = packagesWeight[low];
 			int heavierPackage = packagesWeight[high];
-			
+			counter++;
+			high--;
+
 			if(lighterPackage+heavierPackage <= maxWeightConstraint) {
-				counter++;
 				low++;
-				high--;
-			} else {
-				counter++;
-				high--;
 			}
 		}
 		return counter;
