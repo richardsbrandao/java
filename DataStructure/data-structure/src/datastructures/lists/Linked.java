@@ -13,6 +13,7 @@ public class Linked<T extends Object> implements List<T>, LinkedStructure<T> {
 	private Node<T> last;
 	
 	@Override
+	// Time: O(n) - Space: O(1)
 	public T get(int index) {
 		if(size == 0 || index < 0 || index >= size) { throw new ArrayIndexOutOfBoundsException(); }
 		return node(index).value();
@@ -33,6 +34,7 @@ public class Linked<T extends Object> implements List<T>, LinkedStructure<T> {
 	}
 
 	@Override
+	// Time: O(1) - Space: O(1)
 	public void add(T element) {
 		Node<T> oldLast = last;
 		Node<T> newLastNode = new Node<T>(element, last, null);
@@ -47,6 +49,7 @@ public class Linked<T extends Object> implements List<T>, LinkedStructure<T> {
 	}
 
 	@Override
+	// Time: O(n) - Space: O(1)
 	public void remove(int index) {
 		if(size == 0 || index < 0 || index >= size) {
 			throw new ArrayIndexOutOfBoundsException();
@@ -75,6 +78,7 @@ public class Linked<T extends Object> implements List<T>, LinkedStructure<T> {
 	}
 
 	@Override
+	// Time: O(n) - Space: O(1)
 	public void addAll(List<T> list) {
 		addElementToList(list, 0);
 	}
@@ -88,6 +92,7 @@ public class Linked<T extends Object> implements List<T>, LinkedStructure<T> {
 	}
 
 	@Override
+	// Time: O(n) - Space: O(1)
 	public void add(int index, T value) {
 		if(index < 0 || index > size) {
 			throw new ArrayIndexOutOfBoundsException();
@@ -112,16 +117,19 @@ public class Linked<T extends Object> implements List<T>, LinkedStructure<T> {
 	}
 
 	@Override
+	// Time: O(1) - Space: O(1)
 	public int size() {
 		return size;
 	}
 
 	@Override
+	// Time: O(1) - Space: O(1)
 	public boolean isEmpty() {
 		return size == 0;
 	}
 
 	@Override
+	// Time: O(n) - Space: O(1)
 	public boolean contains(T theElement) {
 		return contains(theElement, first, last);
 	}
@@ -143,6 +151,7 @@ public class Linked<T extends Object> implements List<T>, LinkedStructure<T> {
 	}
 
 	@Override
+	// Time: O(1) - Space: O(1)
 	public void clear() {
 		first = null;
 		last = null;
@@ -150,6 +159,7 @@ public class Linked<T extends Object> implements List<T>, LinkedStructure<T> {
 	}
 
 	@Override
+	// Time: O(1) - Space: O(1)
 	public void addFirst(T element) {
 		Node<T> oldFirst = first;
 		first = new Node<T>(element, null, oldFirst);
@@ -161,11 +171,13 @@ public class Linked<T extends Object> implements List<T>, LinkedStructure<T> {
 	}
 
 	@Override
+	// Time: O(1) - Space: O(1)
 	public void addLast(T element) {
 		add(element);
 	}
 
 	@Override
+	// Time: O(1) - Space: O(1)
 	public void removeFirst() {
 		if(first == null) {
 			throw new NoSuchElementException();
@@ -182,6 +194,7 @@ public class Linked<T extends Object> implements List<T>, LinkedStructure<T> {
 	}
 
 	@Override
+	// Time: O(1) - Space: O(1)
 	public void removeLast() {
 		if(last == null) {
 			throw new NoSuchElementException();
@@ -197,6 +210,7 @@ public class Linked<T extends Object> implements List<T>, LinkedStructure<T> {
 	}
 
 	@Override
+	// Time: O(1) - Space: O(1)
 	public T getFirst() {
 		if(first == null) {
 			throw new NoSuchElementException();
@@ -205,6 +219,7 @@ public class Linked<T extends Object> implements List<T>, LinkedStructure<T> {
 	}
 
 	@Override
+	// Time: O(1) - Space: O(1)
 	public T getLast() {
 		if(last == null) {
 			throw new NoSuchElementException();
