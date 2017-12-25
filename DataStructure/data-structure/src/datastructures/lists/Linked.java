@@ -14,7 +14,22 @@ public class Linked<T extends Object> implements List<T>, LinkedStructure<T> {
 	
 	@Override
 	public T get(int index) {
-		return null;
+		if(size == 0 || index < 0 || index >= size) { throw new ArrayIndexOutOfBoundsException(); }
+		return node(index).value();
+	}
+
+	private Node<T> findElementByPreviusStrategy(int index, Node<T> node, int nodeIndex) {
+		if(index == nodeIndex) {
+			return node;
+		}
+		return findElementByPreviusStrategy(index, node.previus(), --nodeIndex);
+	}
+
+	private Node<T> findElementByNextStrategy(int index, Node<T> node, int nodeIndex) {
+		if(index == nodeIndex) {
+			return node;
+		}
+		return findElementByNextStrategy(index, node.next(), ++nodeIndex);
 	}
 
 	@Override
@@ -33,17 +48,67 @@ public class Linked<T extends Object> implements List<T>, LinkedStructure<T> {
 
 	@Override
 	public void remove(int index) {
+		if(size == 0 || index < 0 || index >= size) {
+			throw new ArrayIndexOutOfBoundsException();
+		}
 		
+		Node<T> element = node(index);
+		Node<T> previus = element.previus();
+		Node<T> next = element.next();
+		
+		if(previus != null) {
+			previus.setNext(next);
+		} else {
+			first = next; // means it's the first element
+		}
+		if(next != null) {
+			next.setPrev(previus);
+		} else {
+			last = previus; // means it's the last element
+		}
+		
+		size--;
+	}
+
+	private Node<T> node(int index) {
+		return size / 2 > index ? findElementByNextStrategy(index, first, 0) : findElementByPreviusStrategy(index, last, size-1);
 	}
 
 	@Override
-	public void addAll(List<T> array) {
-		
+	public void addAll(List<T> list) {
+		addElementToList(list, 0);
+	}
+
+	private void addElementToList(List<T> list, int index) {
+		if(list.size() == index) {
+			return;
+		}
+		add(list.get(index));
+		addElementToList(list, ++index);
 	}
 
 	@Override
 	public void add(int index, T value) {
+		if(index < 0 || index > size) {
+			throw new ArrayIndexOutOfBoundsException();
+		}
+		if(size == 0 || size == index) { // last element
+			add(value);
+			return;
+		}
 		
+		Node<T> element = node(index);
+		Node<T> previus = element.previus();
+		Node<T> newNode = new Node<T>(value, previus, element);
+		
+		if(previus != null) {
+			previus.setNext(newNode);
+		} else {
+			first = newNode;
+		}
+		
+		element.setPrev(element);
+		size++;
 	}
 
 	@Override
@@ -58,12 +123,30 @@ public class Linked<T extends Object> implements List<T>, LinkedStructure<T> {
 
 	@Override
 	public boolean contains(T theElement) {
-		return false;
+		return contains(theElement, first, last);
+	}
+
+	private boolean contains(T theElement, Node<T> first, Node<T> last) {
+		if(first == null || last == null) { // empty list
+			return false;
+		}
+		if( (first.value() == null || last.value() == null) && theElement == null ) { // if theElement is null check for null elements in linkedList
+			return true;
+		}
+		if(first.value().equals(theElement) || last.value().equals(theElement)) { // if theElement is a value check for a value in linkedList
+			return true;
+		}
+		if(first == last) { // stop if first == last --> O(n/2)
+			return false;
+		}
+		return contains(theElement, first.next(), last.previus());
 	}
 
 	@Override
 	public void clear() {
-		
+		first = null;
+		last = null;
+		size = 0;
 	}
 
 	@Override
