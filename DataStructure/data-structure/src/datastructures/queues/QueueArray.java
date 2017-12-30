@@ -1,21 +1,24 @@
-package datastructures.stacks;
+package datastructures.queues;
 
-public class Stack<T extends Object> {
+import datastructures.base.Queue;
+import datastructures.errors.QueueOverflowError;
+
+public class QueueArray<T> implements Queue<T> {
 
 	private Object[] elements;
 	private int size;
 	private int capacity;
 	private boolean dynamic;
-
-	public Stack() {
+	
+	public QueueArray() {
 		this(10, true);
 	}
 	
-	public Stack(int capacity) {
+	public QueueArray(int capacity) {
 		this(capacity, true);
 	}
 	
-	public Stack(int capacity, boolean dynamic) {
+	public QueueArray(int capacity, boolean dynamic) {
 		this.size = 0;
 		this.capacity = capacity;
 		this.dynamic = dynamic;
@@ -26,11 +29,11 @@ public class Stack<T extends Object> {
 	// Time: O(1) - Space: O(1)
 	public T peek() {
 		throwErrorIfIsEmpty();
-		return (T) this.elements[size-1];
+		return (T) this.elements[0];
 	}
 	
 	private void throwErrorIfIsEmpty() {
-		if(size == 0) {
+		if(isEmpty()) {
 			throw new IllegalAccessError();
 		}
 	}
@@ -40,38 +43,43 @@ public class Stack<T extends Object> {
 	public void push(T element) {
 		increaseCapacityIfNecessary();
 		throwErrorIfIsOverflow();
-		this.elements[size++] = element;
+		this.elements[size] = element;
+		size++;
 	}
 	
 	private void throwErrorIfIsOverflow() {
 		if(isFull()) {
-			throw new StackOverflowError();
+			throw new QueueOverflowError();
 		}
 	}
 
 	private void increaseCapacityIfNecessary() {
-		if(!this.dynamic || this.capacity != this.size) {
+		if(!dynamic || size != capacity) {
 			return;
 		}
 		
-		int newCapcity = capacity * capacity/2;
-		Object[] newElements = new Object[newCapcity];
+		int newCapacity = capacity + capacity/2;
+		Object[] newArrayOfElements = new Object[newCapacity];
 		
 		for(int i = 0; i < size; i++) {
-			newElements[i] = elements[i];
+			newArrayOfElements[i] = this.elements[i];
 		}
 		
-		this.capacity = newCapcity;
-		this.elements = newElements;
+		this.elements = newArrayOfElements;
+		this.capacity = newCapacity;
 	}
 
 	@SuppressWarnings("unchecked")
-	// Time: O(1) - Space: O(1)
+	// Time: O(n) - Space: O(1)
 	public T pop() {
 		throwErrorIfIsEmpty();
-		Object element = this.elements[size-1];
-		this.elements[--size] = null;
-		return (T) element;
+		T element = (T) this.elements[0];
+		--size;
+		for(int i = 0; i < size; i++) {
+			this.elements[i] = this.elements[i+1];
+		}
+		this.elements[size] = null;
+		return element;
 	}
 	
 	// Time: O(1) - Space: O(1)
@@ -88,4 +96,5 @@ public class Stack<T extends Object> {
 	public boolean isEmpty() {
 		return size == 0;
 	}
+	
 }

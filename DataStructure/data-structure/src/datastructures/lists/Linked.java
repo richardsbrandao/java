@@ -4,7 +4,7 @@ import java.util.NoSuchElementException;
 
 import datastructures.base.Deque;
 import datastructures.base.List;
-import datastructures.lists.linked.Node;
+import datastructures.base.linked.Node;
 
 public class Linked<T extends Object> implements List<T>, Deque<T> {
 

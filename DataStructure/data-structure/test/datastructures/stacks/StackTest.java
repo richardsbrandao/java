@@ -69,6 +69,13 @@ public class StackTest {
 	}
 	
 	@Test
+	public void add_element_to_stack_throws_queue_overflow() {
+		Stack<String> stack = new Stack<>(3, false);
+		exception.expect(StackOverflowError.class);
+		stack.push("1"); stack.push("2"); stack.push("3"); stack.push("4");
+	}
+	
+	@Test
 	public void peek_element_in_empty_list() {
 		Stack<String> stack = new Stack<>(3);
 		exception.expect(IllegalAccessError.class);

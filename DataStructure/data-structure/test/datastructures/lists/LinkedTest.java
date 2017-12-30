@@ -1,4 +1,4 @@
-package datastructures;
+package datastructures.lists;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -15,8 +15,8 @@ import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 import org.springframework.test.util.ReflectionTestUtils;
 
+import datastructures.base.linked.Node;
 import datastructures.lists.Linked;
-import datastructures.lists.linked.Node;
 
 
 @RunWith(JUnit4.class)
