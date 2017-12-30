@@ -1,6 +1,6 @@
 package datastructures.base;
 
-public interface LinkedStructure<T> {
+public interface Deque<T> {
 
 	void addFirst(T element);
 	void addLast(T element);

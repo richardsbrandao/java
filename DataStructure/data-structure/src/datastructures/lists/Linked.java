@@ -2,11 +2,11 @@ package datastructures.lists;
 
 import java.util.NoSuchElementException;
 
-import datastructures.base.LinkedStructure;
+import datastructures.base.Deque;
 import datastructures.base.List;
 import datastructures.lists.linked.Node;
 
-public class Linked<T extends Object> implements List<T>, LinkedStructure<T> {
+public class Linked<T extends Object> implements List<T>, Deque<T> {
 
 	private int size;
 	private Node<T> first;
