@@ -6,8 +6,6 @@ import datastructures.base.Map;
 import datastructures.base.map.HashNode;
 
 public class HashMap<K,V> implements Map<K,V> {
-	// limit of buckets remember
-	
 	private int size;
 	private int buckets;
 	private float loadFactor;
@@ -84,11 +82,15 @@ public class HashMap<K,V> implements Map<K,V> {
 		return getLinearBucketByValue(hashNode.getNext(), value);
 	}
 
-	//remember resize
 	@Override
 	public boolean put(K key, V value) {
-		int bucket = findRightBucket(key);
 		HashNode<K, V> newNode = new HashNode<K, V>(key, value);
+		
+		if(isFull()) {
+			resize();
+		}
+		
+		int bucket = findRightBucket(key);
 		if( this.table[bucket] == null ) {
 			this.table[bucket] = newNode;
 		} else {
@@ -97,6 +99,29 @@ public class HashMap<K,V> implements Map<K,V> {
 		}
 		size++;
 		return true;
+	}
+
+	@SuppressWarnings("unchecked")
+	private void resize() {
+		this.buckets *= 2;
+		this.size = 0;
+		
+		HashNode<K, V>[] oldTable = this.table;
+		this.table = (HashNode<K, V>[]) new HashNode[this.buckets];
+		for(int i = 0; i < oldTable.length; i++) {
+			if(oldTable[i] != null) {
+				HashNode<K, V> node = oldTable[i];
+				put(node.getKey(), node.getValue());
+				while(node.hasNext()) {
+					node = node.getNext();
+					put(node.getKey(), node.getValue());
+				}
+			}
+		}
+	}
+
+	private boolean isFull() {
+		return size > buckets * loadFactor;
 	}
 
 	private int findRightBucket(K key) {

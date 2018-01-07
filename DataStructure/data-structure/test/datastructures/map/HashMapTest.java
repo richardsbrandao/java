@@ -66,7 +66,7 @@ public class HashMapTest {
 	}
 
 	@Test
-	public void put_element_with_different_load_factors_should_put_in_different_buckets() {
+	public void put_element_with_different_size_should_put_in_different_buckets() {
 		Map<Integer, String> hashMap = new HashMap<Integer, String>();
 		hashMap.put(32, "p");
 		assertEquals(Integer.valueOf(1), getSize(hashMap));
@@ -85,6 +85,29 @@ public class HashMapTest {
 		assertEquals(new Integer(32), hashTable[14].getKey());
 		assertEquals("p", hashTable[14].getValue());
 		assertNull(hashTable[14].getNext());
+	}
+	
+	@Test
+	public void resize_hash_map_if_hits_load_factor_capicity() {
+		Map<Integer, String> hashMap = new HashMap<Integer, String>(5, .75f);
+		hashMap.put(0, "A"); hashMap.put(12, "B"); hashMap.put(10, "C"); hashMap.put(6, "D");
+		hashMap.put(13, "E");
+		
+		assertEquals(Integer.valueOf(5), getSize(hashMap));
+		HashNode<Integer,String>[] hashTable = getHashTable(hashMap);
+		assertEquals(10, hashTable.length);
+		
+		assertEquals(Integer.valueOf(0), hashTable[0].getKey());
+		assertEquals(Integer.valueOf(10), hashTable[0].getNext().getKey());
+		assertEquals(Integer.valueOf(12), hashTable[2].getKey());
+		assertEquals(Integer.valueOf(13), hashTable[3].getKey());
+		assertEquals(Integer.valueOf(6), hashTable[6].getKey());
+		assertNull(hashTable[1]);
+		assertNull(hashTable[4]);
+		assertNull(hashTable[5]);
+		assertNull(hashTable[7]);
+		assertNull(hashTable[8]);
+		assertNull(hashTable[9]);
 	}
 	
 	@Test
