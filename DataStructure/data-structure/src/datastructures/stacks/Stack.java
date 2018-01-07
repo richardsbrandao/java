@@ -1,8 +1,8 @@
 package datastructures.stacks;
 
 public class Stack<T extends Object> {
-
 	private Object[] elements;
+	
 	private int size;
 	private int capacity;
 	private boolean dynamic;
