@@ -8,6 +8,9 @@ public class Array<T extends Object> implements List<T> {
 	private int size;
 	
 	public Array(Integer size) {
+		if(size < 1) {
+			throw new IllegalArgumentException();
+		}
 		this.elements = new Object[size];
 		this.size = 0;
 	}
@@ -62,7 +65,6 @@ public class Array<T extends Object> implements List<T> {
 	// Time: O(n) - Space: O(1)
 	public void remove(int index) {
 		errorIfPositionIsNotValid(index);
-		
 		for( int i = index; i < size-1; i++) {
 			this.elements[i] = this.elements[i+1]; 
 		}
@@ -71,7 +73,7 @@ public class Array<T extends Object> implements List<T> {
 	}
 	
 	public void add(int index, T value) {
-		errorIfPositionIsNotValid(index);
+		errorIfPositionIsNotValidForAddInIndexOperation(index);
 		increaseCapacityIfReached();
 		
 		for(int i = size; i > index; i--) {
@@ -81,6 +83,11 @@ public class Array<T extends Object> implements List<T> {
 		size++;
 	}
 
+	private void errorIfPositionIsNotValidForAddInIndexOperation(int index) {
+		if(index < 0 || index > this.size)
+			throw new ArrayIndexOutOfBoundsException();
+	}
+
 	private void errorIfPositionIsNotValid(int index) {
 		if(isNotAValidPosition(index)) {
 			throw new ArrayIndexOutOfBoundsException();
@@ -88,7 +95,7 @@ public class Array<T extends Object> implements List<T> {
 	}
 
 	private boolean isNotAValidPosition(int index) {
-		return index < 0 || index > this.size;
+		return index < 0 || index >= this.size;
 	}
 	
 	private void increaseCapacity() {

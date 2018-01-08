@@ -1,217 +1,333 @@
 package datastructures.lists;
 
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
 import org.springframework.test.util.ReflectionTestUtils;
 
-import datastructures.lists.Array;
-
-@RunWith(JUnit4.class)
+@DisplayName("ArrayList ")
 public class ArrayTest {
 
-	@Rule
-	public ExpectedException expection = ExpectedException.none();
-	
-	@Test
-	public void initialize_array_with_right_params() {
-		Array<String> array = new Array<String>(3);
+	@Nested
+	@DisplayName("when new")
+	class WhenNew {
+		
+		@Test
+		@DisplayName("with right params must construct correctly")
+		public void case_1() {
+			Array<String> array = new Array<String>(3);
 
-		Object[] elements = (Object[]) ReflectionTestUtils.getField(array, "elements");
-		Integer size = (Integer) ReflectionTestUtils.getField(array, "size");
-		
-		assertEquals(3, elements.length);
-		assertEquals(Integer.valueOf(0), size);
-	}
-	
-	@Test
-	public void when_add_size_changes() {
-		Array<String> array = new Array<String>(3);
-		assertEquals(0, array.size());
-		
-		array.add("Richard");
-		assertEquals(1, array.size());
-	}
-	
-	@Test
-	public void when_add_beyond_capacity_the_capacity_increases() {
-		Array<String> array = new Array<String>(3);
-		array.add("Richard");
-		array.add("Ketherin");
-		array.add("Carlos");
-		array.add("Cristina");
-		
-		assertEquals(4, array.size());
-		Object[] elements = (Object[]) ReflectionTestUtils.getField(array, "elements");
-		assertEquals(6, elements.length);
-	}
-	
-	@Test
-	public void error_on_tring_to_remove_elements_in_wrong_position() {
-		Array<String> array = new Array<String>(5);
-		
-		array.add("A");
-		array.add("B");
-		
-		try {
-			array.remove(4);
-			fail("Must throw ArrayIndexOutOfBoundsException");
-		} catch(ArrayIndexOutOfBoundsException e) {
-			assertEquals(2, array.size());
+			Object[] elements = (Object[]) ReflectionTestUtils.getField(array, "elements");
+			Integer size = getSize(array);
+			
+			assertAll("properties",
+					() -> assertEquals(3, elements.length),
+					() -> assertEquals(Integer.valueOf(0), size)
+			);
 		}
-
-
-		try {
-			array.remove(8);
-			fail("Must throw ArrayIndexOutOfBoundsException");
-		} catch(ArrayIndexOutOfBoundsException e) {
-			assertEquals(2, array.size());
-		}
-
-		try {
-			array.remove(-1);
-			fail("Must throw ArrayIndexOutOfBoundsException");
-		} catch(ArrayIndexOutOfBoundsException e) {
-			assertEquals(2, array.size());
+		
+		@Test
+		@DisplayName("with wrong params must throw IllegalArgumentException")
+		public void case_2() {
+			assertThrows(IllegalArgumentException.class, () -> new Array<String>(-1));
 		}
 	}
 	
-	@Test
-	public void when_remove_should_organize_elements() {
-		Array<String> array = new Array<String>(5);
-		array.add("A");
-		array.add("B");
-		array.add("C");
-		array.add("1");
-		array.add("D");
+	@Nested
+	@DisplayName("when add")
+	class WhenAdd {
+		@DisplayName("one item must store the element and change size")
+		@Test
+		public void case_1() {
+			Array<String> array = new Array<String>(3);
+			assertEquals(Integer.valueOf(0), getSize(array));
+			
+			array.add("Richard");
+			assertEquals(Integer.valueOf(1), getSize(array));
+		}
 		
-		array.remove(3);
-		
-		assertEquals(4, array.size());
-		Object[] elements = (Object[]) ReflectionTestUtils.getField(array, "elements");
-		assertEquals("A", elements[0]);
-		assertEquals("B", elements[1]);
-		assertEquals("C", elements[2]);
-		assertEquals("D", elements[3]);
+		@DisplayName("more than capacity must double the store array and save all elements")
+		@Test
+		public void case_2() {
+			Array<String> array = new Array<String>(3);
+			array.add("Richard");
+			array.add("Ketherin");
+			array.add("Carlos");
+			array.add("Cristina");
+			
+			assertAll("properties",
+					() -> assertEquals(Integer.valueOf(4), getSize(array)),
+					() -> assertEquals(6, getElements(array).length)
+			);
+		}
 	}
 	
-	@Test
-	public void get_valid_element() {
-		Array<String> array = new Array<String>(5);
-		array.add("A");
-		array.add("B");
+	@Nested
+	@DisplayName("when remove")
+	class WhenRemove {
+		@DisplayName("by valid index must remove element and resize the array and change size")
+		@Test
+		public void case_1() {
+			Array<String> array = new Array<String>(5);
+			array.add("A");
+			array.add("B");
+			array.add("C");
+			array.add("1");
+			array.add("D");
+			
+			array.remove(3);
+			
+			assertAll("properties",
+					() -> assertEquals(Integer.valueOf(4), getSize(array)),
+					() -> {
+						Object[] elements = getElements(array);
+						assertAll("elements",
+								() -> assertEquals("A", elements[0]),
+								() -> assertEquals("B", elements[1]),
+								() -> assertEquals("C", elements[2]),
+								() -> assertEquals("D", elements[3])
+						);
+						
+					}
+			);
+			
+		}
 		
-		assertEquals("A", array.get(0));
-		assertEquals("B", array.get(1));
+		@DisplayName("by invalid index must throws ArrayIndexOutOfBounds")
+		@Test
+		public void case_2() {
+			Array<String> array = new Array<String>(5);
+			
+			array.add("A");
+			array.add("B");
+			
+			assertAll("properties and behavior",
+					() -> {
+						assertThrows(ArrayIndexOutOfBoundsException.class, () -> array.remove(4));
+						assertEquals(Integer.valueOf(2), getSize(array));
+					},
+					() -> {
+						assertThrows(ArrayIndexOutOfBoundsException.class, () -> array.remove(8));
+						assertEquals(Integer.valueOf(2), getSize(array));
+					},
+					() -> {
+						assertThrows(ArrayIndexOutOfBoundsException.class, () -> array.remove(-1));
+						assertEquals(Integer.valueOf(2), getSize(array));
+					}
+			);
+		}
 	}
 	
-	@Test
-	public void get_invalid_element_returns_null() {
-		Array<String> element = new Array<String>(4);
-		
-		expection.expect(ArrayIndexOutOfBoundsException.class);
-		assertNull(element.get(-1));
 
-		expection.expect(ArrayIndexOutOfBoundsException.class);
-		assertNull(element.get(0));		
-
-		expection.expect(ArrayIndexOutOfBoundsException.class);
-		assertNull(element.get(8));
+	@Nested
+	@DisplayName("when get element")
+	class WhenGetElement {
+		@DisplayName("by existing index must get it")
+		@Test
+		public void case_1() {
+			Array<String> array = new Array<String>(5);
+			array.add("A");
+			array.add("B");
+			
+			assertAll("result",
+					() -> assertEquals("A", array.get(0)),
+					() -> assertEquals("B", array.get(1))
+			);
+		}
+		
+		@DisplayName("by invalid index must throw ArrayIndexOutOfBoundsException")
+		@Test
+		public void case_2() {
+			Array<String> element = new Array<String>(4);
+			
+			assertAll("result",
+					() -> assertThrows(ArrayIndexOutOfBoundsException.class, () -> element.get(-1)),
+					() -> assertThrows(ArrayIndexOutOfBoundsException.class, () -> element.get(0)),
+					() -> assertThrows(ArrayIndexOutOfBoundsException.class, () -> element.get(8))
+			);
+		}
 	}
 	
-	@Test
-	public void check_if_array_is_empty() {
-		Array<String> array = new Array<String>(5);
-		assertTrue(array.isEmpty());
+	@Nested
+	@DisplayName("when check if")
+	class WhenEmpty {
+		@Test
+		@DisplayName("empty array must return true")
+		public void case_1() {
+			Array<String> array = new Array<String>(5);
+			assertTrue(array.isEmpty());
+		}
 		
-		array.add("A");
-		assertFalse(array.isEmpty());
+		@Test
+		@DisplayName("not empty array must return false")
+		public void case_2() {
+			Array<String> array = new Array<String>(5);
+			array.add("A");
+			assertFalse(array.isEmpty());
+		}
 		
-		array.remove(0);
-		assertTrue(array.isEmpty());
+		@Test
+		@DisplayName("empty after remove the only element in array must return false")
+		public void case_3() {
+			Array<String> array = new Array<String>(5);
+			array.add("A");
+			array.remove(0);
+			assertTrue(array.isEmpty());
+		}
 	}
 	
-	@Test
-	public void clear_array() {
-		Array<String> array = new Array<String>(4);
-		array.add("A");
-		array.clear();
-		assertEquals(0, array.size());
-		assertNull(array.get(0));
+	@Nested
+	@DisplayName("when clear")
+	class WhenClear {
+		@Test
+		@DisplayName("array must remove all elements and unset size")
+		public void case_1() {
+			Array<String> array = new Array<String>(4);
+			array.add("A");
+			array.clear();
+			
+			assertAll("properties",
+					() -> assertEquals(Integer.valueOf(0), getSize(array)),
+					() -> assertThrows(ArrayIndexOutOfBoundsException.class, () -> array.get(0))
+			);
+		}
 	}
 	
-	@Test
-	public void add_all_merge_two_arrays() {
-		Array<String> firstArray = new Array<String>(4);
-		firstArray.add("A");
-		firstArray.add("B");
-		Array<String> secondArray = new Array<String>(7);
-		secondArray.add("C");
-		secondArray.add("D");
-		secondArray.add("E");
-		
-		firstArray.addAll(secondArray);
-		assertEquals(5, firstArray.size());
-		Object[] elements = (Object[]) ReflectionTestUtils.getField(firstArray, "elements");
-		assertEquals("A", elements[0]);
-		assertEquals("B", elements[1]);
-		assertEquals("C", elements[2]);
-		assertEquals("D", elements[3]);
-		assertEquals("E", elements[4]);
+	@Nested
+	@DisplayName("when merge")
+	class WhenMerge {
+		@Test
+		@DisplayName("two lists must merge all elements resizing the array and change size")
+		public void case_1() {
+			Array<String> firstArray = new Array<String>(4);
+			firstArray.add("A");
+			firstArray.add("B");
+			Array<String> secondArray = new Array<String>(7);
+			secondArray.add("C");
+			secondArray.add("D");
+			secondArray.add("E");
+			
+			firstArray.addAll(secondArray);
+			
+			assertAll("properties",
+					() -> assertEquals(Integer.valueOf(5), getSize(firstArray)),
+					() -> assertEquals(Integer.valueOf(3), getSize(secondArray)),
+					() -> assertEquals(8, getElements(firstArray).length),
+					() -> assertEquals(7, getElements(secondArray).length),
+					() -> {
+						Object[] elements = getElements(firstArray);
+						assertEquals("A", elements[0]);
+						assertEquals("B", elements[1]);
+						assertEquals("C", elements[2]);
+						assertEquals("D", elements[3]);
+						assertEquals("E", elements[4]);
+					},
+					() -> {
+						Object[] elements = getElements(secondArray);
+						assertEquals("C", elements[0]);
+						assertEquals("D", elements[1]);
+						assertEquals("E", elements[2]);
+					}
+			);
+		}
 	}
 	
-	@Test
-	public void element_contains_in_array() {
-		Array<String> array = new Array<String>(4);
-		array.add("A");
-		array.add("B");
+	@Nested
+	@DisplayName("when contains")
+	class WhenContains {
+		private Array<String> array;
 		
-		assertTrue(array.contains("A"));
-		assertFalse(array.contains("a"));
-		assertFalse(array.contains("V"));
-		assertFalse(array.contains(null));
+		@BeforeEach
+		public void setUp() {
+			this.array = new Array<String>(4);
+			array.add("A");
+			array.add("B");
+		}
+		
+		@Test
+		@DisplayName("right element must return true")
+		public void case_1() {
+			assertTrue(array.contains("A"));
+		}
+		
+		@Test
+		@DisplayName("absent element must return false")
+		public void case_2() {
+			assertFalse(array.contains("V"));
+		}
+		
+		@DisplayName("null element must return false")
+		public void case_3() {
+			assertFalse(array.contains(null));
+		}
+		
+		@DisplayName("case sensitive element must return false")
+		public void case_4() {
+			assertFalse(array.contains("a"));
+		}
 	}
 	
-	@Test
-	public void add_element_at() {
-		Array<String> array = new Array<String>(4);
-		array.add(0, "A");
-		array.add(1, "B");
-		array.add(0, "C");
+	@Nested
+	@DisplayName("when add element at")
+	class WhenAddToIndex {
+		private Array<String> array;
 		
-		assertEquals("C", array.get(0));
-		assertEquals("A", array.get(1));
-		assertEquals("B", array.get(2));
+		@BeforeEach
+		public void setUp() {
+			this.array = new Array<String>(4);
+			array.add(0, "A");
+			array.add(1, "B");
+		}
+		
+		@Test
+		@DisplayName("repeated index must add and move others elements forward")
+		public void case_1() {
+			array.add(0, "C");
+			
+			assertEquals("C", array.get(0));
+			assertEquals("A", array.get(1));
+			assertEquals("B", array.get(2));
+		}
+		
+		@Test
+		@DisplayName("invalid position must throws ArrayIndexOutOfBoundsException")
+		public void case_2() {
+			assertThrows(ArrayIndexOutOfBoundsException.class, () -> array.add(3, "C"));
+		}
+		
+		@Test
+		@DisplayName("valid position in a full array must resize and add the element")
+		public void case_3() {
+			array.add(2, "C");
+			array.add(3, "D");
+			array.add(4, "E");
+			
+			assertAll("properties", 
+				() -> {
+					assertEquals("A", array.get(0));
+					assertEquals("B", array.get(1));
+					assertEquals("C", array.get(2));
+					assertEquals("D", array.get(3));
+					assertEquals("E", array.get(4));
+				},
+				() -> assertEquals(Integer.valueOf(5), getSize(array))	
+			);
+		}
 	}
 	
-	@Test
-	public void add_element_at_invalid_position() {
-		Array<String> array = new Array<String>(4);
-		array.add(0, "A");
-		array.add(1, "B");
-		
-		expection.expect(ArrayIndexOutOfBoundsException.class);
-		array.add(3, "C");
+	private Object[] getElements(Array<String> array) {
+		return (Object[]) ReflectionTestUtils.getField(array, "elements");
 	}
 	
-	@Test
-	public void add_element_at_full_array() {
-		Array<String> array = new Array<String>(4);
-		array.add(0, "A");
-		array.add(1, "B");
-		array.add(2, "C");
-		array.add(3, "D");
-		array.add(4, "E");
-		
-		assertEquals("A", array.get(0));
-		assertEquals("B", array.get(1));
-		assertEquals("C", array.get(2));
-		assertEquals("D", array.get(3));
-		assertEquals("E", array.get(4));
+	private <T> Integer getSize(Array<T> array) {
+		return (Integer) ReflectionTestUtils.getField(array, "size"); 
 	}
 }
