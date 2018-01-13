@@ -1,5 +1,7 @@
 package datastructures.maps;
 
+import java.util.function.Function;
+
 import datastructures.base.Map;
 import datastructures.base.map.LinkedHashMapNode;
 
@@ -26,30 +28,69 @@ public class LinkedHashMap<K, V> implements Map<K, V> {
 	}
 
 	@Override
+	// Time: O(1) - Space: O(1)
 	public V get(K key) {
-		// TODO Auto-generated method stub
-		return null;
+		return getOrDefault(key, null);
+	}
+
+	private LinkedHashMapNode<K, V> getLinearBucketByKey(LinkedHashMapNode<K, V> linkedHashMapNode, K key) {
+		if(linkedHashMapNode == null) {
+			return null;
+		}
+		if(linkedHashMapNode.equalKey(key)) {
+			return linkedHashMapNode;
+		}
+		return getLinearBucketByKey(linkedHashMapNode.getNext(), key);
 	}
 
 	@Override
+	// Time: O(1) - Space: O(1)
 	public V getOrDefault(K key, V defaultValue) {
-		// TODO Auto-generated method stub
-		return null;
+		int bucket = findRightBucket(key);
+		LinkedHashMapNode<K, V> node = getLinearBucketByKey(this.table[bucket], key);
+		return node != null ? node.getValue() : defaultValue;
 	}
 
 	@Override
+	// Time: O(1) - Space: O(1)
 	public boolean containsKey(K key) {
-		// TODO Auto-generated method stub
-		return false;
+		return get(key) != null;
 	}
 
 	@Override
+	// Time: O(n) - Space: O(1)
 	public boolean containsValue(V value) {
-		// TODO Auto-generated method stub
-		return false;
+		return containsValue(0, value);
+	}
+
+	private boolean containsValue(int bucketIndex, V value) {
+		if(bucketIndex >= this.table.length) {
+			return false;
+		}
+		if(this.table[bucketIndex] == null) {
+			return containsValue(++bucketIndex, value);
+		}
+		if(getLinearBucketByValue(this.table[bucketIndex], value) != null) {
+			return true;
+		}
+		return containsValue(++bucketIndex, value);
+	}
+
+	private LinkedHashMapNode<K, V> getLinearBucketByValue(LinkedHashMapNode<K, V> linkedHashMapNode, V value) {
+		if(linkedHashMapNode == null) {
+			return null;
+		}
+		
+		if(linkedHashMapNode.equalValue(value)) {
+			return linkedHashMapNode;
+		}
+		
+		return getLinearBucketByValue(linkedHashMapNode.getNext(), value);
 	}
 
 	@Override
+	// Time: O(1) - Space: O(n)
+	// Worst Case: Time: O(n) - Space: O(n)
 	public boolean put(K key, V value) {
 		LinkedHashMapNode<K, V> newNode = new LinkedHashMapNode<K, V>(key, value, this.tail, null);
 
@@ -57,14 +98,14 @@ public class LinkedHashMap<K, V> implements Map<K, V> {
 			resize();
 		}
 
-		int bucket = findRightBucket(key);
-		if( this.table[bucket] != null ) {
-			LinkedHashMapNode<K, V> lastNode = lastLinkedNodeOnBucket(this.table[bucket]);
-			lastNode.setNext(newNode);
-		} else {
-			this.table[bucket] = newNode;
-		}
+		linkNextInBucket(key, newNode);
+		linkInsertionOrder(newNode);
+		
+		size++;
+		return true;
+	}
 
+	private void linkInsertionOrder(LinkedHashMapNode<K, V> newNode) {
 		LinkedHashMapNode<K, V> oldTail = this.tail;
 
 		if(oldTail != null) {
@@ -74,8 +115,16 @@ public class LinkedHashMap<K, V> implements Map<K, V> {
 		}
 
 		this.tail = newNode;
-		size++;
-		return true;
+	}
+
+	private void linkNextInBucket(K key, LinkedHashMapNode<K, V> newNode) {
+		int bucket = findRightBucket(key);
+		if( this.table[bucket] != null ) {
+			LinkedHashMapNode<K, V> lastNode = lastLinkedNodeOnBucket(this.table[bucket]);
+			lastNode.setNext(newNode);
+		} else {
+			this.table[bucket] = newNode;
+		}
 	}
 
 	@SuppressWarnings("unchecked")
@@ -86,13 +135,15 @@ public class LinkedHashMap<K, V> implements Map<K, V> {
 		LinkedHashMapNode<K, V>[] oldTable = this.table;
 		this.table = (LinkedHashMapNode<K, V>[]) new LinkedHashMapNode[this.buckets];
 		for(int i = 0; i < oldTable.length; i++) {
-			if(oldTable[i] != null) {
-				LinkedHashMapNode<K, V> node = oldTable[i];
+			if(oldTable[i] == null) {
+				continue;
+			}
+			
+			LinkedHashMapNode<K, V> node = oldTable[i];
+			put(node.getKey(), node.getValue());
+			while(node.hasNext()) {
+				node = node.getNext();
 				put(node.getKey(), node.getValue());
-				while(node.hasNext()) {
-					node = node.getNext();
-					put(node.getKey(), node.getValue());
-				}
 			}
 		}
 	}
@@ -115,40 +166,95 @@ public class LinkedHashMap<K, V> implements Map<K, V> {
 
 	@Override
 	public boolean remove(K key) {
-		// TODO Auto-generated method stub
-		return false;
+		int bucket = findRightBucket(key);
+		return removeLinkedBucketByKey(null, this.table[bucket], key, (LinkedHashMapNode<K, V> node) -> node.equalKey(key));
+	}
+
+	// Time: O(1) - Space: O(1)
+	private boolean removeLinkedBucketByKey(LinkedHashMapNode<K, V> lastNode, LinkedHashMapNode<K, V> node, K key, Function<LinkedHashMapNode<K, V>, Boolean> match) {
+		if(node == null) {
+			return false;
+		}
+
+		if(!match.apply(node)) {
+			return removeLinkedBucketByKey(node, node.getNext(), key, match);
+		}
+		
+		removeFromLinkedInsertion(node);
+		removeFromBucket(lastNode, node, key);
+		
+		size--;
+		return true;
+	}
+
+	private void removeFromBucket(LinkedHashMapNode<K, V> lastNode, LinkedHashMapNode<K, V> node, K key) {
+		if(lastNode != null) { // middle
+			lastNode.setNext(node.getNext());
+			node = null;
+		} else { // first element
+			int bucket = findRightBucket(key);
+			if(this.table[bucket].hasNext()) { // not unique
+				this.table[bucket] = this.table[bucket].getNext(); 
+			} else { // unique
+				this.table[bucket] = null;
+			}
+		}
+	}
+
+	private void removeFromLinkedInsertion(LinkedHashMapNode<K, V> node) {
+		LinkedHashMapNode<K, V> beforeNode = node.getBefore();
+		LinkedHashMapNode<K, V> afterNode = node.getAfter();
+		if(beforeNode != null) {
+			beforeNode.setAfter(node.getAfter());
+		} else {
+			head = node.getAfter();
+		}
+		if(afterNode != null) {
+			afterNode.setBefore(beforeNode);
+		} else {
+			tail = beforeNode;
+		}
 	}
 
 	@Override
+	// Time: O(1) - Space: O(1)
 	public boolean removeIfKeyEqualValue(K key, V value) {
-		// TODO Auto-generated method stub
-		return false;
+		int bucket = findRightBucket(key);
+		return removeLinkedBucketByKey(null, this.table[bucket], key, (LinkedHashMapNode<K, V> node) -> node.equalKeyValue(key, value));
 	}
 
 	@Override
+	// Time: O(1) - Space: O(1)
 	public int size() {
-		// TODO Auto-generated method stub
-		return 0;
+		return size;
 	}
 
 	@Override
+	// Time: O(1) - Space: O(1)
 	public boolean isEmpty() {
-		// TODO Auto-generated method stub
-		return false;
+		return size == 0;
 	}
 
 	@Override
+	// Time: O(n) - Space: O(n)
 	public Object[] keys() {
-		// TODO Auto-generated method stub
-		return null;
+		Object[] keys = new Object[size];
+		return linkAndGetFrom(head, keys, 0, (LinkedHashMapNode<K,V> node) -> node.getKey());
+	}
+
+	private Object[] linkAndGetFrom(LinkedHashMapNode<K, V> from, Object[] elements, int index, Function<LinkedHashMapNode<K,V>, Object> getFromNode) {
+		if(from == null) {
+			return elements;
+		}
+		
+		elements[index++] = getFromNode.apply(from);
+		return linkAndGetFrom(from.getAfter(), elements, index, getFromNode);
 	}
 
 	@Override
+	// Time: O(n) - Space: O(n)
 	public Object[] values() {
-		// TODO Auto-generated method stub
-		return null;
+		Object[] keys = new Object[size];
+		return linkAndGetFrom(head, keys, 0, (LinkedHashMapNode<K,V> node) -> node.getValue());
 	}
-
-
-
 }

@@ -24,6 +24,7 @@ public class HashMap<K,V> implements Map<K,V> {
 	}
 	
 	@Override
+	// Time: O(1) - Space: O(1)
 	public V get(K key) {
 		return getOrDefault(key, null);
 	}
@@ -39,6 +40,7 @@ public class HashMap<K,V> implements Map<K,V> {
 	}
 
 	@Override
+	// Time: O(1) - Space: O(1)
 	public V getOrDefault(K key, V defaultValue) {
 		int bucket = findRightBucket(key);
 		HashNode<K, V> node = getLinearBucketByKey(this.table[bucket], key);
@@ -46,12 +48,14 @@ public class HashMap<K,V> implements Map<K,V> {
 	}
 
 	@Override
+	// Time: O(1) - Space: O(1)
 	public boolean containsKey(K key) {
 		int bucket = findRightBucket(key);
 		return getLinearBucketByKey(this.table[bucket], key) != null;
 	}
 
 	@Override
+	// Time: O(n) - Space: O(1)
 	public boolean containsValue(V value) {
 		if(isEmpty()) {
 			return false;
@@ -83,6 +87,7 @@ public class HashMap<K,V> implements Map<K,V> {
 	}
 
 	@Override
+	// Time: O(1) - Space: O(n)
 	public boolean put(K key, V value) {
 		HashNode<K, V> newNode = new HashNode<K, V>(key, value);
 		
@@ -109,13 +114,14 @@ public class HashMap<K,V> implements Map<K,V> {
 		HashNode<K, V>[] oldTable = this.table;
 		this.table = (HashNode<K, V>[]) new HashNode[this.buckets];
 		for(int i = 0; i < oldTable.length; i++) {
-			if(oldTable[i] != null) {
-				HashNode<K, V> node = oldTable[i];
+			if(oldTable[i] == null) {
+				continue;
+			}
+			HashNode<K, V> node = oldTable[i];
+			put(node.getKey(), node.getValue());
+			while(node.hasNext()) {
+				node = node.getNext();
 				put(node.getKey(), node.getValue());
-				while(node.hasNext()) {
-					node = node.getNext();
-					put(node.getKey(), node.getValue());
-				}
 			}
 		}
 	}
@@ -136,6 +142,7 @@ public class HashMap<K,V> implements Map<K,V> {
 	}
 
 	@Override
+	// Time: O(1) - Space: O(1)
 	public boolean remove(K key) {
 		int bucket = findRightBucket(key);
 		return removeLinkedBucketByKey(null, this.table[bucket], key, (HashNode<K, V> node) -> node.equalKey(key));
@@ -151,14 +158,8 @@ public class HashMap<K,V> implements Map<K,V> {
 		}
 		
 		if(lastNode != null) { // not first element bucket
-			if (currentNode.hasNext()) { // middle in bucket
-				lastNode.setNext(currentNode.getNext());
-				currentNode = null;
-			} else { // the last one
-				lastNode.setNext(null);
-				currentNode = null;
-			}
-			
+			lastNode.setNext(currentNode.getNext());
+			currentNode = null;
 		} else { 
 			int bucket = findRightBucket(key);
 			if(currentNode.hasNext()) {
@@ -173,55 +174,55 @@ public class HashMap<K,V> implements Map<K,V> {
 	}
 
 	@Override
+	// Time: O(1) - Space: O(1)
 	public boolean removeIfKeyEqualValue(K key, V value) {
 		int bucket = findRightBucket(key);
 		return removeLinkedBucketByKey(null, this.table[bucket], key, (HashNode<K, V> node) -> node.equalKeyValue(key, value));
 	}
 
 	@Override
+	// Time: O(1) - Space: O(1)
 	public int size() {
 		return size;
 	}
 
 	@Override
+	// Time: O(1) - Space: O(1)
 	public boolean isEmpty() {
 		return size == 0;
 	}
 
 	@Override
-	@SuppressWarnings("unchecked")
-	public K[] keys() {
-		K[] keys = (K[]) new Object[size];
-		int foundedItems = 0;
-		for(int i = 0; i < this.table.length; i++) {
-			if(this.table[i] != null) {
-				HashNode<K, V> node = this.table[i];
-				keys[foundedItems++] = node.getKey();
-				while(node.hasNext()) {
-					node = node.getNext();
-					keys[foundedItems++] = node.getKey();
-				}
+	// Time: O(n) - Space: O(n)
+	public Object[] keys() {
+		Object[] keys = new Object[size];
+		return linkAndGetFrom(keys, (HashNode<K,V> node) -> node.getKey());
+	}
+	
+	private Object[] linkAndGetFrom(Object[] elements, Function<HashNode<K,V>, Object>  getFromNode) {
+		int foundedNodes = 0;
+		for(int index = 0; index < this.table.length; index++) {
+			if(this.table[index] == null) {
+				continue;
+			}
+			
+			HashNode<K, V> node = this.table[index];
+			elements[foundedNodes++] = getFromNode.apply(node);
+			while(node.hasNext()) {
+				node = node.getNext();
+				elements[foundedNodes++] = getFromNode.apply(node);
 			}
 		}
-		return keys;
+		
+		return elements;
 	}
 
 	@Override
-	@SuppressWarnings("unchecked")
-	public V[] values() {
-		V[] values = (V[]) new Object[size];
-		int foundedItems = 0;
-		for(int i = 0; i < this.table.length; i++) {
-			if(this.table[i] != null) {
-				HashNode<K, V> node = this.table[i];
-				values[foundedItems++] = node.getValue();
-				while(node.hasNext()) {
-					node = node.getNext();
-					values[foundedItems++] = node.getValue();
-				}
-			}
-		}
-		return values;
+	// Time: O(n) - Space: O(n)
+	public Object[] values() {
+		Object[] values = new Object[size];
+		return linkAndGetFrom(values, (HashNode<K,V> node) -> node.getValue());
+
 	}
 
 }

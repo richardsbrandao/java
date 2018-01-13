@@ -60,6 +60,10 @@ public class LinkedHashMapNode<K, V> {
 	public boolean hasNext() {
 		return next != null;
 	}
+	
+	public boolean hasAfter() {
+		return after != null;
+	}
 
 	public boolean equalKeyValue(K key, V value) {
 		return equalKey(key) && equalValue(value);
