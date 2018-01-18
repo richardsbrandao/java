@@ -18,6 +18,14 @@ public class RedBlackNode<T extends Comparable<T>> {
 		this.color = color;
 	}
 	
+	public T getElement() {
+		return element;
+	}
+	
+	public ColorRedBlackNode getColor() {
+		return color;
+	}
+	
 	public RedBlackNode<T> getLeft() {
 		return left;
 	}
@@ -69,5 +77,10 @@ public class RedBlackNode<T extends Comparable<T>> {
 
 	public boolean isRed() {
 		return this.color == ColorRedBlackNode.RED;
+	}
+
+	public RedBlackNode<T> getUncle(RedBlackNode<T> grandParent) {
+		boolean isParentALeftChild = grandParent.getLeft() == parent;
+		return isParentALeftChild ? grandParent.getRight() : grandParent.getLeft();
 	}
 }
