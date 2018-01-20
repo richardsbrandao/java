@@ -129,6 +129,7 @@ public class RedBlackTree<T extends Comparable<T>> {
 			} else {
 				throw new RuntimeException("I'm not a child?!");
 			}
+			leftChild.setParent(parent);
 		} else { // is root
 			root = leftChild;
 			root.setParent(null);
@@ -157,6 +158,7 @@ public class RedBlackTree<T extends Comparable<T>> {
 			} else {
 				throw new RuntimeException("I'm not a child?!");
 			}
+			rightChild.setParent(parent);
 		} else { // is root
 			root = rightChild;
 			root.setParent(null);
