@@ -1,7 +1,10 @@
 package datastructures.map;
 
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import java.util.Arrays;
 import java.util.List;
@@ -126,6 +129,97 @@ public class HashMapTest {
 		
 		assertEquals(new Integer(32), hashTable[0].getNext().getNext().getKey());
 		assertEquals("p", hashTable[0].getNext().getNext().getValue());
+	}
+	
+	@Test
+	public void when_put_with_duplicate_keys_must_replace_it_with_the_second_one() {
+		Map<Integer, String> hashMap = new HashMap<Integer, String>();
+		hashMap.put(0, "d"); hashMap.put(0, "d1"); 
+		
+		assertEquals(Integer.valueOf(1), getSize(hashMap));
+		
+		HashNode<Integer,String>[] hashTable = getHashTable(hashMap);
+		assertEquals(new Integer(0), hashTable[0].getKey());
+		assertEquals("d1", hashTable[0].getValue());
+		
+	}
+	
+	@Test
+	public void when_put_with_negative_hash_code_must_use_the_right_bucket() {
+		Map<Integer, String> hashMap = new HashMap<Integer, String>();
+		hashMap.put(-4, "d");
+		
+		HashNode<Integer,String>[] hashTable = getHashTable(hashMap);
+		
+		assertEquals(Integer.valueOf(1), getSize(hashMap));
+		assertEquals(new Integer(-4), hashTable[4].getKey());
+	}
+	
+	@Test
+	public void when_put_with_null_key_must_stay_in_first_bucket() {
+		Map<Integer, String> hashMap = new HashMap<Integer, String>();
+		hashMap.put(null, "Richard");
+		
+		HashNode<Integer,String>[] hashTable = getHashTable(hashMap);
+		
+		assertEquals(Integer.valueOf(1), getSize(hashMap));
+		assertNull(hashTable[0].getKey());
+		assertEquals("Richard", hashTable[0].getValue());
+	}
+	
+	@Test
+	public void when_put_with_null_and_zero_key_must_put_in_same_bucket_taking_care_about_null_and_zero_comparation() {
+		Map<Integer, String> hashMap = new HashMap<Integer, String>();
+		hashMap.put(null, "Richard"); hashMap.put(0, "Richard");
+
+		HashNode<Integer,String>[] hashTable = getHashTable(hashMap);
+		
+		assertEquals(Integer.valueOf(2), getSize(hashMap));
+		assertNull(hashTable[0].getKey());
+		assertEquals("Richard", hashTable[0].getValue());
+		
+		assertEquals(Integer.valueOf(0), hashTable[0].getNext().getKey());
+		assertEquals("Richard", hashTable[0].getNext().getValue());
+	}
+	
+	@Test
+	public void when_put_with_null_key_twice_must_have_only_one_entry_and_rewrite_it() {
+		Map<Integer, String> hashMap = new HashMap<Integer, String>();
+		hashMap.put(null, "Richard"); hashMap.put(null, "Ketherin");
+		
+		HashNode<Integer,String>[] hashTable = getHashTable(hashMap);
+
+		assertEquals(Integer.valueOf(1), getSize(hashMap));
+		assertNull(hashTable[0].getKey());
+		assertEquals("Ketherin", hashTable[0].getValue());
+	}
+	
+	@Test
+	public void when_put_with_null_value_must_accept() {
+		Map<Integer, String> hashMap = new HashMap<Integer, String>();
+		hashMap.put(1, null);
+		
+		HashNode<Integer,String>[] hashTable = getHashTable(hashMap);
+		
+		assertEquals(Integer.valueOf(1), getSize(hashMap));
+		assertEquals(new Integer(1), hashTable[1].getKey());
+		assertNull(hashTable[1].getValue());
+	}
+	
+	@Test
+	public void when_put_with_null_value_twice_must_accept_all_if_the_key_is_differente() {
+		Map<Integer, String> hashMap = new HashMap<Integer, String>();
+		hashMap.put(1, null); hashMap.put(17, null);
+		
+		HashNode<Integer,String>[] hashTable = getHashTable(hashMap);
+		
+		assertEquals(Integer.valueOf(2), getSize(hashMap));
+		
+		assertEquals(new Integer(1), hashTable[1].getKey());
+		assertNull(hashTable[1].getValue());
+		
+		assertEquals(new Integer(17), hashTable[1].getNext().getKey());
+		assertNull(hashTable[1].getValue());
 	}
 	
 	@Test

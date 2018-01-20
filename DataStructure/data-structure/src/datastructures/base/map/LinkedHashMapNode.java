@@ -45,6 +45,12 @@ public class LinkedHashMapNode<K, V> {
 	}
 	
 	public boolean equalKey(K key) {
+		if(this.key == null && key == null) {
+			return true;
+		}
+		if(this.key == null ^ key == null) {
+			return false;
+		}
 		return this.key.equals(key);
 	}
 	
@@ -67,5 +73,11 @@ public class LinkedHashMapNode<K, V> {
 
 	public boolean equalKeyValue(K key, V value) {
 		return equalKey(key) && equalValue(value);
+	}
+
+	public void update(LinkedHashMapNode<K, V> newNode) {
+		if(equalKey(newNode.key)) {
+			this.value = newNode.value;
+		}
 	}
 }
