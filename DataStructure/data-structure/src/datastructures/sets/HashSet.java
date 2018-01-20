@@ -51,5 +51,10 @@ public class HashSet<T> implements Set<T> {
 	public boolean contains(T element) {
 		return this.map.containsKey(element);
 	}
+
+	@Override
+	public Object[] elements() {
+		return this.map.keys();
+	}
 	
 }

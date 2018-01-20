@@ -1,6 +1,9 @@
 package datastructures.sets;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -212,6 +215,19 @@ public class HashSetTest {
 		set.add(null); set.add(2); set.add(3);
 		
 		assertTrue(set.contains(null));
+	}
+	
+	@Test
+	public void when_list_keys_must_not_keep_order() {
+		HashSet<String> set = new HashSet<>();
+		set.add("Richard"); set.add("Ketherin"); set.add("Carlos"); set.add("Cristina");
+		
+		Object[] elements = set.elements();
+
+		assertEquals("Ketherin", elements[0]);
+		assertEquals("Cristina", elements[1]);
+		assertEquals("Richard", elements[2]);
+		assertEquals("Carlos", elements[3]);
 	}
 
 	@SuppressWarnings("unchecked")
