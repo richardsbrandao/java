@@ -1,8 +1,5 @@
 package datastructures.trees;
 
-import java.util.Comparator;
-
-import datastructures.base.linked.Node;
 import datastructures.base.tree.ColorRedBlackNode;
 import datastructures.base.tree.RedBlackNode;
 
@@ -84,27 +81,27 @@ public class RedBlackTree<T extends Comparable<T>> {
 				uncle = newNode.getUncle(grandParent);
 			}
 			
-			if(newNode == parent.getLeft() && parent == grandParent.getLeft()) {
-				/**
-				 *     @
-				 *   +
-				 * *
-				 */
-				
+			if(parent.isRed() && uncle.isBlack()) {
 				parent.turnBlack();
 				grandParent.turnRed();
 				
-				rotateRight(grandParent);
-			} else if(newNode == parent.getRight() && parent == grandParent.getRight()) {
-				/**
-				 * @
-				 *   +
-				 *     *
-				 */
-				parent.turnBlack();
-				grandParent.turnRed();
-				
-				rotateLeft(grandParent);
+				if(newNode == parent.getLeft() && parent == grandParent.getLeft()) {
+					/**
+					 *     @
+					 *   +
+					 * *
+					 */
+					
+					rotateRight(grandParent);
+				} else if(newNode == parent.getRight() && parent == grandParent.getRight()) {
+					/**
+					 * @
+					 *   +
+					 *     *
+					 */
+					
+					rotateLeft(grandParent);
+				}
 			}
 		}
 		
@@ -167,7 +164,7 @@ public class RedBlackTree<T extends Comparable<T>> {
 	}
 
 	private RedBlackNode<T> insert(RedBlackNode<T> parent, RedBlackNode<T> head, RedBlackNode<T> element) {
-		if(head == null) {
+		if(head.isLeaf()) {
 			element.setParent(parent);
 			return element;
 		}

@@ -31,17 +31,60 @@ public class RedBlackTreeTest {
 	
 	@Test
 	public void when_insert_with_balanced_elements_must_change_the_colors_of_parents_if_necessary() {
+		tree.insert(20); tree.insert(80); tree.insert(10);
 		
+		RedBlackNode<Integer> root = getRootFromTree();
+		
+		assertRedBlackNode(new Integer(50), ColorRedBlackNode.BLACK, root);
+		assertRedBlackNode(new Integer(20), ColorRedBlackNode.BLACK, root.getLeft());
+		assertRedBlackNode(new Integer(80), ColorRedBlackNode.BLACK, root.getRight());
+		assertRedBlackNode(new Integer(10), ColorRedBlackNode.RED, root.getLeft().getLeft());
 	}
 	
 	@Test
 	public void when_insert_with_unbalanced_elements_in_left_left_position_must_balance_it() {
+//		github.RedBlackTree<Integer> githubTree = new github.RedBlackTree<>();
+//		githubTree.add(50); 
+//		githubTree.add(80);
+//		githubTree.add(20); 
+//		githubTree.add(10); 
+//		githubTree.add(5);
 		
+		tree.insert(20); 
+		tree.insert(80); 
+		tree.insert(10); 
+		tree.insert(5);
+		
+		RedBlackNode<Integer> root = getRootFromTree();
+		
+		assertRedBlackNode(new Integer(50), ColorRedBlackNode.BLACK, root);
+		assertRedBlackNode(new Integer(10), ColorRedBlackNode.BLACK, root.getLeft());
+		assertRedBlackNode(new Integer(80), ColorRedBlackNode.BLACK, root.getRight());
+		assertRedBlackNode(new Integer(5), ColorRedBlackNode.RED, root.getLeft().getLeft());
+		assertRedBlackNode(new Integer(20), ColorRedBlackNode.RED, root.getLeft().getRight());
 	}
 	
 	@Test
 	public void when_insert_with_unbalanced_elements_in_left_right_position_must_balance_it() {
+		github.RedBlackTree<Integer> githubTree = new github.RedBlackTree<>();
+		githubTree.add(50); 
+		githubTree.add(80);
+		githubTree.add(20); 
+		githubTree.add(10); 
+		githubTree.add(15);
 		
+		tree.insert(20); 
+		tree.insert(80); 
+		tree.insert(10); 
+		tree.insert(15);
+		
+		RedBlackNode<Integer> root = getRootFromTree();
+		
+		assertRedBlackNode(new Integer(50), ColorRedBlackNode.BLACK, root);
+		assertRedBlackNode(new Integer(15), ColorRedBlackNode.BLACK, root.getLeft());
+		assertRedBlackNode(new Integer(80), ColorRedBlackNode.BLACK, root.getRight());
+		assertRedBlackNode(new Integer(10), ColorRedBlackNode.RED, root.getLeft().getLeft());
+		assertRedBlackNode(new Integer(20), ColorRedBlackNode.RED, root.getLeft().getRight());
 	}
 	
 	@Test

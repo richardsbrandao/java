@@ -9,15 +9,26 @@ public class RedBlackNode<T extends Comparable<T>> {
 	private RedBlackNode<T> right;
 	
 	public RedBlackNode(T element) {
-		this.element = element;
-		this.color = ColorRedBlackNode.RED;
+		this(element, ColorRedBlackNode.RED);
 	}
 	
+	@SuppressWarnings("unchecked")
 	public RedBlackNode(T element, ColorRedBlackNode color) {
 		this.element = element;
 		this.color = color;
+		if(element != null) {
+			this.left = RedBlackNode.newLeaf(this);
+			this.right = RedBlackNode.newLeaf(this);
+		}
 	}
 	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	private static RedBlackNode newLeaf(RedBlackNode parent) {
+		RedBlackNode leaf = new RedBlackNode(null, ColorRedBlackNode.BLACK);
+		leaf.setParent(parent);
+		return leaf;
+	}
+
 	public T getElement() {
 		return element;
 	}
@@ -82,5 +93,9 @@ public class RedBlackNode<T extends Comparable<T>> {
 	public RedBlackNode<T> getUncle(RedBlackNode<T> grandParent) {
 		boolean isParentALeftChild = grandParent.getLeft() == parent;
 		return isParentALeftChild ? grandParent.getRight() : grandParent.getLeft();
+	}
+
+	public boolean isLeaf() {
+		return element == null;
 	}
 }
