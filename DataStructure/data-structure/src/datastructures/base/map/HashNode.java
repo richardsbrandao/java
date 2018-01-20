@@ -28,6 +28,12 @@ public class HashNode<K, V> {
 	}
 	
 	public boolean equalKey(K key) {
+		if(this.key == null && key == null) {
+			return true;
+		}
+		if(this.key == null ^ key == null) {
+			return false;
+		}
 		return this.key.equals(key);
 	}
 	
@@ -46,6 +52,12 @@ public class HashNode<K, V> {
 
 	public boolean equalKeyValue(K key, V value) {
 		return equalKey(key) && equalValue(value);
+	}
+
+	public void update(HashNode<K, V> node) {
+		if(equalKey(node.key)) {
+			this.value = node.value;
+		}
 	}
 	
 }

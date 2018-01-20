@@ -1,7 +1,10 @@
 package datastructures.map;
 
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import java.util.Arrays;
 import java.util.List;
@@ -131,6 +134,99 @@ public class LinkedHashMapTest {
 		assertEquals(new Integer(32), hashTable[14].getKey());
 		assertEquals("p", hashTable[14].getValue());
 		assertNull(hashTable[14].getNext());
+	}
+	
+	@Test
+	public void when_put_with_negative_hash_code_must_use_the_right_bucket() {
+		Map<Integer, String> linkedHashMap = new LinkedHashMap<Integer, String>();
+		linkedHashMap.put(-4, "d");
+		
+		LinkedHashMapNode<Integer,String>[] hashTable = getHashTable(linkedHashMap);
+		
+		assertEquals(Integer.valueOf(1), getSize(linkedHashMap));
+		assertEquals(new Integer(-4), hashTable[4].getKey());
+		
+		LinkedHashMapNode<Integer,String> head = getHead(linkedHashMap);
+		assertEquals(new Integer(-4), head.getKey());
+	}
+	
+	@Test
+	public void when_put_with_null_key_must_stay_in_first_bucket() {
+		Map<Integer, String> linkedHashMap = new LinkedHashMap<Integer, String>();
+		linkedHashMap.put(null, "Richard");
+		
+		LinkedHashMapNode<Integer,String>[] hashTable = getHashTable(linkedHashMap);
+		
+		assertEquals(Integer.valueOf(1), getSize(linkedHashMap));
+		assertNull(hashTable[0].getKey());
+		assertEquals("Richard", hashTable[0].getValue());
+		
+		LinkedHashMapNode<Integer,String> head = getHead(linkedHashMap);
+		assertNull(head.getKey());
+	}
+	
+	@Test
+	public void when_put_with_null_and_zero_key_must_put_in_same_bucket_taking_care_about_null_and_zero_comparation() {
+		Map<Integer, String> linkedHashMap = new LinkedHashMap<Integer, String>();
+		linkedHashMap.put(null, "Richard"); linkedHashMap.put(0, "Richard");
+
+		LinkedHashMapNode<Integer,String>[] hashTable = getHashTable(linkedHashMap);
+		
+		assertEquals(Integer.valueOf(2), getSize(linkedHashMap));
+		assertNull(hashTable[0].getKey());
+		assertEquals("Richard", hashTable[0].getValue());
+		
+		assertEquals(Integer.valueOf(0), hashTable[0].getNext().getKey());
+		assertEquals("Richard", hashTable[0].getNext().getValue());
+		
+		LinkedHashMapNode<Integer,String> head = getHead(linkedHashMap);
+		assertNull(head.getKey());
+		assertEquals(new Integer(0), head.getAfter().getKey());
+	}
+	
+	@Test
+	public void when_put_with_null_key_twice_must_have_only_one_entry_and_rewrite_it() {
+		Map<Integer, String> linkedHashMap = new LinkedHashMap<Integer, String>();
+		linkedHashMap.put(null, "Richard"); linkedHashMap.put(null, "Ketherin");
+		
+		LinkedHashMapNode<Integer,String>[] hashTable = getHashTable(linkedHashMap);
+
+		assertEquals(Integer.valueOf(1), getSize(linkedHashMap));
+		assertNull(hashTable[0].getKey());
+		assertEquals("Ketherin", hashTable[0].getValue());
+		
+		LinkedHashMapNode<Integer,String> head = getHead(linkedHashMap);
+		assertNull(head.getKey());
+		assertEquals("Ketherin", head.getValue());
+		assertNull(head.getAfter());
+	}
+	
+	@Test
+	public void when_put_with_null_value_must_accept() {
+		Map<Integer, String> linkedHashMap = new LinkedHashMap<Integer, String>();
+		linkedHashMap.put(1, null);
+		
+		LinkedHashMapNode<Integer,String>[] hashTable = getHashTable(linkedHashMap);
+		
+		assertEquals(Integer.valueOf(1), getSize(linkedHashMap));
+		assertEquals(new Integer(1), hashTable[1].getKey());
+		assertNull(hashTable[1].getValue());
+	}
+	
+	@Test
+	public void when_put_with_null_value_twice_must_accept_all_if_the_key_is_differente() {
+		Map<Integer, String> linkedHashMap = new LinkedHashMap<Integer, String>();
+		linkedHashMap.put(1, null); linkedHashMap.put(17, null);
+		
+		LinkedHashMapNode<Integer,String>[] hashTable = getHashTable(linkedHashMap);
+		
+		assertEquals(Integer.valueOf(2), getSize(linkedHashMap));
+		
+		assertEquals(new Integer(1), hashTable[1].getKey());
+		assertNull(hashTable[1].getValue());
+		
+		assertEquals(new Integer(17), hashTable[1].getNext().getKey());
+		assertNull(hashTable[1].getValue());
 	}
 	
 	@Test

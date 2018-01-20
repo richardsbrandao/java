@@ -1,43 +1,60 @@
 package datastructures.sets;
 
 import datastructures.base.Set;
+import datastructures.maps.HashMap;
 
 public class HashSet<T> implements Set<T> {
 
+	private static final Boolean PRESENT = Boolean.TRUE;
+	private HashMap<T, Boolean> map;
+	private int buckets;
+	private float loadFactor;
+
+	public HashSet(int buckets, float loadFactor) {
+		this.buckets = buckets;
+		this.loadFactor = loadFactor;
+		this.map = new HashMap<T, Boolean>(buckets, loadFactor);
+	}
+	
+	public HashSet() {
+		this.buckets = 16;
+		this.loadFactor = .75f;
+		this.map = new HashMap<T, Boolean>();
+	}
+
 	@Override
 	public void add(T element) {
-		// TODO Auto-generated method stub
-		
+		this.map.put(element, PRESENT);
 	}
 
 	@Override
 	public void remove(T element) {
-		// TODO Auto-generated method stub
-		
+		this.map.remove(element);
 	}
 
 	@Override
 	public void clear() {
-		// TODO Auto-generated method stub
-		
+		this.map = new HashMap<>(this.buckets, this.loadFactor);
 	}
 
 	@Override
 	public int size() {
-		// TODO Auto-generated method stub
-		return 0;
+		return this.map.size();
 	}
 
 	@Override
 	public boolean isEmpty() {
-		// TODO Auto-generated method stub
-		return false;
+		return this.map.isEmpty();
 	}
 
 	@Override
 	public boolean contains(T element) {
-		// TODO Auto-generated method stub
-		return false;
+		return this.map.containsKey(element);
+	}
+
+	@Override
+	public Object[] elements() {
+		return this.map.keys();
 	}
 	
 }

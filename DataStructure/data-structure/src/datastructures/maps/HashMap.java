@@ -98,11 +98,10 @@ public class HashMap<K,V> implements Map<K,V> {
 		int bucket = findRightBucket(key);
 		if( this.table[bucket] == null ) {
 			this.table[bucket] = newNode;
+			size++;
 		} else {
-			HashNode<K, V> linkedNode = lastLinkedNodeOnBucket(this.table[bucket]);
-			linkedNode.setNext(newNode);
+			putNodeOnBucket(this.table[bucket], newNode);
 		}
-		size++;
 		return true;
 	}
 
@@ -131,14 +130,23 @@ public class HashMap<K,V> implements Map<K,V> {
 	}
 
 	private int findRightBucket(K key) {
-		return key.hashCode() % this.buckets;
+		int hashCode = key != null ? key.hashCode() : 0;
+		return Math.abs(hashCode) % this.buckets;
 	}
 
-	private HashNode<K, V> lastLinkedNodeOnBucket(HashNode<K, V> bucketTable) {
-		if(!bucketTable.hasNext()) {
-			return bucketTable;
+	private void putNodeOnBucket(HashNode<K, V> headBucketOnHashTable, HashNode<K, V> newNode) {
+		if(headBucketOnHashTable.equalKey(newNode.getKey())) {
+			headBucketOnHashTable.update(newNode);
+			return; 
 		}
-		return lastLinkedNodeOnBucket(bucketTable.getNext());
+		
+		if(!headBucketOnHashTable.hasNext()) {
+			headBucketOnHashTable.setNext(newNode);
+			size++;
+			return;
+		}
+		
+		putNodeOnBucket(headBucketOnHashTable.getNext(), newNode);
 	}
 
 	@Override

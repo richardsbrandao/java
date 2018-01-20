@@ -99,9 +99,7 @@ public class LinkedHashMap<K, V> implements Map<K, V> {
 		}
 
 		linkNextInBucket(key, newNode);
-		linkInsertionOrder(newNode);
 		
-		size++;
 		return true;
 	}
 
@@ -120,10 +118,11 @@ public class LinkedHashMap<K, V> implements Map<K, V> {
 	private void linkNextInBucket(K key, LinkedHashMapNode<K, V> newNode) {
 		int bucket = findRightBucket(key);
 		if( this.table[bucket] != null ) {
-			LinkedHashMapNode<K, V> lastNode = lastLinkedNodeOnBucket(this.table[bucket]);
-			lastNode.setNext(newNode);
+			putNewNodeOnHashTable(this.table[bucket], newNode);
 		} else {
 			this.table[bucket] = newNode;
+			linkInsertionOrder(newNode);
+			size++;
 		}
 	}
 
@@ -152,16 +151,27 @@ public class LinkedHashMap<K, V> implements Map<K, V> {
 		return size > buckets * loadFactor;
 	}
 
-	private LinkedHashMapNode<K, V> lastLinkedNodeOnBucket(LinkedHashMapNode<K, V> linkedHashMapNode) {
+	private void putNewNodeOnHashTable(LinkedHashMapNode<K, V> linkedHashMapNode, LinkedHashMapNode<K, V> newNode) {
+		if(linkedHashMapNode.equalKey(newNode.getKey())) {
+			linkedHashMapNode.update(newNode);
+			return;
+		}
+		
 		if(!linkedHashMapNode.hasNext()) {
-			return linkedHashMapNode;
+			linkedHashMapNode.setNext(newNode);
+			linkInsertionOrder(newNode);
+			size++;
+			return;
 		}
 
-		return lastLinkedNodeOnBucket(linkedHashMapNode.getNext());
+		putNewNodeOnHashTable(linkedHashMapNode.getNext(), newNode);
 	}
 
 	private int findRightBucket(K key) {
-		return key.hashCode()%this.buckets;
+		if(key == null) {
+			return 0;
+		}
+		return Math.abs(key.hashCode())%this.buckets;
 	}
 
 	@Override

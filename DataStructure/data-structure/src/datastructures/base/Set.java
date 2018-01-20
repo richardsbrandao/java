@@ -10,4 +10,5 @@ public interface Set<T> {
 	boolean isEmpty();
 	boolean contains(T element);
 	
+	Object[] elements();
 }
