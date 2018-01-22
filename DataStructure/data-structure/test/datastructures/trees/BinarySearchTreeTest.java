@@ -212,35 +212,74 @@ public class BinarySearchTreeTest {
 		assertEquals(-1, tree.deapth(10));
 		assertEquals(-1, tree.deapth(99));
 	}
-	
-	@Test(expected=IllegalArgumentException.class)
-	public void when_remove_root_element_in_a_single_element_tree_must_throw_error() {
-		tree.remove(50);
-	}
-	
-	@Test(expected=IllegalArgumentException.class)
-	public void when_remove_root_in_a_tree_with_n_elements_must_choose_the_first_right_child_as_root_to_replace() {
+
+	@Test
+	public void when_remove_and_father_has_only_right_child_must_substitute() {
 		example();
-		tree.remove(50);
+		tree.remove(93);
 		
 		assertEquals(new Integer(12), getSizeFromTree());
+		
 		/**
-		 * 			80
-		 * 		   /  \
-		 * 		  67   93
-		 * 	     /  \   / 
-		 * 	    52  73 83     
+		 * 			50
+		 * 			  \
+		 * 			   80
+		 * 		     /   \
+		 * 		    67    83
+		 * 		   /  \   
+		 * 		  52  73 
 		 */
 		TreeNode<Integer> root = getRootFromTree();
-		assertEquals(new Integer(80), root.getElement());
-		assertEquals(new Integer(20), root.getLeft().getElement());
-		assertEquals(new Integer(93), root.getRight().getElement());
+		assertEquals(new Integer(80), root.getRight().getElement());
+		assertEquals(new Integer(83), root.getRight().getRight().getElement());
+		assertTrue(root.getLeft().getRight().getRight().isLeaf());
+	}
+	
+	@Test
+	public void when_remove_and_father_has_only_left_child_must_substitute() {
+		example();
+		tree.remove(22);
 		
-		assertEquals(new Integer(67), root.getRight().getLeft().getElement());
-		assertEquals(new Integer(52), root.getRight().getLeft().getLeft().getElement());
-		assertEquals(new Integer(73), root.getRight().getLeft().getRight().getElement());
+		assertEquals(new Integer(12), getSizeFromTree());
+		
+		/**
+		 *			50
+		 * 		   /  \		
+		 * 		  20   ....	
+		 * 		 /  \       
+		 * 		14  33      
+		 * 		   /  \     
+		 * 		  25  41    
+		 */
+		TreeNode<Integer> root = getRootFromTree();
+		assertEquals(new Integer(33), root.getLeft().getRight().getElement());
+		assertEquals(new Integer(25), root.getLeft().getRight().getLeft().getElement());
+		assertTrue(root.getLeft().getRight().getLeft().isLeaf());
+	}
+	
+	@Test
+	public void when_remove_and_father_has_two_children_must_replace_with_minor_element_on_the_right() {
+		example();
+		tree.remove(80);
+		
+		assertEquals(new Integer(12), getSizeFromTree());
+		
+		/**
+		 * 			50
+		 * 			  \
+		 * 			   83
+		 * 		     /   \
+		 * 		    67    93
+		 * 		   /  \   
+		 * 		  52  73 
+		 */
+		
+		TreeNode<Integer> root = getRootFromTree();
+		assertEquals(new Integer(83), root.getRight().getElement());
 		assertEquals(new Integer(93), root.getRight().getRight().getElement());
-		assertEquals(new Integer(83), root.getRight().getRight().getLeft().getElement());
+		assertTrue(root.getRight().getRight().isLeaf());
+		assertNull(root.getRight().getRight().getLeft());
+		assertEquals(new Integer(67), root.getRight().getLeft().getElement());
 	}
 	
 	@Test

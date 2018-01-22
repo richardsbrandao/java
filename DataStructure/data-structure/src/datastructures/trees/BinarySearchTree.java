@@ -45,21 +45,31 @@ public class BinarySearchTree<T extends Comparable<T>> implements Tree<T> {
 		}
 		TreeNode<T> parent = parent(root, null, nodeToRemove);
 		
-		if(parent == null && size == 1) {
-			throw new IllegalArgumentException();
-		}
-		
-		if(!nodeToRemove.isLeaf()) { // for a while, only leaf nodes
-			throw new IllegalArgumentException();
-		}
-		
-		if(parent.greaterThan(nodeToRemove)) {
-			parent.setLeft(null);
-		} else {
-			parent.setRight(null);
+		if(nodeToRemove.isLeaf()) {
+			replaceInNodeWithValueToNewValue(parent, nodeToRemove, null);
+		} else if(nodeToRemove.hasOneChild()) {
+			TreeNode<T> child = nodeToRemove.getLeft() != null ? nodeToRemove.getLeft() : nodeToRemove.getRight();
+			replaceInNodeWithValueToNewValue(parent, nodeToRemove, child);
+		} else { // has two obviously :) 
+			TreeNode<T> minorHeirFromGreaterChild = min(nodeToRemove.getRight()); // most left child from first right child
+			
+			TreeNode<T> parentFromMinorHeirFromGreaterChild = parent(nodeToRemove, null, minorHeirFromGreaterChild);
+			parentFromMinorHeirFromGreaterChild.setLeft(null);
+			
+			minorHeirFromGreaterChild.setLeft(nodeToRemove.getLeft());
+			minorHeirFromGreaterChild.setRight(nodeToRemove.getRight());
+			replaceInNodeWithValueToNewValue(parent, nodeToRemove, minorHeirFromGreaterChild);
 		}
 		
 		size--;
+	}
+	
+	private void replaceInNodeWithValueToNewValue(TreeNode<T> node, TreeNode<T> value, TreeNode<T> newValue) {
+		if(node.greaterThan(value)) {
+			node.setLeft(newValue);
+		} else {
+			node.setRight(newValue);
+		}
 	}
 
 	private TreeNode<T> parent(TreeNode<T> head, TreeNode<T> parent, TreeNode<T> node) {
@@ -124,12 +134,12 @@ public class BinarySearchTree<T extends Comparable<T>> implements Tree<T> {
 
 	@Override
 	public T min() {
-		return min(root);
+		return min(root).getElement();
 	}
 
-	private T min(TreeNode<T> head) {
+	private TreeNode<T> min(TreeNode<T> head) {
 		if(head.getLeft() == null) {
-			return head.getElement();
+			return head;
 		}
 		
 		return min(head.getLeft());

@@ -62,4 +62,8 @@ public class TreeNode<T extends Comparable<T>> {
 	public boolean between(T min, T max) {
 		return greaterThan(min) && lessThan(max);
 	}
+
+	public boolean hasOneChild() {
+		return left == null ^ right == null;
+	}
 }
