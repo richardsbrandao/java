@@ -13,4 +13,6 @@ public interface List<T> {
 	boolean isEmpty();
 	boolean contains(T theElement);
 	void clear();
+	
+	Object[] toArray();
 }

@@ -104,4 +104,15 @@ public class Array<T extends Object> implements List<T> {
 			increaseCapacity();
 		}
 	}
+
+	@Override
+	// Time: O(n) - Space: O(n)
+	public Object[] toArray() {
+		Object[] elementsCopy = new Object[size];
+		for(int i = 0; i < this.size; i++) {
+			elementsCopy[i] = this.elements[i];
+		}
+		return elementsCopy;
+	}
+
 }

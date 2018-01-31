@@ -214,4 +214,32 @@ public class ArrayTest {
 		assertEquals("D", array.get(3));
 		assertEquals("E", array.get(4));
 	}
+	
+	@Test
+	public void when_to_array_with_non_empty_array_must_return_a_exact_copy_of_array() {
+		Array<String> array = new Array<String>(4);
+		array.add("A");
+		array.add("B");
+		array.add("C");
+		array.add("D");
+		array.add("E");
+		
+		Object[] toArray = array.toArray();
+		
+		assertEquals(5, toArray.length);
+		assertEquals("A", toArray[0]);
+		assertEquals("B", toArray[1]);
+		assertEquals("C", toArray[2]);
+		assertEquals("D", toArray[3]);
+		assertEquals("E", toArray[4]);
+	}
+	
+	@Test
+	public void when_to_array_with_empty_array_must_return_empty_array() {
+		Array<String> array = new Array<String>(4);
+		
+		Object[] toArray = array.toArray();
+		
+		assertEquals(0, toArray.length);
+	}
 }

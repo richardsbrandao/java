@@ -226,4 +226,17 @@ public class Linked<T extends Object> implements List<T>, Deque<T> {
 		}
 		return last.value();
 	}
+
+	@Override
+	// Time: O(n) - Space: O(n)
+	public Object[] toArray() {
+		Object[] elementsCopy = new Object[size];
+		Node<T> current = this.first;
+		int i = 0;
+		while(current != null) {
+			elementsCopy[i++] = current.value();
+			current = current.next();
+		}
+		return elementsCopy;
+	}
 }
