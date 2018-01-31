@@ -43,7 +43,8 @@ public class RedBlackTreeTest {
 	
 	@Test
 	public void when_insert_with_unbalanced_elements_in_left_left_position_must_balance_it() {
-		tree.insert(20); tree.insert(80); tree.insert(10); tree.insert(5);
+		tree.insert(20); tree.insert(80); tree.insert(10); 
+		tree.insert(5);
 		
 		RedBlackNode<Integer> root = getRootFromTree();
 		
@@ -56,7 +57,8 @@ public class RedBlackTreeTest {
 	
 	@Test
 	public void when_insert_with_unbalanced_elements_in_left_right_position_must_balance_it() {
-		tree.insert(20); tree.insert(80); tree.insert(10); tree.insert(15);
+		tree.insert(20); tree.insert(80); tree.insert(10); 
+		tree.insert(15);
 		
 		RedBlackNode<Integer> root = getRootFromTree();
 		

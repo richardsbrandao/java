@@ -179,4 +179,35 @@ public class RedBlackTree<T extends Comparable<T>> {
 		return head;
 	}
 	
+	@Override
+	public String toString() {
+		StringBuilder draw = new StringBuilder();
+		drawElement(draw, root, 0);
+		return draw(draw, root, 1).toString();
+	}
+
+	private StringBuilder draw(StringBuilder draw, RedBlackNode<T> head, Integer level) {
+		if(head.isLeaf()) {
+			return draw;
+		}
+		
+		drawElement(draw, head.getLeft(), level);
+		draw(draw, head.getLeft(), level+1);
+		
+		drawElement(draw, head.getRight(), level);
+		draw(draw, head.getRight(), level+1);
+		
+		return draw;
+	}
+
+	private final String PREFIX = " ____";
+	private final String VERTICAL_PREFIX = "|   ";
+	private void drawElement(StringBuilder draw, RedBlackNode<T> head, Integer level) {
+		for(int i = 0; i < level; i++) {
+			draw.append(VERTICAL_PREFIX);
+		}
+		
+		draw.append(PREFIX).append("[Element=").append(head.getElement()).append(", Color=").append(head.getColor()).append("]").append("\n");
+	}
+	
 }
