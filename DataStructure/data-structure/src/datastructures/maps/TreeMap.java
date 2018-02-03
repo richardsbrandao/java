@@ -269,7 +269,8 @@ public class TreeMap<K extends Comparable<K>, V> implements NavigableMap<K, V> {
 	public Entry<K, V> highest(K key) {
 		if(key == null)
 			throw new NullPointerException();
-		
+		if(root == null)
+			return null;
 		RedBlackKeyValueNode<K,V> highest = highest(root, key);
 		if(highest == null) {
 			return null;
@@ -287,7 +288,7 @@ public class TreeMap<K extends Comparable<K>, V> implements NavigableMap<K, V> {
 		} else {
 			if(head.getRight().isLeaf()) {
 				RedBlackKeyValueNode<K, V> parent = head.getParent();
-				while(!parent.isRoot() && head == parent.getRight()) {
+				while(!head.isRoot() && head == parent.getRight()) {
 					head = parent;
                     parent = parent.getParent();
 				}
