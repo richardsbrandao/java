@@ -1,15 +1,13 @@
 package datastructures.map;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 import org.springframework.test.util.ReflectionTestUtils;
 
+import datastructures.base.NavigableMap;
 import datastructures.base.map.Entry;
 import datastructures.base.map.RedBlackKeyValueNode;
 import datastructures.base.tree.ColorRedBlackNode;
@@ -484,13 +482,247 @@ public class TreeMapTest {
 		assertEquals("G", highest.getValue());
 	}
 	
+	@Test(expected=NullPointerException.class)
+	public void when_lowest_with_null_key_must_return_null_pointer_exception() {
+		TreeMap<Integer, String> tree = new TreeMap<Integer, String>();
+		
+		assertNull(tree.lowest(null));
+	}
+	
 	@Test
-	public void when_highest_with_key_lesser_than_any_element_in_map_must_return_the_successor() {
+	public void when_lowest_with_empty_map_must_return_null() {
+		TreeMap<Integer, String> tree = new TreeMap<Integer, String>();
+		
+		assertNull(tree.lowest(100));
+	}
+	
+	@Test
+	public void when_lesser_with_key_lesser_than_all_keys_in_map_must_return_null() {
 		TreeMap<Integer, String> tree = example();
 		
-		Entry<Integer, String> highest = tree.highest(92);
-		assertEquals(new Integer(93), highest.getKey());
-		assertEquals("O", highest.getValue());
+		assertNull(tree.lowest(1));
+	}
+	
+	@Test
+	public void when_lowest_with_key_greater_than_greatest_element_in_map_must_return_the_greatest_entry() {
+		TreeMap<Integer, String> tree = example();
+		
+		Entry<Integer, String> lowest = tree.lowest(1000);
+		assertEquals(new Integer(95), lowest.getKey());
+		assertEquals("E", lowest.getValue());
+	}
+	
+	@Test
+	public void when_lowest_with_key_successor_is_a_leaf_in_the_left_must_return_it() {
+		TreeMap<Integer, String> tree = example();
+		
+		Entry<Integer, String> lowest = tree.lowest(55);
+		assertEquals(new Integer(51), lowest.getKey());
+		assertEquals("N", lowest.getValue());
+		
+		lowest = tree.lowest(97);
+		assertEquals(new Integer(95), lowest.getKey());
+		assertEquals("E", lowest.getValue());
+		
+		lowest = tree.lowest(11);
+		assertEquals(new Integer(10), lowest.getKey());
+		assertEquals("I", lowest.getValue());
+	}
+	
+	@Test
+	public void when_lowest_with_key_is_lesser_than_last_valid_node_must_come_back_and_find_successor_while_left_child_parent_s_is_not_the_head() {
+		TreeMap<Integer, String> tree = example();
+		
+		Entry<Integer, String> lowest = tree.lowest(94);
+		assertEquals(new Integer(93), lowest.getKey());
+		assertEquals("O", lowest.getValue());
+		
+		lowest = tree.lowest(19);
+		assertEquals(new Integer(18), lowest.getKey());
+		assertEquals("G", lowest.getValue());
+	}
+	
+	@Test
+	public void when_lowest_with_single_element_map_must_return_root_element() {
+		TreeMap<Integer, String> tree = new TreeMap<Integer, String>();
+		tree.put(100, "AS");
+		
+		Entry<Integer, String> lowest = tree.lowest(180);
+		
+		assertEquals(new Integer(100), lowest.getKey());
+		assertEquals("AS", lowest.getValue());
+	}
+	
+	@Test
+	public void when_sub_map_with_empty_tree_map_must_return_empty_map() {
+		TreeMap<Integer, String> tree = new TreeMap<Integer, String>();
+		
+		assertTrue( tree.subMap(0, 100, false).isEmpty() );
+	}
+	
+	@Test(expected=IllegalArgumentException.class)
+	public void when_sub_map_with_wront_values_from_and_to_must_return_error() {
+		TreeMap<Integer, String> tree = example();
+		
+		tree.subMap(10, 5, false);
+	}
+	
+	@Test
+	public void when_sub_map_with_from_and_to_values_greater_than_root_must_return_sub_map_with_only_right_children_elements() {
+		TreeMap<Integer, String> tree = example();
+		
+		NavigableMap<Integer, String> subMap = tree.subMap(35, 80, false);
+		
+		assertEquals(3, subMap.size());
+		assertNotNull(subMap.get(51));
+		assertNotNull(subMap.get(39));
+		assertNotNull(subMap.get(70));
+	}
+	
+	@Test
+	public void when_sub_map_with_from_and_to_values_lesser_than_root_must_return_sub_map_with_only_left_children_elements() {
+		TreeMap<Integer, String> tree = example();
+		
+		NavigableMap<Integer, String> subMap = tree.subMap(6, 17, false);
+		
+		assertEquals(2, subMap.size());
+		assertNotNull(subMap.get(7));
+		assertNotNull(subMap.get(10));
+	}
+	
+	@Test
+	public void when_sub_map_with_from_lesser_than_root_and_to_greater_than_root_must_return_sub_map_with_mix_sides() {
+		TreeMap<Integer, String> tree = example();
+		
+		NavigableMap<Integer, String> subMap = tree.subMap(20, 55, false);
+		
+		assertEquals(5, subMap.size());
+		assertNotNull(subMap.get(39));
+		assertNotNull(subMap.get(33));
+		assertNotNull(subMap.get(24));
+		assertNotNull(subMap.get(34));
+		assertNotNull(subMap.get(51));
+	}
+	
+	@Test
+	public void when_sub_map_with_from_and_to_lesser_than_any_element_in_map_must_return_empty_map() {
+		TreeMap<Integer, String> tree = example();
+		
+		NavigableMap<Integer, String> subMap = tree.subMap(0, 2, false);
+		
+		assertEquals(0, subMap.size());
+	}
+	
+	@Test
+	public void when_sub_map_with_from_and_to_higher_than_any_element_in_map_must_return_empty_map() {
+		TreeMap<Integer, String> tree = example();
+	
+		NavigableMap<Integer, String> subMap = tree.subMap(100, 150, false);
+
+		assertEquals(0, subMap.size());
+	}
+	
+	@Test
+	public void when_sub_map_with_inclusive_flag_must_return_map_with_from_and_to_elements_if_exists() {
+		TreeMap<Integer, String> tree = example();
+		NavigableMap<Integer, String> subMap = tree.subMap(33, 70, true);
+		
+		assertEquals(5, subMap.size());
+		
+		assertNotNull(subMap.get(33));
+		assertNotNull(subMap.get(70));
+		assertNotNull(subMap.get(39));
+		assertNotNull(subMap.get(34));
+		assertNotNull(subMap.get(51));
+	}
+	
+	@Test
+	public void when_sub_map_with_inclusive_flag_false_must_return_map_excluding_from_and_to_elements_if_exists() {
+		TreeMap<Integer, String> tree = example();
+		
+		NavigableMap<Integer, String> subMap = tree.subMap(33, 70, false);
+		
+		assertEquals(3, subMap.size());
+
+		assertNotNull(subMap.get(39));
+		assertNotNull(subMap.get(34));
+		assertNotNull(subMap.get(51));
+	}
+	
+	@Test
+	public void when_head_with_empty_map_must_return_empty_map() {
+		TreeMap<Integer, String> tree = new TreeMap<Integer, String>();
+		
+		assertTrue(tree.headMap(50, true).isEmpty());
+	}
+	
+	@Test
+	public void when_head_with_inclusive_flag_and_populated_map_must_return_a_map_with_all_values_lesser_or_equal_key() {
+		TreeMap<Integer, String> tree = example();
+		
+		NavigableMap<Integer,String> headMap = tree.headMap(39, true);
+		assertEquals(9, headMap.size());
+		
+		assertNotNull(headMap.get(39));
+		assertNotNull(headMap.get(7));
+		assertNotNull(headMap.get(4));
+		assertNotNull(headMap.get(33));
+		assertNotNull(headMap.get(34));
+		assertNotNull(headMap.get(24));
+		assertNotNull(headMap.get(3));
+		assertNotNull(headMap.get(18));
+		assertNotNull(headMap.get(10));
+	}
+	
+	@Test
+	public void when_head_with_inclusive_flag_false_and_populated_map_must_return_a_map_with_all_values_lesser_than_key() {
+		TreeMap<Integer, String> tree = example();
+		
+		NavigableMap<Integer,String> headMap = tree.headMap(39, false);
+		assertEquals(8, headMap.size());
+		
+		assertNotNull(headMap.get(7));
+		assertNotNull(headMap.get(4));
+		assertNotNull(headMap.get(33));
+		assertNotNull(headMap.get(34));
+		assertNotNull(headMap.get(24));
+		assertNotNull(headMap.get(3));
+		assertNotNull(headMap.get(18));
+		assertNotNull(headMap.get(10));
+	}
+	
+	@Test
+	public void when_tail_with_empty_map_must_return_empty_map() {
+		TreeMap<Integer, String> tree = new TreeMap<Integer, String>();
+		
+		assertTrue(tree.tailMap(50, true).isEmpty());
+	}
+	
+	@Test
+	public void when_tail_with_inclusive_flag_and_populated_map_must_return_a_map_with_all_values_greater_or_equal_key() {
+		NavigableMap<Integer,String> tree = example();
+				
+		NavigableMap<Integer, String> tailMap = tree.tailMap(51, true);
+		assertEquals(5, tailMap.size());
+		
+		assertNotNull(tailMap.get(51));
+		assertNotNull(tailMap.get(93));
+		assertNotNull(tailMap.get(70));
+		assertNotNull(tailMap.get(95));
+		assertNotNull(tailMap.get(86));
+	}
+	
+	@Test
+	public void when_tail_with_inclusive_flag_false_and_populated_map_must_return_a_map_with_all_values_greater_than_key() {
+		NavigableMap<Integer,String> tree = example();
+		
+		NavigableMap<Integer, String> tailMap = tree.tailMap(51, false);
+		assertEquals(4, tailMap.size());
+		
+		assertNotNull(tailMap.get(93));
+		assertNotNull(tailMap.get(70));
+		assertNotNull(tailMap.get(95));
+		assertNotNull(tailMap.get(86));
 	}
 	
 	private TreeMap<Integer, String> example() {

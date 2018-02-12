@@ -134,4 +134,23 @@ public class RedBlackKeyValueNode<K extends Comparable<K>, V> {
 		this.value = value;
 	}
 
+	public boolean keyBetween(K from, K to, boolean inclusive) {
+		if(inclusive)
+			return greaterThanOrEqualKey(from) && lessThanOrEqualKey(to);
+		else
+			return greaterThanKey(from) && lessThanKey(to);
+	}
+
+	public boolean lessThanKey(K otherKey) {
+		return key.compareTo(otherKey) < 0;
+	}
+
+	public boolean lessThanOrEqualKey(K otherKey) {
+		return key.compareTo(otherKey) <= 0;
+	}
+
+	public boolean greaterThanOrEqualKey(K otherKey) {
+		return key.compareTo(otherKey) >= 0;
+	}
+
 }

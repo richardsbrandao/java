@@ -301,46 +301,101 @@ public class TreeMap<K extends Comparable<K>, V> implements NavigableMap<K, V> {
 
 	@Override
 	public Entry<K, V> lowest(K key) {
-		// TODO Auto-generated method stub
-		return null;
+		if(key == null) 
+			throw new NullPointerException();
+		if(root == null)
+			return null;
+		RedBlackKeyValueNode<K,V> lowest = lowest(root, key);
+		if(lowest == null)
+			return null;
+		return new Entry<K, V>(lowest.getKey(), lowest.getValue());
 	}
 
-	@Override
-	public Entry<K, V> afterEntry(K key) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Entry<K, V> beforeEntry(K key) {
-		// TODO Auto-generated method stub
-		return null;
+	private RedBlackKeyValueNode<K, V> lowest(RedBlackKeyValueNode<K, V> head, K key) {
+		if(head.greaterThanKey(key)) {
+			if(head.getLeft().isLeaf()) {
+				RedBlackKeyValueNode<K, V> parent = head.getParent();
+				while(!head.isRoot() && head == parent.getLeft()) {
+					head = parent;
+                    parent = parent.getParent();
+				}
+				return parent;
+			} else {
+				return lowest(head.getLeft(), key);
+			}
+		} else {
+			if(head.getRight().isLeaf()) {
+				return head;
+			} else {
+				return lowest(head.getRight(), key);
+			}
+		}
 	}
 
 	@Override
 	public NavigableMap<K, V> subMap(K from, K to, boolean inclusive) {
-		// TODO Auto-generated method stub
-		return null;
+		if(from.compareTo(to) > 0) {
+			throw new IllegalArgumentException();
+		}
+		NavigableMap<K, V> subMap = new TreeMap<K, V>();
+		if(root == null) {
+			return subMap;
+		}
+		return subMap(root, from, to, inclusive, subMap);
+	}
+
+	private NavigableMap<K, V> subMap(RedBlackKeyValueNode<K, V> head, K from, K to, boolean inclusive, NavigableMap<K, V> subMap) {
+		if(head.isLeaf()) {
+			return subMap;
+		}
+		
+		subMap(head.getLeft(), from, to, inclusive, subMap);
+		if(head.keyBetween(from, to, inclusive)) {
+			subMap.put(head.getKey(), head.getValue());
+		}
+		subMap(head.getRight(), from, to, inclusive, subMap);
+		
+		return subMap;
 	}
 
 	@Override
 	public NavigableMap<K, V> tailMap(K from, boolean inclusive) {
-		// TODO Auto-generated method stub
-		return null;
+		NavigableMap<K, V> collectedElements = new TreeMap<K, V>();
+		if(isEmpty()) {
+			return collectedElements;
+		}
+		Consumer<RedBlackKeyValueNode<K, V>> collector = (node) -> {
+			if( (!inclusive && node.greaterThanKey(from)) ^ (inclusive && node.greaterThanOrEqualKey(from)) ) {
+				collectedElements.put(node.getKey(), node.getValue());
+			}
+		};
+		return inOrder(root, collectedElements, collector);
+	}
+
+	private NavigableMap<K, V> inOrder(RedBlackKeyValueNode<K, V> head, NavigableMap<K, V> collectedElements, Consumer<RedBlackKeyValueNode<K, V>> collector) {
+		if(head.isLeaf()) {
+			return collectedElements;
+		}
+		inOrder(head.getLeft(), collectedElements, collector);
+		collector.accept(head);
+		inOrder(head.getRight(), collectedElements, collector);
+		return collectedElements;
 	}
 
 	@Override
 	public NavigableMap<K, V> headMap(K from, boolean inclusive) {
-		// TODO Auto-generated method stub
-		return null;
+		NavigableMap<K, V> collectedElements = new TreeMap<K, V>();
+		if(isEmpty()) {
+			return collectedElements;
+		}
+		Consumer<RedBlackKeyValueNode<K, V>> collector = (node) -> {
+			if( (!inclusive && node.lessThanKey(from)) ^ (inclusive && node.lessThanOrEqualKey(from)) ) {
+				collectedElements.put(node.getKey(), node.getValue());
+			}
+		};
+		return inOrder(root, collectedElements, collector);
 	}
 
-	@Override
-	public NavigableMap<K, V> reverse() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
 	@Override
 	public String toString() {
 		StringBuilder draw = new StringBuilder();
