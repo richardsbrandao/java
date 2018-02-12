@@ -312,7 +312,7 @@ public class TreeMap<K extends Comparable<K>, V> implements NavigableMap<K, V> {
 	}
 
 	private RedBlackKeyValueNode<K, V> lowest(RedBlackKeyValueNode<K, V> head, K key) {
-		if(head.greaterThanKey(key)) {
+		if(head.greaterThanOrEqualKey(key)) {
 			if(head.getLeft().isLeaf()) {
 				RedBlackKeyValueNode<K, V> parent = head.getParent();
 				while(!head.isRoot() && head == parent.getLeft()) {
