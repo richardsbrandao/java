@@ -1,6 +1,11 @@
 package algorithm.cases.drones;
 
-
+/**
+ * Receive: A list of drones (with flight range and id) and another list with drones in maintenance
+ * Solution: Return a list of enabled drones sorted by flight range
+ *
+ * Complexity: Runtime O(n) Space O(n)
+ */
 public class DronesSelector {
 
 	private Drone[] drones;

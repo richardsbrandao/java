@@ -1,4 +1,4 @@
-package algorithm.cases;
+package algorithm.cases.words;
 
 import static org.junit.Assert.*;
 

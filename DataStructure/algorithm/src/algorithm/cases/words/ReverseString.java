@@ -5,6 +5,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Receive: Receive a phrase composed by letters, numbers or special chars
+ * Solution: Return a phrase in inverted order words keeping the order for special chars
+ * 
+ * Complexity: Runtime O(n) Space O(n)
+ */
 public class ReverseString {
 
 	private List<String> notReversedCharacters;

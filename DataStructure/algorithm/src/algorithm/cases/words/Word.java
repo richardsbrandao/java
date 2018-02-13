@@ -10,6 +10,10 @@ public class Word {
 		this.string = string;
 	}
 	
+	/*
+	 * Runtime: O(n)
+	 * Space: O(1)
+	 */
 	public boolean isPalindrome() {
 		int start = 0;
 		int end = string.length()-1;
@@ -21,6 +25,10 @@ public class Word {
 		return true;
 	}
 
+	/*
+	 * Runtime: O(n log n)
+	 * Space: O(n)
+	 */
 	public boolean isAnagram(String anotherWord) {
 		char[] originalChars = string.toCharArray();
 		char[] anotherWorldChars = anotherWord.toCharArray();

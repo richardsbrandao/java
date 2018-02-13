@@ -1,8 +1,10 @@
-package algorithm.cases;
+package algorithm.cases.numbers;
 
 import static org.junit.Assert.*;
 
 import org.junit.Test;
+
+import algorithm.cases.numbers.RepeatedNumbers;
 
 public class RepeatedNumbersTest {
 	@Test

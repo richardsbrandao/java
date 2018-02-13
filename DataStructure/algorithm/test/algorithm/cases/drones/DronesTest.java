@@ -1,4 +1,4 @@
-package algorithm.cases;
+package algorithm.cases.drones;
 
 import static org.junit.Assert.assertEquals;
 

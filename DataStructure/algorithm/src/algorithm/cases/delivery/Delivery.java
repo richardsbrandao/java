@@ -2,6 +2,12 @@ package algorithm.cases.delivery;
 
 import java.util.Arrays;
 
+/**
+ * Receive: a list of packages with their weight and the max weight per delivery
+ * Result: The smaller number of deliveries that can be performed
+ * 
+ * Solution: Runtime O(n log n) - Space O(1)
+ */
 public class Delivery {
 
 	private Integer[] packagesWeight;

@@ -1,4 +1,4 @@
-package algorithm.cases;
+package algorithm.cases.fibonacci;
 
 import static org.junit.Assert.*;
 

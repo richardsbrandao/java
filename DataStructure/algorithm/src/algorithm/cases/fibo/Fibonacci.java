@@ -3,8 +3,8 @@ package algorithm.cases.fibo;
 public class Fibonacci {
 
 	/**
-	 * COMPLEXITY: O
-	 * SPACE: O
+	 * COMPLEXITY: O(2^n)
+	 * SPACE: O(1)
 	 */
 	public long recursive(int n) {
 		if(n < 2) {
