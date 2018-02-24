@@ -8,28 +8,51 @@ public class MinHeap<T extends Comparable<T>> implements Heap<T> {
 
 	private T[] elements;
 	private int size;
+	private Class<T> clazz;
 	
 	public MinHeap(Class<T> clazz) {
-		this(clazz, 50);
-	}
-	
-	@SuppressWarnings("unchecked")
-	public MinHeap(Class<T> clazz, int capacity) {
-		this.elements = (T[]) Array.newInstance(clazz, capacity);
+		this.clazz = clazz;
+		this.elements = initializeArrayWithCapacity(clazz, 50);
 		this.size = 0;
+	}
+
+	@SuppressWarnings("unchecked")
+	private T[] initializeArrayWithCapacity(Class<T> clazz, int capacity) {
+		return (T[]) Array.newInstance(clazz, capacity);
 	}
 
 	@Override
 	public T get() {
-		return null;
+		if(isEmpty()) {
+			throw new IllegalAccessError();
+		}
+		return this.elements[0];
+	}
+
+	private boolean isEmpty() {
+		return size == 0;
 	}
 
 	@Override
 	public void add(T value) {
-//		heap full
+		doubleCapacityIfReched();
 		this.elements[size] = value;
 		shiftUp(size);
 		size++;
+	}
+
+	private void doubleCapacityIfReched() {
+		if(isFull()) {
+			T[] resizedArray = initializeArrayWithCapacity(clazz, this.elements.length*2);
+			for(int i = 0; i < this.elements.length; i++) {
+				resizedArray[i] = this.elements[i];
+			}
+			this.elements = resizedArray;
+		}
+	}
+
+	private boolean isFull() {
+		return size == this.elements.length;
 	}
 
 	private void shiftUp(int index) {
@@ -63,7 +86,7 @@ public class MinHeap<T extends Comparable<T>> implements Heap<T> {
 
 	@Override
 	public T remove() {
-		if(size == 0) {
+		if(isEmpty()) {
 			throw new IllegalAccessError();
 		}
 		T removedElement = this.elements[0];
@@ -72,6 +95,7 @@ public class MinHeap<T extends Comparable<T>> implements Heap<T> {
 			return removedElement;
 		}
 		this.elements[0] = this.elements[size];
+		this.elements[size] = null;
 		shiftDown(0);
 		return removedElement;
 	}

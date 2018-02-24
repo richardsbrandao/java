@@ -8,7 +8,7 @@ import org.springframework.test.util.ReflectionTestUtils;
 import datastructures.base.Heap;
 
 public class MinHeapTest {
-
+	
 	@Test
 	public void when_add_with_empty_heap_must_insert_in_the_head() {
 		Heap<Integer> minHeap = new MinHeap<>(Integer.class);
@@ -68,6 +68,7 @@ public class MinHeapTest {
 		assertEquals(new Integer(40), table[4]);
 		assertEquals(new Integer(30), table[5]);
 		assertEquals(new Integer(25), table[6]);
+		assertNull(table[7]);
 	}
 
 	@Test
@@ -92,6 +93,29 @@ public class MinHeapTest {
 		assertEquals(new Integer(55), table[11]);
 		assertEquals(new Integer(75), table[12]);
 		assertEquals(new Integer(65), table[13]);
+		assertNull(table[14]);
+	}
+	
+	@Test
+	public void when_add_elements_greater_than_capacity_must_resize_the_capacity() {
+		Heap<Integer> minHeap = new MinHeap<>(Integer.class);
+		for(int i = 0; i < 1000; i++) {
+			minHeap.add(i);
+		}
+		
+		Integer[] minHeapTable = getMinHeapTable(minHeap);
+		int size = getSize(minHeap);
+		
+		assertEquals(1600, minHeapTable.length);
+		assertEquals(1000, size);
+		
+		for(int i = 0; i < 1000; i++) {
+			assertEquals(new Integer(i), minHeapTable[i]);
+		}
+		
+		for(int i = 1000; i < 1600; i++) {
+			assertNull(minHeapTable[i]);
+		}
 	}
 
 	private Heap<Integer> example2() {
@@ -153,6 +177,7 @@ public class MinHeapTest {
 		assertEquals(new Integer(80), table[3]);
 		assertEquals(new Integer(40), table[4]);
 		assertEquals(new Integer(30), table[5]);
+		assertNull(table[6]);
 	}
 	
 	@Test
@@ -179,6 +204,20 @@ public class MinHeapTest {
 		assertEquals(new Integer(50), table[10]);
 		assertEquals(new Integer(55), table[11]);
 		assertEquals(new Integer(75), table[12]);
+		assertNull(table[13]);
+	}
+	
+	@Test(expected=IllegalAccessError.class)
+	public void when_get_with_empty_heap_must_throw_error() {
+		Heap<Integer> minHeap = new MinHeap<>(Integer.class);
+		minHeap.get();
+	}
+	
+	@Test
+	public void when_get_with_populated_min_heap_must_get_smaller_element() {
+		Heap<Integer> minHeap = example();
+		
+		assertEquals(new Integer(5), minHeap.get());
 	}
 	
 	private Heap<Integer> example() {
