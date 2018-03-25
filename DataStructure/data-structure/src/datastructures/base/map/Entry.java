@@ -1,7 +1,5 @@
 package datastructures.base.map;
 
-import datastructures.maps.TreeMap;
-
 public class Entry<K, V> {
 	private K key;
 	private V value;

@@ -7,6 +7,10 @@ public class Array<T extends Object> implements List<T> {
 	private Object[] elements;
 	private int size;
 	
+	public Array() {
+		this(10);
+	}
+	
 	public Array(Integer size) {
 		this.elements = new Object[size];
 		this.size = 0;
