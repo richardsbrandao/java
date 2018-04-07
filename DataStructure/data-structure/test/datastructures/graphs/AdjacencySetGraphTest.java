@@ -134,30 +134,69 @@ public class AdjacencySetGraphTest {
 		assertTrue(adjacentVertices.contains(3));
 	}
 	
-//	@Test
-//	public void when_beadth_first_with_directed_and_connected_graph_must_return_all_correctly() {
-//		AdjacencyMatrixGraph graph = new AdjacencyMatrixGraph(GraphType.UNDIRECTED);
-//	}
+	@Test
+	public void when_beadth_first_with_directed_and_connected_graph_must_return_all_correctly() {
+		Graph graph = getDefaultGraph(GraphType.DIRECTED);
+		List<Integer> breadthFirst = graph.breadthFirst(0);
+		
+		assertEquals(new Integer(0), breadthFirst.get(0));
+		assertEquals(new Integer(4), breadthFirst.get(1));
+		assertEquals(new Integer(1), breadthFirst.get(2));
+		assertEquals(new Integer(3), breadthFirst.get(3));
+		assertEquals(new Integer(2), breadthFirst.get(4));
+	}
 	
 	@Test
 	public void when_beadth_first_with_undirected_and_connected_graph_must_return_all_correctly() {
 		Graph graph = getDefaultGraph(GraphType.UNDIRECTED);
 		List<Integer> breadthFirst = graph.breadthFirst(0);
 		
-		assertEquals(new Integer(1), breadthFirst.get(0));
-		assertEquals(new Integer(2), breadthFirst.get(1));
-		assertEquals(new Integer(5), breadthFirst.get(2));
+		assertEquals(new Integer(0), breadthFirst.get(0));
+		assertEquals(new Integer(4), breadthFirst.get(1));
+		assertEquals(new Integer(1), breadthFirst.get(2));
 		assertEquals(new Integer(3), breadthFirst.get(3));
-		assertEquals(new Integer(4), breadthFirst.get(4));
+		assertEquals(new Integer(2), breadthFirst.get(4));
 	}
 	
-//	public void when_beadth_first_with_directed_and_unconnected_graph_must_return_all_correctly() {
-//		
-//	}
-//	
-//	public void when_beadth_first_with_undirected_and_unconnected_graph_must_return_all_correctly() {
-//		
-//	}
+	@Test
+	public void when_beadth_first_with_other_root_undirected_and_connected_graph_must_return_all_correctly() {
+		Graph graph = getDefaultGraph(GraphType.UNDIRECTED);
+		List<Integer> breadthFirst = graph.breadthFirst(3);
+		
+		assertEquals(new Integer(3), breadthFirst.get(0));
+		assertEquals(new Integer(1), breadthFirst.get(1));
+		assertEquals(new Integer(2), breadthFirst.get(2));
+		assertEquals(new Integer(4), breadthFirst.get(3));
+		assertEquals(new Integer(0), breadthFirst.get(4));
+	}
+	
+	@Test
+	public void when_beadth_first_with_directed_and_unconnected_graph_must_return_all_correctly() {
+		Graph graph = getDefaultUnconnectedGraph(GraphType.DIRECTED);
+		List<Integer> breadthFirst = graph.breadthFirst(0);
+		
+		assertEquals(new Integer(0), breadthFirst.get(0));
+		assertEquals(new Integer(4), breadthFirst.get(1));
+		assertEquals(new Integer(1), breadthFirst.get(2));
+		assertEquals(new Integer(3), breadthFirst.get(3));
+		assertEquals(new Integer(2), breadthFirst.get(4));
+		assertEquals(new Integer(5), breadthFirst.get(5));
+		assertEquals(new Integer(6), breadthFirst.get(6));
+	}
+
+	@Test
+	public void when_beadth_first_with_undirected_and_unconnected_graph_must_return_all_correctly() {
+		Graph graph = getDefaultUnconnectedGraph(GraphType.UNDIRECTED);
+		List<Integer> breadthFirst = graph.breadthFirst(0);
+		
+		assertEquals(new Integer(0), breadthFirst.get(0));
+		assertEquals(new Integer(4), breadthFirst.get(1));
+		assertEquals(new Integer(1), breadthFirst.get(2));
+		assertEquals(new Integer(3), breadthFirst.get(3));
+		assertEquals(new Integer(2), breadthFirst.get(4));
+		assertEquals(new Integer(5), breadthFirst.get(5));
+		assertEquals(new Integer(6), breadthFirst.get(6));
+	}
 	
 	private Graph getDefaultGraph(GraphType type) {
 		//http://www3.cs.stonybrook.edu/~algorith/files/graph-data-structures-L.gif
@@ -169,6 +208,19 @@ public class AdjacencySetGraphTest {
 		graph.addEdge(1, 2);
 		graph.addEdge(2, 3);
 		graph.addEdge(3, 4);
+		return graph;
+	}
+	
+	private Graph getDefaultUnconnectedGraph(GraphType type) {
+		Graph graph = new AdjacencySetGraph(type, 7);
+		graph.addEdge(0, 4);
+		graph.addEdge(0, 1);
+		graph.addEdge(1, 4);
+		graph.addEdge(1, 3);
+		graph.addEdge(1, 2);
+		graph.addEdge(2, 3);
+		graph.addEdge(3, 4);
+		graph.addEdge(5, 6);
 		return graph;
 	}
 	

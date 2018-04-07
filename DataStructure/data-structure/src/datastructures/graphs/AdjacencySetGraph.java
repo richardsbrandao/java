@@ -1,6 +1,8 @@
 package datastructures.graphs;
 
 import java.util.ArrayList;
+import java.util.Deque;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -14,8 +16,12 @@ public class AdjacencySetGraph implements Graph {
 	private List<GraphNode> vertices = new ArrayList<GraphNode>();
 
 	public AdjacencySetGraph(GraphType type) {
+		this(type, DEFAULT_SIZE);
+	}
+	
+	public AdjacencySetGraph(GraphType type, Integer defaultSize) {
 		this.type = type;
-		for(int i = 0; i < DEFAULT_SIZE; i++) {
+		for(int i = 0; i < defaultSize; i++) {
 			this.vertices.add(new GraphNode(i));
 		}
 	}
@@ -31,7 +37,7 @@ public class AdjacencySetGraph implements Graph {
 	}
 
 	private void throwErrorIfVertexIsWrong(int v1, int v2) {
-		if(v1 < 0 || v2 < 0 || v1 >= Graph.DEFAULT_SIZE || v2 >= Graph.DEFAULT_SIZE)
+		if(v1 < 0 || v2 < 0 || v1 >= this.vertices.size() || v2 >= this.vertices.size())
 			throw new IllegalArgumentException();
 	}
 
@@ -44,13 +50,38 @@ public class AdjacencySetGraph implements Graph {
 
 	@Override
 	public List<Integer> breadthFirst(int root) {
-		List<Integer> breadthFirst = new ArrayList<Integer>();
+		List<Integer> collectedElements = new ArrayList<Integer>();
 		int[] visited = new int[vertices.size()];
 		
-//		while(!queue.isEmpty()) {
-//		}
+		breadthFirst(root, collectedElements, visited);
 		
-		return breadthFirst;
+		for(int i = 0; i < vertices.size(); i++) {
+			breadthFirst(i, collectedElements, visited);
+		}
+		
+		return collectedElements;
+	}
+
+	private void breadthFirst(int root, List<Integer> collectedElements, int[] visited) {
+		Deque<GraphNode> queue = new LinkedList<GraphNode>();
+		queue.addLast(vertices.get(root));
+		
+		while(!queue.isEmpty()) {
+			GraphNode graphNode = queue.remove();
+			if(visited[graphNode.getIndex()] == 1) {
+				continue;
+			}
+			
+			visited[graphNode.getIndex()] = 1;
+		
+			collectedElements.add(graphNode.getIndex());
+			
+			for( GraphNode adjacencyNodes : graphNode.getEdges() ) {
+				if( visited[adjacencyNodes.getIndex()] == 0 ) {
+					queue.addLast(adjacencyNodes);
+				}
+			}
+		}
 	}
 
 	@Override

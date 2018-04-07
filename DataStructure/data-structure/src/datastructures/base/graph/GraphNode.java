@@ -24,5 +24,10 @@ public class GraphNode {
 	public Set<GraphNode> getEdges() {
 		return edges;
 	}
-
+	
+	@Override
+	public String toString() {
+		return "GraphNode [index=" + index + "]";
+	}
+	
 }
