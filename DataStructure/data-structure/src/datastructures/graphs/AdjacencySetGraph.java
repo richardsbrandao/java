@@ -85,9 +85,32 @@ public class AdjacencySetGraph implements Graph {
 	}
 
 	@Override
-	public List<Integer> deathFirst(int root) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Integer> depthFirst(int root) {
+		int[] visited = new int[vertices.size()];
+		List<Integer> collectedElements = new ArrayList<Integer>();
+		depthFirst(root, collectedElements, visited);
+		for(int i = 0; i < vertices.size(); i++) {
+			depthFirst(i, collectedElements, visited);
+		}
+		return collectedElements;
+	}
+
+	private List<Integer> depthFirst(int root, List<Integer> collectedElements, int[] visited) {
+		GraphNode graphNode = vertices.get(root);
+		if(visited[graphNode.getIndex()] == 1) {
+			return collectedElements;
+		}
+
+		visited[graphNode.getIndex()] = 1;
+		
+		for( GraphNode adjacencyNodes : graphNode.getEdges() ) {
+			if( visited[adjacencyNodes.getIndex()] == 0 ) {
+				depthFirst(adjacencyNodes.getIndex(), collectedElements, visited);
+			}
+		}
+		
+		collectedElements.add(graphNode.getIndex());
+		return collectedElements;
 	}
 
 	@Override

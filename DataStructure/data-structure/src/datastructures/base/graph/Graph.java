@@ -9,7 +9,7 @@ public interface Graph {
 	public void addEdge(int v1, int v2);
 	public List<Integer> getAdjacentVertices(int v);
 	public List<Integer> breadthFirst(int root);
-	public List<Integer> deathFirst(int root);
+	public List<Integer> depthFirst(int root);
 	public boolean hasCycle();
 	public boolean isDirected();
 	

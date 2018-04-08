@@ -198,6 +198,73 @@ public class AdjacencySetGraphTest {
 		assertEquals(new Integer(6), breadthFirst.get(6));
 	}
 	
+	
+	
+	@Test
+	public void when_depth_first_with_directed_and_connected_graph_must_return_all_correctly() {
+		Graph graph = getDefaultGraph(GraphType.DIRECTED);
+		List<Integer> depthFirst = graph.depthFirst(0);
+		
+		assertEquals(new Integer(4), depthFirst.get(0));
+		assertEquals(new Integer(3), depthFirst.get(1));
+		assertEquals(new Integer(2), depthFirst.get(2));
+		assertEquals(new Integer(1), depthFirst.get(3));
+		assertEquals(new Integer(0), depthFirst.get(4));
+	}
+	
+	@Test
+	public void when_depth_first_with_undirected_and_connected_graph_must_return_all_correctly() {
+		Graph graph = getDefaultGraph(GraphType.UNDIRECTED);
+		List<Integer> depthFirst = graph.depthFirst(0);
+		
+		assertEquals(new Integer(2), depthFirst.get(0));
+		assertEquals(new Integer(3), depthFirst.get(1));
+		assertEquals(new Integer(1), depthFirst.get(2));
+		assertEquals(new Integer(4), depthFirst.get(3));
+		assertEquals(new Integer(0), depthFirst.get(4));
+	}
+	
+	@Test
+	public void when_depth_first_with_other_root_undirected_and_connected_graph_must_return_all_correctly() {
+		Graph graph = getDefaultGraph(GraphType.UNDIRECTED);
+		List<Integer> depthFirst = graph.depthFirst(3);
+		
+		assertEquals(new Integer(4), depthFirst.get(0));
+		assertEquals(new Integer(0), depthFirst.get(1));
+		assertEquals(new Integer(2), depthFirst.get(2));
+		assertEquals(new Integer(1), depthFirst.get(3));
+		assertEquals(new Integer(3), depthFirst.get(4));
+	}
+	
+	@Test
+	public void when_depth_first_with_directed_and_unconnected_graph_must_return_all_correctly() {
+		Graph graph = getDefaultUnconnectedGraph(GraphType.DIRECTED);
+		List<Integer> depthFirst = graph.depthFirst(0);
+		
+		assertEquals(new Integer(4), depthFirst.get(0));
+		assertEquals(new Integer(3), depthFirst.get(1));
+		assertEquals(new Integer(2), depthFirst.get(2));
+		assertEquals(new Integer(1), depthFirst.get(3));
+		assertEquals(new Integer(0), depthFirst.get(4));
+		assertEquals(new Integer(6), depthFirst.get(5));
+		assertEquals(new Integer(5), depthFirst.get(6));
+	}
+
+	@Test
+	public void when_depth_first_with_undirected_and_unconnected_graph_must_return_all_correctly() {
+		Graph graph = getDefaultUnconnectedGraph(GraphType.UNDIRECTED);
+		List<Integer> depthFirst = graph.depthFirst(0);
+		
+		assertEquals(new Integer(2), depthFirst.get(0));
+		assertEquals(new Integer(3), depthFirst.get(1));
+		assertEquals(new Integer(1), depthFirst.get(2));
+		assertEquals(new Integer(4), depthFirst.get(3));
+		assertEquals(new Integer(0), depthFirst.get(4));
+		assertEquals(new Integer(6), depthFirst.get(5));
+		assertEquals(new Integer(5), depthFirst.get(6));
+	}
+	
+	
 	private Graph getDefaultGraph(GraphType type) {
 		//http://www3.cs.stonybrook.edu/~algorith/files/graph-data-structures-L.gif
 		Graph graph = new AdjacencySetGraph(type);

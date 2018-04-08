@@ -49,7 +49,7 @@ public class AdjacencyMatrixGraph implements Graph {
 	}
 
 	@Override
-	public List<Integer> deathFirst(int root) {
+	public List<Integer> depthFirst(int root) {
 		// TODO Auto-generated method stub
 		return null;
 	}
