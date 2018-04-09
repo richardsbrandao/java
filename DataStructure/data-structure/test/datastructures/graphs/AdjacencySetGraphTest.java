@@ -290,6 +290,30 @@ public class AdjacencySetGraphTest {
 		assertTrue(graph.hasCycle());
 	}
 	
+	@Test
+	public void when_is_connected_with_undirected_connected_graph_must_return_true() {
+		Graph graph = getDefaultGraph(GraphType.UNDIRECTED);
+		assertTrue(graph.isConnected());
+	}
+	
+	@Test
+	public void when_is_connected_with_directed_connected_graph_must_return_true() {
+		Graph graph = getDefaultGraph(GraphType.DIRECTED);
+		assertTrue(graph.isConnected());
+	}
+	
+	@Test
+	public void when_is_connected_with_undirected_unconnected_graph_must_return_false() {
+		Graph graph = getUnconnectedGraphWithoutCycle(GraphType.UNDIRECTED);
+		assertFalse(graph.isConnected());
+	}
+	
+	@Test
+	public void when_is_connected_with_directed_unconnected_graph_must_return_false() {
+		Graph graph = getUnconnectedGraphWithoutCycle(GraphType.UNDIRECTED);
+		assertFalse(graph.isConnected());
+	}
+	
 	private Graph getUnconnectedGraphWithCycle(GraphType type) {
 		Graph graph = new AdjacencySetGraph(type, 6);
 		graph.addEdge(0, 1);

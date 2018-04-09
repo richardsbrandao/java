@@ -157,7 +157,50 @@ public class AdjacencySetGraph implements Graph {
 
 	@Override
 	public boolean isConnected() {
+		if(type.equals(GraphType.UNDIRECTED)) {
+			return undirectedGraphIsConnected();
+		} else {
+			return directedGraphIsConnected();
+		}
+	}
+
+	private boolean undirectedGraphIsConnected() {
+		// in a undirected connected graph, all paths must visit each other in a depth first traversal
+		for(int i = 0; i < vertices.size(); i++) {
+			HashSet<Integer> visited = new HashSet<Integer>();
+			if( depthFirst(i, visited).size() != vertices.size() ) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	private boolean directedGraphIsConnected() {
+		// in a directed connected graph, at least one vertex must visit all paths in a depth first traversal
+		for(int i = 0; i < vertices.size(); i++) {
+			HashSet<Integer> visited = new HashSet<Integer>();
+			if( depthFirst(i, visited).size() == vertices.size() ) {
+				return true;
+			}
+		}
 		return false;
+	}
+
+	private Set<Integer> depthFirst(int element, Set<Integer> visited) {
+		GraphNode graph = vertices.get(element);
+		if(visited.contains(graph.getIndex())) {
+			return visited;
+		}
+		
+		visited.add(graph.getIndex());
+		
+		for(GraphNode neighbour : graph.getEdges()) {
+			if( !visited.contains(neighbour.getIndex()) ) {
+				depthFirst(neighbour.getIndex(), visited);
+			}
+		}
+		
+		return visited;
 	}
 
 }
