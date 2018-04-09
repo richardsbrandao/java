@@ -2,8 +2,11 @@ package datastructures.graphs;
 
 import java.util.ArrayList;
 import java.util.Deque;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
+import java.util.Stack;
 import java.util.stream.Collectors;
 
 import datastructures.base.graph.Graph;
@@ -115,13 +118,45 @@ public class AdjacencySetGraph implements Graph {
 
 	@Override
 	public boolean hasCycle() {
-		// TODO Auto-generated method stub
+		if( checkIfCycleExists(0, new Stack<Integer>(), new HashSet<Integer>()) ) {
+			return true;
+		}
+		
+		for(int i = 1; i < vertices.size(); i++) {
+			if( checkIfCycleExists(i, new Stack<Integer>(), new HashSet<Integer>()) ) {
+				return true;
+			}
+		}
+		
+		return false;
+	}
+
+	private boolean checkIfCycleExists(int element, Stack<Integer> visited, Set<Integer> cycle) {
+		GraphNode graphNode = vertices.get(element);
+		if(visited.contains(graphNode.getIndex())) {
+			return cycle.contains(graphNode.getIndex());
+		}
+		
+		cycle.add(graphNode.getIndex());
+		
+		for(GraphNode neighbour : graphNode.getEdges()) {
+			if(!visited.isEmpty() && visited.peek().equals(neighbour.getIndex())) {
+				continue;
+			}
+			
+			visited.add(graphNode.getIndex());
+			if( checkIfCycleExists(neighbour.getIndex(), visited, cycle) ) {
+				return true;
+			}
+			visited.pop();
+		}
+		
+		cycle.remove(graphNode.getIndex());
 		return false;
 	}
 
 	@Override
-	public boolean isDirected() {
-		// TODO Auto-generated method stub
+	public boolean isConnected() {
 		return false;
 	}
 

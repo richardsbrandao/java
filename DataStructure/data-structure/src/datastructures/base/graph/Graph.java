@@ -11,7 +11,7 @@ public interface Graph {
 	public List<Integer> breadthFirst(int root);
 	public List<Integer> depthFirst(int root);
 	public boolean hasCycle();
-	public boolean isDirected();
+	public boolean isConnected();
 	
 	//paths ..
 	

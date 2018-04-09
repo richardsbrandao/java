@@ -1,6 +1,7 @@
 package datastructures.graphs;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
@@ -30,15 +31,6 @@ public class AdjacencySetGraphTest {
 			assertEquals(i, vertices.get(i).getIndex());
 			assertTrue(vertices.get(i).getEdges().isEmpty());
 		}
-	}
-
-	private GraphType getGraphType(AdjacencySetGraph graph) {
-		return (GraphType) ReflectionTestUtils.getField(graph, "type");
-	}
-
-	@SuppressWarnings("unchecked")
-	private List<GraphNode> getGraphVertices(AdjacencySetGraph graph) {
-		return (List<GraphNode>) ReflectionTestUtils.getField(graph, "vertices");
 	}
 	
 	@Test
@@ -198,8 +190,6 @@ public class AdjacencySetGraphTest {
 		assertEquals(new Integer(6), breadthFirst.get(6));
 	}
 	
-	
-	
 	@Test
 	public void when_depth_first_with_directed_and_connected_graph_must_return_all_correctly() {
 		Graph graph = getDefaultGraph(GraphType.DIRECTED);
@@ -264,7 +254,81 @@ public class AdjacencySetGraphTest {
 		assertEquals(new Integer(5), depthFirst.get(6));
 	}
 	
+	@Test
+	public void when_has_cycle_with_directed_graph_with_cycle_must_return_true() {
+		Graph graph = getDirectedGraphWithCycle();
+		assertTrue(graph.hasCycle());
+	}
 	
+	@Test
+	public void when_has_cycle_with_directed_graph_without_cycle_must_return_false() {
+		Graph graph = getGraphWithoutCycle(GraphType.DIRECTED);
+		assertFalse(graph.hasCycle());
+	}
+	
+	@Test
+	public void when_has_cycle_with_undirected_graph_with_cycle_must_return_true() {
+		Graph graph = getDefaultGraph(GraphType.UNDIRECTED);
+		assertTrue(graph.hasCycle());
+	}
+	
+	@Test
+	public void when_has_cycle_with_undirected_graph_without_cycle_must_return_false() {
+		Graph graph = getGraphWithoutCycle(GraphType.UNDIRECTED);
+		assertFalse(graph.hasCycle());
+	}
+	
+	@Test
+	public void when_has_cycle_with_unconnected_graph_without_cycle_must_return_false() {
+		Graph graph = getUnconnectedGraphWithoutCycle(GraphType.UNDIRECTED);
+		assertFalse(graph.hasCycle());
+	}
+	
+	@Test
+	public void when_has_cycle_with_unconnected_graph_with_cycle_must_return_true() {
+		Graph graph = getUnconnectedGraphWithCycle(GraphType.UNDIRECTED);
+		assertTrue(graph.hasCycle());
+	}
+	
+	private Graph getUnconnectedGraphWithCycle(GraphType type) {
+		Graph graph = new AdjacencySetGraph(type, 6);
+		graph.addEdge(0, 1);
+		graph.addEdge(1, 2);
+		graph.addEdge(3, 5);
+		graph.addEdge(5, 4);
+		graph.addEdge(4, 3);
+		return graph;
+	}
+	
+	private Graph getUnconnectedGraphWithoutCycle(GraphType type) {
+		Graph graph = new AdjacencySetGraph(type, 7);
+		graph.addEdge(0, 1);
+		graph.addEdge(1, 2);
+		graph.addEdge(3, 5);
+		graph.addEdge(5, 4);
+		graph.addEdge(4, 6);
+		return graph;
+	}
+
+	private Graph getDirectedGraphWithCycle() {
+		Graph graph = new AdjacencySetGraph(GraphType.DIRECTED);
+		graph.addEdge(0, 1);
+		graph.addEdge(1, 2);
+		graph.addEdge(2, 0);
+		return graph;
+	}
+	
+	private Graph getGraphWithoutCycle(GraphType type) {
+		//https://en.wikipedia.org/wiki/Tree_(graph_theory)#/media/File:Tree_graph.svg
+		Graph graph = new AdjacencySetGraph(type, 6);
+		graph.addEdge(5, 4);
+		graph.addEdge(4, 3);
+		graph.addEdge(3, 0);
+		graph.addEdge(3, 1);
+		graph.addEdge(3, 2);
+		return graph;
+	}
+
 	private Graph getDefaultGraph(GraphType type) {
 		//http://www3.cs.stonybrook.edu/~algorith/files/graph-data-structures-L.gif
 		Graph graph = new AdjacencySetGraph(type);
@@ -289,6 +353,15 @@ public class AdjacencySetGraphTest {
 		graph.addEdge(3, 4);
 		graph.addEdge(5, 6);
 		return graph;
+	}
+
+	private GraphType getGraphType(AdjacencySetGraph graph) {
+		return (GraphType) ReflectionTestUtils.getField(graph, "type");
+	}
+
+	@SuppressWarnings("unchecked")
+	private List<GraphNode> getGraphVertices(AdjacencySetGraph graph) {
+		return (List<GraphNode>) ReflectionTestUtils.getField(graph, "vertices");
 	}
 	
 }

@@ -61,7 +61,7 @@ public class AdjacencyMatrixGraph implements Graph {
 	}
 
 	@Override
-	public boolean isDirected() {
+	public boolean isConnected() {
 		// TODO Auto-generated method stub
 		return false;
 	}
