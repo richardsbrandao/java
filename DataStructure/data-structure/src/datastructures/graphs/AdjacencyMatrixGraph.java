@@ -65,4 +65,10 @@ public class AdjacencyMatrixGraph implements Graph {
 		// TODO Auto-generated method stub
 		return false;
 	}
+
+	@Override
+	public Integer shortestPath(int source, int destination) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 }

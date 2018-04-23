@@ -314,6 +314,25 @@ public class AdjacencySetGraphTest {
 		assertFalse(graph.isConnected());
 	}
 	
+	@Test
+	public void when_shortest_path_with_directed_graph_and_source_and_destination_connecteds_must_return_real_shortest_path() {
+		Graph graph = getDefaultGraph(GraphType.DIRECTED);
+		assertEquals(new Integer(2), graph.shortestPath(0, 3));
+		assertEquals(new Integer(1), graph.shortestPath(1, 3));
+	}
+	
+	@Test
+	public void when_shortest_path_with_directed_graph_and_with_self_destination_must_return_0() {
+		Graph graph = getDefaultGraph(GraphType.DIRECTED);
+		assertEquals(new Integer(0), graph.shortestPath(3, 3));
+	}
+	
+	@Test
+	public void when_shortest_path_with_unconected_nodes_must_return_minus_one() {
+		Graph graph = getDefaultGraph(GraphType.DIRECTED);
+		assertEquals(new Integer(-1), graph.shortestPath(4, 1));
+	}
+	
 	private Graph getUnconnectedGraphWithCycle(GraphType type) {
 		Graph graph = new AdjacencySetGraph(type, 6);
 		graph.addEdge(0, 1);

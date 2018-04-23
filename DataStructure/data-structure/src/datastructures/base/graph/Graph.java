@@ -12,6 +12,7 @@ public interface Graph {
 	public List<Integer> depthFirst(int root);
 	public boolean hasCycle();
 	public boolean isConnected();
+	public Integer shortestPath(int source, int destination);
 	
 	//paths ..
 	

@@ -9,6 +9,7 @@ import java.util.Set;
 import java.util.Stack;
 import java.util.stream.Collectors;
 
+import datastructures.base.graph.DistanceInfo;
 import datastructures.base.graph.Graph;
 import datastructures.base.graph.GraphNode;
 import datastructures.base.graph.GraphType;
@@ -201,6 +202,39 @@ public class AdjacencySetGraph implements Graph {
 		}
 		
 		return visited;
+	}
+
+	@Override
+	public Integer shortestPath(int source, int destination) {
+		List<DistanceInfo> distanceTable = buildDistanceTable(source);
+		int[] visited = new int[vertices.size()];
+		Deque<Integer> queue = new LinkedList<Integer>();
+		queue.addLast(source);
+		
+		while(!queue.isEmpty()) {
+			Integer vertex = queue.pop();
+			DistanceInfo sourceInfo = distanceTable.get(vertex);
+			
+			visited[vertex] = 1;
+			
+			for(GraphNode neighbor : vertices.get(vertex).getEdges()) {
+				if(visited[neighbor.getIndex()] == 0)
+					queue.addLast(neighbor.getIndex());
+				
+				distanceTable.get(neighbor.getIndex()).updateDistance(vertex, sourceInfo);
+			}
+		}
+		
+		return distanceTable.get(destination).getDistance();
+	}
+
+	private List<DistanceInfo> buildDistanceTable(Integer source) {
+		List<DistanceInfo> distanceTable = new ArrayList<DistanceInfo>();
+		for(int i = 0; i < vertices.size(); i++) {
+			DistanceInfo distanceInfo = source != i ? DistanceInfo.forDestination(i) : DistanceInfo.forSelf(i);;
+			distanceTable.add(i, distanceInfo);
+		}
+		return distanceTable;
 	}
 
 }
