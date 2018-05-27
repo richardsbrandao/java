@@ -8,6 +8,10 @@ public class IslandCounter {
 		this.territory = territory;
 	}
 	
+	/**
+	 * Runtime = O(row*column)
+	 * Space = O(n)
+	 */
 	public int islandCounter() {
 		boolean[][] visited = new boolean[territory.length][territory[0].length];
 		int count = 0;
