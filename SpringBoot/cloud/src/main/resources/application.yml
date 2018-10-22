@@ -1,0 +1,6 @@
+cloud:
+  aws:
+    region:
+      static: us-east-1
+    sqs:
+      hello_world: https://sqs.us-east-1.amazonaws.com/951911545817/hello_world_queue
