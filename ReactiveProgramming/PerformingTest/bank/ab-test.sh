@@ -49,4 +49,6 @@ then
 elif [ "$TYPE" = "bank-async" ]
 then
     ab_test_report "http://localhost:8080/async/bank-report/1"
+else
+    echo './ab-test.sh account|credit-card|bank-sync|bank-async outputfilename'
 fi

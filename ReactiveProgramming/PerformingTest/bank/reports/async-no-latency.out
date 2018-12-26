@@ -1,0 +1,360 @@
+____________________________________________________________
+TEST with 1 threads on http://localhost:8080/async/bank-report/1
+____________________________________________________________
+This is ApacheBench, Version 2.3 <$Revision: 1807734 $>
+Copyright 1996 Adam Twiss, Zeus Technology Ltd, http://www.zeustech.net/
+Licensed to The Apache Software Foundation, http://www.apache.org/
+
+Benchmarking localhost (be patient)
+
+
+Server Software:        
+Server Hostname:        localhost
+Server Port:            8080
+
+Document Path:          /async/bank-report/1
+Document Length:        136 bytes
+
+Concurrency Level:      1
+Time taken for tests:   11.593 seconds
+Complete requests:      10000
+Failed requests:        0
+Total transferred:      2550000 bytes
+HTML transferred:       1360000 bytes
+Requests per second:    862.59 [#/sec] (mean)
+Time per request:       1.159 [ms] (mean)
+Time per request:       1.159 [ms] (mean, across all concurrent requests)
+Transfer rate:          214.81 [Kbytes/sec] received
+
+Connection Times (ms)
+              min  mean[+/-sd] median   max
+Connect:        0    0   0.0      0       1
+Processing:     1    1   0.6      1      22
+Waiting:        0    1   0.6      1      22
+Total:          1    1   0.6      1      22
+
+Percentage of the requests served within a certain time (ms)
+  50%      1
+  66%      1
+  75%      1
+  80%      1
+  90%      2
+  95%      2
+  98%      2
+  99%      3
+ 100%     22 (longest request)
+____________________________________________________________
+TEST with 5 threads on http://localhost:8080/async/bank-report/1
+____________________________________________________________
+This is ApacheBench, Version 2.3 <$Revision: 1807734 $>
+Copyright 1996 Adam Twiss, Zeus Technology Ltd, http://www.zeustech.net/
+Licensed to The Apache Software Foundation, http://www.apache.org/
+
+Benchmarking localhost (be patient)
+
+
+Server Software:        
+Server Hostname:        localhost
+Server Port:            8080
+
+Document Path:          /async/bank-report/1
+Document Length:        136 bytes
+
+Concurrency Level:      5
+Time taken for tests:   4.830 seconds
+Complete requests:      10000
+Failed requests:        0
+Total transferred:      2550000 bytes
+HTML transferred:       1360000 bytes
+Requests per second:    2070.51 [#/sec] (mean)
+Time per request:       2.415 [ms] (mean)
+Time per request:       0.483 [ms] (mean, across all concurrent requests)
+Transfer rate:          515.60 [Kbytes/sec] received
+
+Connection Times (ms)
+              min  mean[+/-sd] median   max
+Connect:        0    0   0.2      0       4
+Processing:     1    2   1.1      2      18
+Waiting:        0    2   1.1      2      18
+Total:          1    2   1.2      2      18
+
+Percentage of the requests served within a certain time (ms)
+  50%      2
+  66%      2
+  75%      3
+  80%      3
+  90%      3
+  95%      4
+  98%      5
+  99%      6
+ 100%     18 (longest request)
+____________________________________________________________
+TEST with 10 threads on http://localhost:8080/async/bank-report/1
+____________________________________________________________
+This is ApacheBench, Version 2.3 <$Revision: 1807734 $>
+Copyright 1996 Adam Twiss, Zeus Technology Ltd, http://www.zeustech.net/
+Licensed to The Apache Software Foundation, http://www.apache.org/
+
+Benchmarking localhost (be patient)
+
+
+Server Software:        
+Server Hostname:        localhost
+Server Port:            8080
+
+Document Path:          /async/bank-report/1
+Document Length:        136 bytes
+
+Concurrency Level:      10
+Time taken for tests:   4.196 seconds
+Complete requests:      10000
+Failed requests:        0
+Total transferred:      2550000 bytes
+HTML transferred:       1360000 bytes
+Requests per second:    2383.15 [#/sec] (mean)
+Time per request:       4.196 [ms] (mean)
+Time per request:       0.420 [ms] (mean, across all concurrent requests)
+Transfer rate:          593.46 [Kbytes/sec] received
+
+Connection Times (ms)
+              min  mean[+/-sd] median   max
+Connect:        0    0   0.5      0       7
+Processing:     1    4   1.9      3      33
+Waiting:        0    3   1.8      3      33
+Total:          1    4   1.9      4      33
+
+Percentage of the requests served within a certain time (ms)
+  50%      4
+  66%      4
+  75%      5
+  80%      5
+  90%      6
+  95%      7
+  98%      9
+  99%     11
+ 100%     33 (longest request)
+____________________________________________________________
+TEST with 20 threads on http://localhost:8080/async/bank-report/1
+____________________________________________________________
+This is ApacheBench, Version 2.3 <$Revision: 1807734 $>
+Copyright 1996 Adam Twiss, Zeus Technology Ltd, http://www.zeustech.net/
+Licensed to The Apache Software Foundation, http://www.apache.org/
+
+Benchmarking localhost (be patient)
+
+
+Server Software:        
+Server Hostname:        localhost
+Server Port:            8080
+
+Document Path:          /async/bank-report/1
+Document Length:        136 bytes
+
+Concurrency Level:      20
+Time taken for tests:   3.560 seconds
+Complete requests:      10000
+Failed requests:        0
+Total transferred:      2550000 bytes
+HTML transferred:       1360000 bytes
+Requests per second:    2809.36 [#/sec] (mean)
+Time per request:       7.119 [ms] (mean)
+Time per request:       0.356 [ms] (mean, across all concurrent requests)
+Transfer rate:          699.60 [Kbytes/sec] received
+
+Connection Times (ms)
+              min  mean[+/-sd] median   max
+Connect:        0    1   0.8      1       7
+Processing:     1    6   3.0      6      28
+Waiting:        0    6   2.9      5      27
+Total:          1    7   3.0      7      29
+
+Percentage of the requests served within a certain time (ms)
+  50%      7
+  66%      8
+  75%      8
+  80%      9
+  90%     11
+  95%     13
+  98%     15
+  99%     17
+ 100%     29 (longest request)
+____________________________________________________________
+TEST with 50 threads on http://localhost:8080/async/bank-report/1
+____________________________________________________________
+This is ApacheBench, Version 2.3 <$Revision: 1807734 $>
+Copyright 1996 Adam Twiss, Zeus Technology Ltd, http://www.zeustech.net/
+Licensed to The Apache Software Foundation, http://www.apache.org/
+
+Benchmarking localhost (be patient)
+
+
+Server Software:        
+Server Hostname:        localhost
+Server Port:            8080
+
+Document Path:          /async/bank-report/1
+Document Length:        136 bytes
+
+Concurrency Level:      50
+Time taken for tests:   3.180 seconds
+Complete requests:      10000
+Failed requests:        0
+Total transferred:      2550000 bytes
+HTML transferred:       1360000 bytes
+Requests per second:    3144.88 [#/sec] (mean)
+Time per request:       15.899 [ms] (mean)
+Time per request:       0.318 [ms] (mean, across all concurrent requests)
+Transfer rate:          783.15 [Kbytes/sec] received
+
+Connection Times (ms)
+              min  mean[+/-sd] median   max
+Connect:        0    2   2.0      2      13
+Processing:     2   14   6.8     12      77
+Waiting:        0   12   6.6     10      77
+Total:          2   16   6.9     15      82
+
+Percentage of the requests served within a certain time (ms)
+  50%     15
+  66%     17
+  75%     19
+  80%     20
+  90%     24
+  95%     28
+  98%     34
+  99%     38
+ 100%     82 (longest request)
+____________________________________________________________
+TEST with 100 threads on http://localhost:8080/async/bank-report/1
+____________________________________________________________
+This is ApacheBench, Version 2.3 <$Revision: 1807734 $>
+Copyright 1996 Adam Twiss, Zeus Technology Ltd, http://www.zeustech.net/
+Licensed to The Apache Software Foundation, http://www.apache.org/
+
+Benchmarking localhost (be patient)
+
+
+Server Software:        
+Server Hostname:        localhost
+Server Port:            8080
+
+Document Path:          /async/bank-report/1
+Document Length:        136 bytes
+
+Concurrency Level:      100
+Time taken for tests:   2.920 seconds
+Complete requests:      10000
+Failed requests:        0
+Total transferred:      2550000 bytes
+HTML transferred:       1360000 bytes
+Requests per second:    3424.23 [#/sec] (mean)
+Time per request:       29.204 [ms] (mean)
+Time per request:       0.292 [ms] (mean, across all concurrent requests)
+Transfer rate:          852.71 [Kbytes/sec] received
+
+Connection Times (ms)
+              min  mean[+/-sd] median   max
+Connect:        0    4   3.1      3      18
+Processing:     1   25  12.6     23     118
+Waiting:        1   22  12.2     19     118
+Total:          4   29  12.5     27     125
+
+Percentage of the requests served within a certain time (ms)
+  50%     27
+  66%     31
+  75%     35
+  80%     36
+  90%     43
+  95%     50
+  98%     61
+  99%     85
+ 100%    125 (longest request)
+____________________________________________________________
+TEST with 500 threads on http://localhost:8080/async/bank-report/1
+____________________________________________________________
+This is ApacheBench, Version 2.3 <$Revision: 1807734 $>
+Copyright 1996 Adam Twiss, Zeus Technology Ltd, http://www.zeustech.net/
+Licensed to The Apache Software Foundation, http://www.apache.org/
+
+Benchmarking localhost (be patient)
+
+
+Server Software:        
+Server Hostname:        localhost
+Server Port:            8080
+
+Document Path:          /async/bank-report/1
+Document Length:        136 bytes
+
+Concurrency Level:      500
+Time taken for tests:   2.745 seconds
+Complete requests:      10000
+Failed requests:        0
+Total transferred:      2550000 bytes
+HTML transferred:       1360000 bytes
+Requests per second:    3642.85 [#/sec] (mean)
+Time per request:       137.255 [ms] (mean)
+Time per request:       0.275 [ms] (mean, across all concurrent requests)
+Transfer rate:          907.16 [Kbytes/sec] received
+
+Connection Times (ms)
+              min  mean[+/-sd] median   max
+Connect:        0   38 117.1     23    1053
+Processing:    12   75  34.9     66     255
+Waiting:       11   62  34.9     49     254
+Total:         29  113 125.9     90    1167
+
+Percentage of the requests served within a certain time (ms)
+  50%     90
+  66%    103
+  75%    119
+  80%    125
+  90%    152
+  95%    181
+  98%    260
+  99%   1121
+ 100%   1167 (longest request)
+____________________________________________________________
+TEST with 1000 threads on http://localhost:8080/async/bank-report/1
+____________________________________________________________
+This is ApacheBench, Version 2.3 <$Revision: 1807734 $>
+Copyright 1996 Adam Twiss, Zeus Technology Ltd, http://www.zeustech.net/
+Licensed to The Apache Software Foundation, http://www.apache.org/
+
+Benchmarking localhost (be patient)
+
+
+Server Software:        
+Server Hostname:        localhost
+Server Port:            8080
+
+Document Path:          /async/bank-report/1
+Document Length:        136 bytes
+
+Concurrency Level:      1000
+Time taken for tests:   2.810 seconds
+Complete requests:      10000
+Failed requests:        0
+Total transferred:      2550000 bytes
+HTML transferred:       1360000 bytes
+Requests per second:    3559.00 [#/sec] (mean)
+Time per request:       280.978 [ms] (mean)
+Time per request:       0.281 [ms] (mean, across all concurrent requests)
+Transfer rate:          886.27 [Kbytes/sec] received
+
+Connection Times (ms)
+              min  mean[+/-sd] median   max
+Connect:        0   85 165.6     53    1137
+Processing:    14  153  69.5    142     397
+Waiting:       14  123  66.2    108     364
+Total:         49  238 173.7    207    1337
+
+Percentage of the requests served within a certain time (ms)
+  50%    207
+  66%    233
+  75%    254
+  80%    262
+  90%    335
+  95%    353
+  98%   1168
+  99%   1265
+ 100%   1337 (longest request)

@@ -16,7 +16,14 @@ public class BankReportController {
 
     @GetMapping("/sync/bank-report/{accountId}")
     public ResponseEntity<BankReport> syncReportByAccountId(@PathVariable("accountId") Integer accountId) {
-        BankReport report = bankReportService.findByAccountId(accountId);
+        BankReport report = bankReportService.syncFindByAccountId(accountId);
+        return new ResponseEntity<>(report, HttpStatus.OK);
+    }
+
+
+    @GetMapping("/async/bank-report/{accountId}")
+    public ResponseEntity<BankReport> asyncReportByAccountId(@PathVariable("accountId") Integer accountId) throws Exception {
+        BankReport report = bankReportService.asyncFindByAccountId(accountId);
         return new ResponseEntity<>(report, HttpStatus.OK);
     }
 }

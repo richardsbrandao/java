@@ -1,5 +1,8 @@
 package com.richard.reactive.bank;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.asynchttpclient.AsyncHttpClient;
+import org.asynchttpclient.Dsl;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -15,6 +18,16 @@ public class BankApplication {
 	@Bean
 	public RestTemplate restTemplate() {
 		return new RestTemplate();
+	}
+
+	@Bean
+	public AsyncHttpClient asyncHttpClient() {
+		return Dsl.asyncHttpClient();
+	}
+
+	@Bean
+	public ObjectMapper objectMapper() {
+		return new ObjectMapper();
 	}
 }
 
