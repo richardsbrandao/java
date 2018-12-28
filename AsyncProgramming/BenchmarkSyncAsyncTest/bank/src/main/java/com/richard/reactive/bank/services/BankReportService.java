@@ -3,13 +3,10 @@ package com.richard.reactive.bank.services;
 import com.richard.reactive.bank.models.Account;
 import com.richard.reactive.bank.models.BankReport;
 import com.richard.reactive.bank.models.CreditCard;
-import org.asynchttpclient.ListenableFuture;
-import org.asynchttpclient.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
 @Service

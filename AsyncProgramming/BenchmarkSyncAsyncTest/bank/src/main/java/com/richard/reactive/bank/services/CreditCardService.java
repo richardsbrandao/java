@@ -1,7 +1,6 @@
 package com.richard.reactive.bank.services;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.richard.reactive.bank.models.Account;
 import com.richard.reactive.bank.models.CreditCard;
 import org.asynchttpclient.AsyncCompletionHandler;
 import org.asynchttpclient.AsyncHttpClient;
