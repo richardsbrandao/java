@@ -35,6 +35,6 @@ public class CounterActorSupervisor extends UntypedActor {
 
     @Override
     public void onReceive(Object message) throws Throwable {
-        this.calculator.tell(message, getSelf());
+        calculator.tell(message, getSender());
     }
 }
