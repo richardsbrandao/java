@@ -10,6 +10,7 @@ public class Movie {
     @Column(columnDefinition="serial")
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
+    @Column(unique = true)
     private String name;
     private Long duration;
 }

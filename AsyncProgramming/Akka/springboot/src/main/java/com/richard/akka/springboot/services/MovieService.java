@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import scala.concurrent.duration.Duration;
 
+import java.util.List;
 import java.util.concurrent.CompletionStage;
 import java.util.concurrent.TimeUnit;
 
@@ -24,9 +25,9 @@ public class MovieService {
     private MovieDao movieDao;
 
     public Iterable<Movie> findAll() {
-        final ActorRef movieActor = movieActorFactories.create();
+        final ActorRef movieActor = movieActorFactories.createMovieActorSupervisor();
 
-        Timeout timeout = new Timeout(Duration.create(1, TimeUnit.SECONDS));
+        Timeout timeout = new Timeout(Duration.create(5, TimeUnit.SECONDS));
         CompletionStage<Object> moviesFuture = PatternsCS.ask(movieActor, new FindAllMoviesMessage(), timeout);
 
         return (Iterable<Movie>) moviesFuture.toCompletableFuture().join();
@@ -34,9 +35,12 @@ public class MovieService {
     }
 
     public Movie save(Movie movie) {
-        final ActorRef movieActor = movieActorFactories.create();
-        Timeout timeout = new Timeout(Duration.create(1, TimeUnit.SECONDS));
+        final ActorRef movieActor = movieActorFactories.createMovieActorSupervisor();
+
+        Timeout timeout = new Timeout(Duration.create(5, TimeUnit.SECONDS));
         CompletionStage<Object> savedMovieFuture = PatternsCS.ask(movieActor, new CreateMovieMessage(movie), timeout);
+
         return (Movie) savedMovieFuture.toCompletableFuture().join();
     }
+
 }
