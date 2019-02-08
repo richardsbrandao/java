@@ -7,5 +7,9 @@ import org.springframework.stereotype.Service
 @Service
 class UsersService(private val usersRepository : UsersRepository) {
 
-    fun findByEmail(email : String) : User = usersRepository.findByEmail(email)
+    fun findByEmail(email : String) : User {
+        val user = User(email + Math.random(), "R")
+        usersRepository.save(user)
+        return user
+    }
 }
