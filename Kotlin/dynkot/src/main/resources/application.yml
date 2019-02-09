@@ -1,0 +1,8 @@
+dynamodb:
+  credentials:
+    profile: xxx-xxx
+    region: eu-west-1
+  tables:
+    user: dev-user
+    course: dev-course
+    subscription: dev-subscription
