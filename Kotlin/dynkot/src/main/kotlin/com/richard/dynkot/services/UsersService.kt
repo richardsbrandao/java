@@ -10,7 +10,7 @@ class UsersService(private val usersRepository : UsersRepository) {
 
     fun findByEmail(email : String) : User {
         val user = usersRepository.findById(email)
-        if( user.isPresent ) {
+        if( ! user.isPresent ) {
             throw NotFoundException(email)
         }
         return user.get()

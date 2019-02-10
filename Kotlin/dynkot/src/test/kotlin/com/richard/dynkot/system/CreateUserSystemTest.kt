@@ -10,10 +10,11 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.web.client.TestRestTemplate
 import org.springframework.boot.test.web.client.postForEntity
+import org.springframework.context.annotation.Profile
 import org.springframework.http.HttpStatus
 import org.springframework.test.context.junit.jupiter.SpringExtension
 
-
+@Profile("test")
 @ExtendWith(SpringExtension::class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class CreateUserControllerSystemTest(@Autowired val restTemplate: TestRestTemplate) {
@@ -33,12 +34,27 @@ class CreateUserControllerSystemTest(@Autowired val restTemplate: TestRestTempla
             assertEquals(emailExample, response.body?.email)
             assertEquals(nameExample, response.body?.name)
         }
+
+        @Test
+        fun should_return_success_when_create_with_email_that_already_exists() {
+
+        }
+
+        @Test
+        fun should_return_success_and_update_name_when_create_with_email_that_already_exists_and_different_name() {
+
+        }
     }
 
     @Nested
     inner class FailingCases {
         @Test
-        fun should_return_conflict_exception_when_try_to_create_existing_user() {
+        fun should_return_unprocessable_entity_when_try_to_create_with_invalid_email() {
+
+        }
+
+        @Test
+        fun should_return_bad_request_when_try_to_create_with_null_or_blank_parameters() {
 
         }
     }
