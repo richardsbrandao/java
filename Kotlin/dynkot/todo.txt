@@ -1,0 +1,42 @@
+User 
+	name
+	email
+
+Course
+	name
+	tags
+
+Subscription (TTL)
+	id
+	user_email
+	course_name
+	course_tag
+		
+	subscription_date
+	subscription_expiration
+
+
+GET courses?tags=JAVA,REACTIVE
+
+GET users/richardsbrandao@gmail.com
+
+GET subscriptions?user_email=richardsbrandao@gmail.com&course_name=Reactive Java
+GET subscriptions?course_name=Reactive Java
+GET subscriptions?tags=REACTIVE
+GET subscriptions?tags=TERRAFORM&user_email=richardsbrandao@gmail.com
+
+	*FindByUserEmailAndCourseName
+	*findByUserEmail
+	*FindByCourseName
+	*FindByTag
+	FindByUserEmailAndTag
+
+POST subscriptions
+	{ user_email, course_name }
+POST users
+POST courses
+
+PUT courses/Reactive Java (Have to update subscriptions)
+	{
+		tags: ['Reactive', 'Java', 'Docker']
+	}
