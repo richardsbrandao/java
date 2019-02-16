@@ -10,9 +10,11 @@ public class GetOrdersApi {
     private int MAX_TO_RETURN = 10;
     private int MAX_PRICE = 100;
 
-    public List<Order> fetchNew() {
+    public List<Order> fetchNew(int times) {
         try {
-            System.out.println("CurrentThread: " + Thread.currentThread().getName());
+            System.out.println(
+                    String.format("CurrentThread[%s]: %s", times, Thread.currentThread().getName())
+            );
             Thread.sleep(random.nextInt(random.nextInt(WAIT_IN_MILLS)));
         } catch (InterruptedException e) {
             e.printStackTrace();
