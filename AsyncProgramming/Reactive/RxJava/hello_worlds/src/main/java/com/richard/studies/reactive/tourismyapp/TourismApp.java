@@ -10,6 +10,27 @@ import java.util.Optional;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+/**
+ * Pais (filtro por ano especifico ou range)
+ * 	Individual
+ * 		Pais com mais noites
+ * 		Grupo com mais noites 
+ * 	Lista
+ * 		5 paises com mais visitas de um grupo (noites e media)
+ * 		5 paises com mais visitas entre todos (noites e media)
+ * 		Grupos com mais visitas
+ * 	Perguntas
+ * 		* Quantas visitas um determinado pais fez
+ * 		* Um determinado pais visitou?
+ * 	Geral
+ * 		* Quantos noites foram gastas por turistas
+ * 		Ordem dos anos com mais turistas
+ * 		* Recorde de turistas de um pais em um ano
+ * 	Informacoes
+ * 		* Todos os paises considerados
+ * 		* Todos os grupos e seus paises
+ *
+ */
 public class TourismApp {
     private static Range rangeBetween2000And2002 = new Range(Optional.ofNullable(2000), Optional.ofNullable(2002));
 
@@ -45,8 +66,20 @@ public class TourismApp {
                         rangeBetween2000And2002
                 )
         );
+
+
         executorService.submit(() -> milanTourismStatsService.countryHasBeenVisited(touristData, "Argentina"));
         executorService.submit(() -> milanTourismStatsService.countryHasBeenVisited(touristData, "Scozia"));
+
+        executorService.submit(() -> milanTourismStatsService.howManyNightsACountryHasPassed(touristData, "Portogallo"));
+        executorService.submit(() -> milanTourismStatsService.howManyNightsACountryHasPassed(touristData, "Cina"));
+        executorService.submit(() -> milanTourismStatsService.howManyNightsACountryHasPassed(touristData, "Scozia"));
+
+        executorService.submit(() -> milanTourismStatsService.yearWithMoreVisitorsByCountry(touristData, "Giappone"));
+        executorService.submit(() -> milanTourismStatsService.yearWithMoreVisitorsByCountry(touristData, "Brasile"));
+        executorService.submit(() -> milanTourismStatsService.yearWithMoreVisitorsByCountry(touristData, "Germania"));
+
+//        with error :( executorService.submit(() -> milanTourismStatsService.countryWithMoreNights(touristData));
 
         executorService.shutdown();
     }

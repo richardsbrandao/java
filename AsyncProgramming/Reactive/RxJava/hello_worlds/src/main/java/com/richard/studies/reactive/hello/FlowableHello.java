@@ -4,10 +4,10 @@ import io.reactivex.Flowable;
 
 import java.util.concurrent.CompletableFuture;
 
-public class Hello {
+public class FlowableHello {
     public static void main(String[] args) {
         System.out.println("Just \\/");
-        Flowable.just("Hello World")
+        Flowable.just("FlowableHello World")
                 .subscribe(string -> System.out.println(string));
 
         System.out.println("fromFuture \\/");
@@ -18,7 +18,7 @@ public class Hello {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            return "Hello from the Future";
+            return "FlowableHello from the Future";
         })).subscribe(string -> System.out.println(string));
 
         System.out.println("fromArray \\/");
