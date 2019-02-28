@@ -14,19 +14,19 @@ import org.springframework.context.annotation.Profile
 import org.springframework.http.HttpStatus
 import org.springframework.test.context.junit.jupiter.SpringExtension
 
-@Profile("test")
+//@Profile("test")
 @ExtendWith(SpringExtension::class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class CreateUserControllerSystemTest(@Autowired val restTemplate: TestRestTemplate) {
-    private val nameExample = "richardsbrandao@gmail.com"
-    private val emailExample = "richard"
+    private val nameExample = "richard"
+    private val emailExample = "richardsbrandao@gmail.com"
     private val endpoint = "/users"
 
     @Nested
     inner class SuccessfulCases {
         @Test
         fun should_create_user() {
-            val request = CreateUserRequest(nameExample, emailExample)
+            val request = CreateUserRequest(name = nameExample, email = emailExample)
             val response  = restTemplate.postForEntity(endpoint, request, UserResponse::class.java)
 
             assertEquals(HttpStatus.OK, response.statusCode)

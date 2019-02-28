@@ -8,9 +8,9 @@ import org.springframework.data.annotation.Id
 @DynamoDBTable(tableName = "dev-user")
 data class User(
         @get:DynamoDBHashKey(attributeName = "email")
-        val email: String = "",
+        var email: String = "",
         @get:DynamoDBAttribute(attributeName = "name")
-        val name : String = ""
+        var name : String = ""
 ) {
     @Id
     private var id: UserId? = null

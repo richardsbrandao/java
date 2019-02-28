@@ -4,6 +4,7 @@ import com.richard.dynkot.controllers.requests.CreateUserRequest
 import com.richard.dynkot.controllers.responses.UserResponse
 import com.richard.dynkot.entities.User
 import com.richard.dynkot.services.UsersService
+import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
 @RestController
