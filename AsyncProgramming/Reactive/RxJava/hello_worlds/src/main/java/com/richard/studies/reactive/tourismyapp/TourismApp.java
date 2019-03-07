@@ -13,12 +13,12 @@ import java.util.concurrent.Executors;
 /**
  * Pais (filtro por ano especifico ou range)
  * 	Individual
- * 		Pais com mais noites
- * 		Grupo com mais noites 
+ * 		* Pais com mais noites
+ * 		* Grupo com mais noites
  * 	Lista
- * 		5 paises com mais visitas de um grupo (noites e media)
- * 		5 paises com mais visitas entre todos (noites e media)
- * 		Grupos com mais visitas
+ * 		* 5 paises com mais visitas de um grupo (noites e media)
+ * 		* 5 paises com mais visitas entre todos (noites e media)
+ * 		* Grupos com mais visitas
  * 	Perguntas
  * 		* Quantas visitas um determinado pais fez
  * 		* Um determinado pais visitou?
@@ -78,6 +78,16 @@ public class TourismApp {
         executorService.submit(() -> milanTourismStatsService.yearWithMoreVisitorsByCountry(touristData, "Giappone"));
         executorService.submit(() -> milanTourismStatsService.yearWithMoreVisitorsByCountry(touristData, "Brasile"));
         executorService.submit(() -> milanTourismStatsService.yearWithMoreVisitorsByCountry(touristData, "Germania"));
+
+        executorService.submit(() -> milanTourismStatsService.firstXCountryWithMoreNights(touristData, 10));
+        executorService.submit(() -> milanTourismStatsService.geoAreasWithMoreNights(touristData));
+
+        executorService.submit(() -> milanTourismStatsService.countriesWithMoreNightsByGeoarea(touristData, "EU 15"));
+        executorService.submit(() -> milanTourismStatsService.countriesWithMoreNightsByGeoarea(touristData, "Asia"));
+        executorService.submit(() -> milanTourismStatsService.countriesWithMoreNightsByGeoarea(touristData, "America Nord"));
+        executorService.submit(() -> milanTourismStatsService.countriesWithMoreNightsByGeoarea(touristData, "America Latina"));
+
+        executorService.submit(() -> milanTourismStatsService.yearsWithMoreVisitors(touristData));
 
 //        with error :( executorService.submit(() -> milanTourismStatsService.countryWithMoreNights(touristData));
 

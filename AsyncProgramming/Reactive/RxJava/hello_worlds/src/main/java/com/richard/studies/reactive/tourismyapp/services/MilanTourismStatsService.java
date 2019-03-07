@@ -3,14 +3,11 @@ package com.richard.studies.reactive.tourismyapp.services;
 import com.richard.studies.reactive.tourismyapp.models.CountryData;
 import com.richard.studies.reactive.tourismyapp.models.Range;
 import io.reactivex.Flowable;
-import io.reactivex.Single;
 import io.reactivex.functions.BiFunction;
 
-import java.util.Comparator;
-import java.util.List;
+import java.util.HashMap;
 import java.util.Set;
 import java.util.TreeSet;
-import java.util.function.BinaryOperator;
 import java.util.logging.Logger;
 
 
@@ -73,6 +70,16 @@ public class MilanTourismStatsService {
 
 
     public void countryWithMoreNights(Flowable<CountryData> touristData) {
+        touristData.reduce(new HashMap<String, Integer>(), (countriesByNights , countryData) -> {
+            countriesByNights .merge(countryData.getCountry(), countryData.getNights(), Integer::sum);
+            return countriesByNights;
+        })
+            .toFlowable()
+            .flatMap(countriesByNights -> Flowable.fromIterable(countriesByNights .entrySet()))
+            .sorted((countryNightOne, countryNightTwo) -> countryNightTwo.getValue().compareTo(countryNightOne.getValue()))
+            .firstOrError()
+            .subscribe(country -> log(String.format("countryWithMoreNights[%s]", country.getKey()), country.getValue()));
+
         // How to order after groupBy
 //        touristData.groupBy(countryData -> countryData.getCountry())
 //                .map(groupedByCountry -> groupedByCountry.collect(CountryWithMoreNights::new, (a, b) -> {
@@ -108,6 +115,56 @@ public class MilanTourismStatsService {
                 .subscribe(result -> log(MESSAGE, result));
     }
 
+    public void geoAreasWithMoreNights(Flowable<CountryData> touristData) {
+        touristData.reduce(new HashMap<String, Integer>(), (countriesByNights, countryData) -> {
+            countriesByNights.merge(countryData.getGeoArea(), countryData.getNights(), Integer::sum);
+            return countriesByNights;
+        })
+        .toFlowable()
+        .flatMap(geoAreasByNights -> Flowable.fromIterable(geoAreasByNights.entrySet()))
+        .sorted((geoAreaOne, geoAreaTwo) -> geoAreaTwo.getValue().compareTo(geoAreaOne.getValue()))
+        .toList()
+        .subscribe((geoAreaAndNights) -> log("geoAreasWithMoreNights: ", geoAreaAndNights));
+    }
+
+    public void firstXCountryWithMoreNights(Flowable<CountryData> touristData, int numberOfCountries) {
+        touristData.reduce(new HashMap<String, Integer>(), (countriesByNights , countryData) -> {
+            countriesByNights .merge(countryData.getCountry(), countryData.getNights(), Integer::sum);
+            return countriesByNights;
+        })
+            .toFlowable()
+            .flatMap(countriesByNights -> Flowable.fromIterable(countriesByNights .entrySet()))
+            .sorted((countryNightOne, countryNightTwo) -> countryNightTwo.getValue().compareTo(countryNightOne.getValue()))
+            .take(numberOfCountries)
+            .toList()
+            .subscribe(countriesAndNights -> log("countryWithMoreNights: ", countriesAndNights));
+    }
+
+    public void countriesWithMoreNightsByGeoarea(Flowable<CountryData> touristData, String geoArea) {
+        final String MESSAGE = String.format("geoAreasAndNights[%s]: ", geoArea);
+        touristData.filter(countryData -> geoArea.equals(countryData.getGeoArea()))
+                .reduce(new HashMap<String, Integer>(), (countryDataByGeoArea, countryData) -> {
+                    countryDataByGeoArea.merge(countryData.getCountry(), countryData.getNights(), Integer::sum);
+                    return countryDataByGeoArea;
+                })
+                .toFlowable()
+                .flatMap(countriesByNightsFromGeoarea -> Flowable.fromIterable(countriesByNightsFromGeoarea.entrySet()))
+                .sorted((countryNightOne, countryNightTwo) -> countryNightTwo.getValue().compareTo(countryNightOne.getValue()))
+                .toList()
+                .subscribe(geoAreasAndNights -> log(MESSAGE, geoAreasAndNights));
+    }
+
+    public void yearsWithMoreVisitors(Flowable<CountryData> touristData) {
+        touristData.reduce(new HashMap<Integer, Integer>(), (countryDataByYear, countryData) -> {
+            countryDataByYear.merge(countryData.getYear(), countryData.getNights(), Integer::sum);
+            return countryDataByYear;
+        })
+                .toFlowable()
+                .flatMap(countrieDataByYear -> Flowable.fromIterable(countrieDataByYear.entrySet()))
+                .sorted((yearNightsOne, yearNightsTwo) -> yearNightsTwo.getValue().compareTo(yearNightsOne.getValue()))
+                .toList(5)
+                .subscribe((yearAndNights) -> log("yearsWithMoreVisitors", yearAndNights));
+    }
 
     private static class CountryWithMoreNights implements Comparable<CountryWithMoreNights> {
         private String country;
