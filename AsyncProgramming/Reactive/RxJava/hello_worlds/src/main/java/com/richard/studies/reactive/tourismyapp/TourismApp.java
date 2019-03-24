@@ -89,7 +89,7 @@ public class TourismApp {
 
         executorService.submit(() -> milanTourismStatsService.yearsWithMoreVisitors(touristData));
 
-//        with error :( executorService.submit(() -> milanTourismStatsService.countryWithMoreNights(touristData));
+//        with com.richard.studies.reactive.error :( executorService.submit(() -> milanTourismStatsService.countryWithMoreNights(touristData));
 
         executorService.shutdown();
     }
