@@ -1,0 +1,21 @@
+spring:
+  application:
+    workflowExecutionName: WorkflowManagerWithAkka
+  cloud:
+    config:
+       enabled: false
+
+service:
+  defaultMinMs: 100
+  defaultMaxMs: 200
+
+eureka:
+  instance:
+    nonSecurePort: 8080
+    preferIpAddress: true
+  client:
+    useDnsForFetchingServiceUrls: true
+    eurekaServerPort: 7001
+    eurekaServerURLContext: eureka/v2
+
+my.eurekaDatacenter: MyOwn #Change to MyOwn for Localhost and to Amazon for build pipeline.
