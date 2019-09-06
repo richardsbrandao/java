@@ -1,7 +1,7 @@
 package com.richard.statemachine.bezahlen.models
 
 enum class OrderEvent {
-    LOG_IN,
+    CHECKOUT,
     ADD_DELIVERY_INFO,
     CONFIRM,
     CONFIRM_PAYMENT
