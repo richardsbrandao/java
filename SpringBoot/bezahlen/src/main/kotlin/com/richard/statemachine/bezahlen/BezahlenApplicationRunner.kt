@@ -23,12 +23,23 @@ class BezahlenApplicationRunner(
 
     @Bean
     fun init(stateMachineFactory: StateMachineFactory<OrderState, OrderEvent>) = CommandLineRunner {
+        performOrderOne()
+        performOrderTwo()
+    }
+
+    private fun logPersistedOrder(orderService: OrderService, id: UUID) {
+        val order = orderService.findById(id)
+        log.info("** Current persisted order: $order")
+    }
+
+    fun performOrderOne() {
         val fridgeOrder1 = OrderItem(product = Product(name="Kühlschrank", price = 600), quantity = 1)
         val order: Order = orderService.open(fridgeOrder1)
         logPersistedOrder(orderService, order.id)
-//        val stoveOrder1 = OrderItem(product = Product(name="Herd", price = 300), quantity = 1)
-//        orderService.addItem(id = order.id, item = stoveOrder1)
-//        logPersistedOrder(orderService, order.id)
+
+        val stoveOrder1 = OrderItem(product = Product(name="Herd", price = 300), quantity = 1)
+        orderService.addItem(id = order.id, item = stoveOrder1)
+        logPersistedOrder(orderService, order.id)
 
         orderService.checkout(id = order.id)
         logPersistedOrder(orderService, order.id)
@@ -41,44 +52,24 @@ class BezahlenApplicationRunner(
 
         orderService.pay(id = order.id, amount = 900)
         logPersistedOrder(orderService, order.id)
-
-//        val orderIdHeader = "orderId"
-//        val orderIdOne = "ID_1"
-//        val orderIdTwo = "ID_2"
-//
-//        val stateMachineOrder1 = stateMachineFactory.getStateMachine(orderIdOne)
-//        val stateMachineOrder2 = stateMachineFactory.getStateMachine(orderIdTwo)
-//
-//        stateMachineOrder1.extendedState.variables[orderIdHeader] = orderIdOne
-//        stateMachineOrder2.extendedState.variables[orderIdHeader] = orderIdTwo
-//
-//        stateMachineOrder1.start()
-//        log.info("StateMachine1: ${stateMachineOrder1.state.id}")
-//
-//        stateMachineOrder2.start()
-//        log.info("StateMachine2: ${stateMachineOrder2.state.id}")
-//
-//        stateMachineOrder1.sendEvent(OrderEvent.CHECKOUT)
-//        log.info("StateMachine1: ${stateMachineOrder1.state.id}")
-//
-//        stateMachineOrder1.sendEvent(
-//            MessageBuilder
-//                .withPayload(OrderEvent.ADD_DELIVERY_INFO)
-//                .build()
-//        )
-//        log.info("StateMachine1: ${stateMachineOrder1.state.id}")
-//
-//        stateMachineOrder2.sendEvent(
-//            MessageBuilder
-//                .withPayload(OrderEvent.CHECKOUT)
-//                .build()
-//        )
-//        log.info("StateMachine2: ${stateMachineOrder2.state.id}")
     }
 
-    private fun logPersistedOrder(orderService: OrderService, id: UUID) {
-        val order = orderService.findById(id)
-        log.info("CurrentOrder: $order")
+    fun performOrderTwo() {
+        val microwaveOrderTwo = OrderItem(product = Product(name="Mikrowelle", price = 150), quantity = 1)
+        val order: Order = orderService.open(microwaveOrderTwo)
+        logPersistedOrder(orderService, order.id)
+
+        orderService.checkout(id = order.id)
+        logPersistedOrder(orderService, order.id)
+
+        orderService.addDeliveryInfo(id = order.id, address = Address(address = "nowhere"))
+        logPersistedOrder(orderService, order.id)
+
+        orderService.confirm(id = order.id)
+        logPersistedOrder(orderService, order.id)
+
+        orderService.pay(id = order.id, amount = 150)
+        logPersistedOrder(orderService, order.id)
     }
 }
 

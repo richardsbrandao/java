@@ -32,6 +32,8 @@ class OrderStateMachineConfiguration : StateMachineConfigurerAdapter<OrderState,
                 ?.source(OrderState.DELIVERY_INFO)?.target(OrderState.CONFIRMATION)?.event(OrderEvent.CONFIRM)?.action(LogStateChangeAction())
             ?.and()?.withExternal()
                 ?.source(OrderState.CONFIRMATION)?.target(OrderState.PAYMENT_CONFIRMED)?.event(OrderEvent.CONFIRM_PAYMENT)?.action(LogStateChangeAction())
+            ?.and()?.withExternal()
+                ?.source(OrderState.CONFIRMATION)?.target(OrderState.PAYMENT_DENIED)?.event(OrderEvent.DENY_PAYMENT)
 
     }
 }

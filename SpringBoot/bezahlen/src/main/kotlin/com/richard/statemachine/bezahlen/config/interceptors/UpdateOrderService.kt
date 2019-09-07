@@ -28,6 +28,6 @@ class UpdateOrderService(
         val order= message.headers["order"] as Order
         order.state = state.id
         orderRepository.save(order)
-        log.info(">> preStateChange: saving update order $order")
+        log.info("> Order updated $order")
     }
 }

@@ -6,7 +6,8 @@ import java.util.*
 data class Order(
     val id: UUID,
     val timestamp: Instant = Instant.now(),
-    val items: List<OrderItem> = mutableListOf(),
+    val items: MutableList<OrderItem> = mutableListOf(),
     var state: OrderState = OrderState.CART,
-    var address: Address? = null
+    var address: Address? = null,
+    var payment: Payment? = null
 )

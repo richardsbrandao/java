@@ -13,6 +13,6 @@ class LogStateChangeAction : Action<OrderState, OrderEvent> {
     override fun execute(context: StateContext<OrderState, OrderEvent>) {
         val orderId = context.extendedState.variables[MessageMetadata.ORDER_ID_HEADER]
         val event = context.message.payload
-        log.info("Event $event for OrderId $orderId from ${context.source.id} state to ${context.target.id}")
+        log.info("> Event $event for OrderId $orderId from ${context.source.id} state to ${context.target.id}")
     }
 }
