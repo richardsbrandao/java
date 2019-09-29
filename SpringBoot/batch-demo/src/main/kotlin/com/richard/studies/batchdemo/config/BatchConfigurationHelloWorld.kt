@@ -15,12 +15,14 @@ import org.springframework.batch.item.file.builder.FlatFileItemReaderBuilder
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.context.annotation.Profile
 import org.springframework.core.io.Resource
 import javax.sql.DataSource
 
 @EnableBatchProcessing
 @Configuration
-class BatchConfiguration(
+@Profile("hello_world")
+class BatchConfigurationHelloWorld(
     private val jobBuilderFactory: JobBuilderFactory,
     private val stepBuilderFactory: StepBuilderFactory
 ) {
