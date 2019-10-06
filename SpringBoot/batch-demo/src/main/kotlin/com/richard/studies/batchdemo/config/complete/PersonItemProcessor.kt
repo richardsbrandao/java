@@ -1,4 +1,4 @@
-package com.richard.studies.batchdemo.config
+package com.richard.studies.batchdemo.config.complete
 
 import com.richard.studies.batchdemo.dto.PersonDto
 import com.richard.studies.batchdemo.models.Person

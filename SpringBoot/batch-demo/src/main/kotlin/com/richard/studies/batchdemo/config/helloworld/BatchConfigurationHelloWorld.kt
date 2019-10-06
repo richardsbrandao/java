@@ -1,7 +1,6 @@
-package com.richard.studies.batchdemo.config
+package com.richard.studies.batchdemo.config.helloworld
 
 import com.richard.studies.batchdemo.dto.PersonDto
-import com.richard.studies.batchdemo.models.Person
 import org.springframework.batch.core.Job
 import org.springframework.batch.core.Step
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing
@@ -21,11 +20,12 @@ import javax.sql.DataSource
 
 @EnableBatchProcessing
 @Configuration
-@Profile("complete")
-class BatchConfigurationComplete(
+@Profile("hello_world")
+class BatchConfigurationHelloWorld(
     private val jobBuilderFactory: JobBuilderFactory,
     private val stepBuilderFactory: StepBuilderFactory
 ) {
+
     @Bean
     fun reader(
         @Value("\${input}") resource: Resource
@@ -41,10 +41,10 @@ class BatchConfigurationComplete(
     @Bean
     fun jdbcWriter(
         datasource: DataSource
-    ): JdbcBatchItemWriter<Person> {
-        return JdbcBatchItemWriterBuilder<Person>()
+    ): JdbcBatchItemWriter<PersonDto> {
+        return JdbcBatchItemWriterBuilder<PersonDto>()
             .dataSource(datasource)
-            .sql("INSERT INTO people (fullName, age) VALUES (:fullName, :age)")
+            .sql("INSERT INTO peopledto (firstName, lastName, bornDate) VALUES (:firstName, :lastName, :bornDate)")
             .beanMapped()
             .build()
     }
@@ -54,13 +54,11 @@ class BatchConfigurationComplete(
         jobBuilderFactory: JobBuilderFactory,
         stepBuilderFactory: StepBuilderFactory,
         itemReader: FlatFileItemReader<PersonDto>,
-        itemWriter: JdbcBatchItemWriter<Person>,
-        personItemProcessor: PersonItemProcessor
+        itemWriter: JdbcBatchItemWriter<PersonDto>
     ): Job {
         val step1 : Step = stepBuilderFactory.get("file-db")
-            .chunk<PersonDto, Person>(100)
+            .chunk<PersonDto, PersonDto>(100)
             .reader(itemReader)
-            .processor(personItemProcessor)
             .writer(itemWriter)
             .build()
 
