@@ -1,0 +1,38 @@
+logging:
+  level:
+    org:
+      springframework:
+        data:
+          r2dbc: DEBUG
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,mappings
+
+---
+
+spring:
+  profiles:
+    active: local
+  r2dbc:
+    url: r2dbc:postgresql://${spring.r2dbc.host}:${spring.r2dbc.port}/${spring.r2dbc.database}
+    host: localhost
+    port: 5432
+    database: realtimedb
+    username: realtimeuser
+    password: realtimepass
+
+---
+
+spring:
+  profiles:
+    active: test
+  r2dbc:
+    url: r2dbc:postgresql://${spring.r2dbc.host}:${spring.r2dbc.port}/${spring.r2dbc.database}
+    host: localhost
+    port: 5433
+    database: realtimedbtest
+    username: realtimeuser
+    password: realtimepass
