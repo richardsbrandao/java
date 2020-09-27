@@ -18,4 +18,13 @@ class LeagueMapper {
     fun toCreateLeagueResponse(league: League): CreateLeagueResponse {
         return CreateLeagueResponse(id = league.id!!)
     }
+
+    fun toLeagueResponse(league: League): LeagueResponse {
+        return LeagueResponse(
+            id = league.id!!,
+            country = league.country,
+            season = league.season,
+            division = league.division
+        )
+    }
 }

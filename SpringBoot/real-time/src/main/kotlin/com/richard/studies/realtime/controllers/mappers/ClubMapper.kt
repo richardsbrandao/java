@@ -15,5 +15,7 @@ class ClubMapper {
         )
     }
 
-    fun toClubResponse(club: Club) = ClubResponse(id = club.id!!)
+    fun toClubResponse(club: Club): ClubResponse {
+        return ClubResponse(id = club.id!!)
+    }
 }

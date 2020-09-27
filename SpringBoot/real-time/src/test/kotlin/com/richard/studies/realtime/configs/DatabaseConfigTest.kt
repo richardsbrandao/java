@@ -12,19 +12,19 @@ class DatabaseConfigTest {
     private val log: Logger = LoggerFactory.getLogger(this.javaClass)
 
     @Bean
-    fun startPostgres() {
+    fun startMongo() {
         try {
-            Socket("localhost", 5433)
-            log.info(">>> PostgresSQL  container already created")
+            Socket("localhost", 27018)
+            log.info(">>> MongoDB container already created")
         } catch (e: Exception) {
-            ProcessBuilder("docker-compose", "up", "-d", "test-postgres").start().waitFor()
-            log.info(">>> PostgresSQL container created")
+            ProcessBuilder("docker-compose", "up", "-d", "test-mongo").start().waitFor()
+            log.info(">>> MongoDB container created")
         }
     }
 
     @PreDestroy
-    fun stopPostgres() {
-        ProcessBuilder("docker-compose", "stop", "test-postgres").start().waitFor()
-        log.info(">>> PostgresSQL container stopped")
+    fun stopMongo() {
+        ProcessBuilder("docker-compose", "stop", "test-mongo").start().waitFor()
+        log.info(">>> MongoDB container stopped")
     }
 }

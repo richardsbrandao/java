@@ -10,4 +10,8 @@ class LeagueService(private val leagueRepository: LeagueRepository) {
     fun save(league: League): Mono<League> {
         return leagueRepository.save(league)
     }
+
+    fun findById(leagueId: String): Mono<League> {
+        return leagueRepository.findById(leagueId)
+    }
 }

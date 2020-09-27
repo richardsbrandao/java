@@ -1,13 +1,10 @@
 package com.richard.studies.realtime.models
 
-import org.springframework.data.annotation.Id
-import org.springframework.data.relational.core.mapping.Table
-import java.util.UUID
+import org.springframework.data.mongodb.core.mapping.Document
 
-@Table("club")
+@Document
 data class Club(
-    @Id
-    var id: UUID? = null,
+    var id: String? = null,
     val name: String,
     val country: String,
     val image: String
