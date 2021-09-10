@@ -1,42 +1,31 @@
 package com.richard.studies.realtime.controllers
 
-import com.richard.studies.realtime.models.RealTime
-import com.richard.studies.realtime.models.RealTimeMessageType
-import org.springframework.http.MediaType
+import com.richard.studies.realtime.controllers.mapper.RealTimeMessageMapper
+import com.richard.studies.realtime.controllers.request.RealTimeMessageDto
+import com.richard.studies.realtime.controllers.response.MatchRealTimeEventsDto
+import com.richard.studies.realtime.models.RealTimeMessage
+import com.richard.studies.realtime.services.RealTimeService
+import org.springframework.web.bind.annotation.CrossOrigin
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.RequestBody
+import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
-import reactor.core.publisher.Flux
-import java.time.Duration
-import java.time.OffsetDateTime
-import java.util.UUID
-import java.util.concurrent.ThreadLocalRandom
+import reactor.core.publisher.Mono
 
-@RestController("/realtime")
-class RealTimeController {
+@RestController
+@CrossOrigin(origins = ["http://localhost:3000"])
+@RequestMapping("matches/{matchId}/broadcast")
+class RealTimeController(
+    private val realTimeService: RealTimeService,
+    private val realTimeMessageMapper: RealTimeMessageMapper
 
-    @GetMapping("/{id}")
-    fun findById(@PathVariable("id") id: String): Flux<RealTime> {
-        return Flux.just()
-    }
-
-    @GetMapping("/{id}/stream")
-    fun stream(@PathVariable("id") id: String): Flux<RealTime> {
-        return Flux.just(
-            RealTime(
-                id = UUID.randomUUID(),
-                time = OffsetDateTime.now().toString(),
-                text = "Start!!",
-                type = RealTimeMessageType.FIRST_HALF_START
-            )
-        )
-    }
-
-    @GetMapping(value = ["/example"], produces = [MediaType.APPLICATION_STREAM_JSON_VALUE])
-    fun example(): Flux<Int> {
-        return Flux.interval(Duration.ofSeconds(1))
-                .map { ThreadLocalRandom.current().nextInt(100, 125) }
-                .log()
+) {
+    @PostMapping
+    fun broadcast(@PathVariable("matchId") matchId: String, @RequestBody realTimeMessageDto: RealTimeMessageDto): Mono<Unit> {
+        return Mono.just(realTimeMessageMapper.toRealTimeMessage(realTimeMessageDto))
+            .flatMap { realTimeService.broadcast(matchId, it) }
+            .flatMap { Mono.empty<Unit>() }
     }
 }

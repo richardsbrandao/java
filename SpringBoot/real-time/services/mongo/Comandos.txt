@@ -1,0 +1,3 @@
+db.league.find()
+db.league.deleteOne({ "_id" : ObjectId("606b5de07ecfa433baed6146") })
+db.league.update({_id: ObjectId("5f6fda059d964850b4406318")}, {clubs: []})

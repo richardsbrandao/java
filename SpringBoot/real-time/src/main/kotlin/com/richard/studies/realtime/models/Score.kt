@@ -1,3 +1,6 @@
 package com.richard.studies.realtime.models
 
-data class Score(var home: Int, var away: Int)
+data class Score(
+    val home: Int,
+    val away: Int
+)
